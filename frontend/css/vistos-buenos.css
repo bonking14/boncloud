@@ -1,0 +1,210 @@
+.buscador-section {
+  background: #1a1d27;
+  border: 1px solid #2a2d3e;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.buscador-box {
+  display: flex;
+  align-items: center;
+  background: #0f1117;
+  border: 1px solid #2a2d3e;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+
+.buscador-box:focus-within {
+  border-color: #4f8ef7;
+}
+
+.buscador-icon {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.buscador-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+.buscador-box input::placeholder {
+  color: #6b7280;
+}
+
+#btnLimpiar {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+#btnLimpiar:hover {
+  color: #ffffff;
+}
+
+.buscador-hint {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.filtros-entidad {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  background: #0f1117;
+  border: 1px solid #2a2d3e;
+  color: #9ca3af;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filtro-btn:hover {
+  border-color: #4f8ef7;
+  color: #ffffff;
+}
+
+.filtro-btn.active {
+  background: #4f8ef7;
+  border-color: #4f8ef7;
+  color: #ffffff;
+}
+
+.vb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.vb-card {
+  background: #1a1d27;
+  border: 1px solid #2a2d3e;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.vb-card:hover {
+  border-color: #4f8ef7;
+  transform: translateY(-2px);
+}
+
+.vb-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.vb-entidad-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.badge-INVIMA { background: #1e3a5f; color: #60a5fa; }
+.badge-ICA { background: #1e3a2f; color: #34d399; }
+.badge-MinDefensa { background: #3b1f1f; color: #f87171; }
+.badge-ANLA { background: #2d2a1e; color: #fbbf24; }
+.badge-SIC { background: #1f2d3b; color: #93c5fd; }
+.badge-MinMinas { background: #2a1f3b; color: #c084fc; }
+.badge-Aerocivil { background: #1e2f3a; color: #38bdf8; }
+
+.vb-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.vb-card-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.vb-subpartidas {
+  margin-bottom: 14px;
+}
+
+.vb-subpartidas-title {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.vb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vb-chip {
+  background: #0f1117;
+  border: 1px solid #2a2d3e;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: #9ca3af;
+  font-family: monospace;
+}
+
+.vb-requisitos {
+  border-top: 1px solid #2a2d3e;
+  padding-top: 12px;
+}
+
+.vb-requisitos-title {
+  font-size: 11px;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.vb-req-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.vb-req-item::before {
+  content: '→';
+  color: #4f8ef7;
+  flex-shrink: 0;
+}
+
+.sin-resultados {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 2;
+}

@@ -1,0 +1,187 @@
+.filtros {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filtro-btn {
+  background: #1a1d27;
+  border: 1px solid #2a2d3e;
+  color: #9ca3af;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filtro-btn:hover {
+  border-color: #4f8ef7;
+  color: #ffffff;
+}
+
+.filtro-btn.active {
+  background: #4f8ef7;
+  border-color: #4f8ef7;
+  color: #ffffff;
+}
+
+.incoterms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.incoterm-card {
+  background: #1a1d27;
+  border: 1px solid #2a2d3e;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.incoterm-card:hover {
+  border-color: #4f8ef7;
+  transform: translateY(-2px);
+}
+
+.incoterm-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.incoterm-code {
+  font-size: 22px;
+  font-weight: 800;
+  color: #4f8ef7;
+  min-width: 60px;
+}
+
+.incoterm-name {
+  font-size: 13px;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.incoterm-name strong {
+  display: block;
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.incoterm-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.incoterm-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.tag-maritimo {
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+
+.tag-multimodal {
+  background: #1e3a2f;
+  color: #34d399;
+}
+
+.tag-vendedor {
+  background: #3b1f1f;
+  color: #f87171;
+}
+
+.tag-comprador {
+  background: #1f2d3b;
+  color: #93c5fd;
+}
+
+.responsabilidad {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #2a2d3e;
+}
+
+.resp-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 4px 0;
+  color: #6b7280;
+}
+
+.resp-row span:last-child {
+  font-weight: 600;
+}
+
+.resp-vendedor { color: #f87171; }
+.resp-comprador { color: #60a5fa; }
+.resp-ambos { color: #f59e0b; }
+
+.tabla-section {
+  margin-top: 16px;
+}
+
+.tabla-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+.tabla-incoterms {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tabla-incoterms th {
+  background: #1a1d27;
+  color: #4f8ef7;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #2a2d3e;
+  white-space: nowrap;
+}
+
+.tabla-incoterms td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #2a2d3e;
+  color: #9ca3af;
+}
+
+.tabla-incoterms tr:hover td {
+  background: #1a1d27;
+}
+
+.tabla-incoterms td:first-child {
+  font-weight: 700;
+  color: #4f8ef7;
+}
+
+.celda-v { color: #f87171; font-weight: 600; }
+.celda-c { color: #60a5fa; font-weight: 600; }
+.celda-n { color: #6b7280; }

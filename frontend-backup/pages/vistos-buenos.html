@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BonCloud — Vistos Buenos</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/vistos-buenos.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
+      <a href="importacion-modal.html" class="nav-item">📦 Importación</a>
+      <a href="exportacion-modal.html" class="nav-item">🚢 Exportación</a>
+      <a href="vistos-buenos.html" class="nav-item active">✅ Vistos Buenos</a>
+      <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
+      <a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="nombre-usuario"></span>
+      <button id="btnLogout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <div class="dashboard-header">
+      <h1>✅ Vistos Buenos</h1>
+      <p>Consulta los permisos y requisitos según el tipo de producto</p>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="buscador-section">
+      <div class="buscador-box">
+        <span class="buscador-icon">🔍</span>
+        <input
+          type="text"
+          id="buscador"
+          placeholder="Busca por producto, subpartida o entidad... Ej: alimentos, 0901, INVIMA"
+        >
+        <button id="btnLimpiar">✕</button>
+      </div>
+      <p class="buscador-hint">También puedes filtrar por entidad:</p>
+      <div class="filtros-entidad">
+        <button class="filtro-btn active" data-entidad="todos">Todos</button>
+        <button class="filtro-btn" data-entidad="INVIMA">INVIMA</button>
+        <button class="filtro-btn" data-entidad="ICA">ICA</button>
+        <button class="filtro-btn" data-entidad="MinDefensa">MinDefensa</button>
+        <button class="filtro-btn" data-entidad="ANLA">ANLA</button>
+        <button class="filtro-btn" data-entidad="SIC">SIC</button>
+        <button class="filtro-btn" data-entidad="MinMinas">MinMinas</button>
+        <button class="filtro-btn" data-entidad="Aerocivil">Aerocivil</button>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="vb-grid" id="vb-grid"></div>
+
+    <!-- SIN RESULTADOS -->
+    <div class="sin-resultados" id="sin-resultados" style="display:none">
+      <p> No se encontraron resultados para tu búsqueda.</p>
+      <p>Intenta con el nombre del producto, código arancelario o entidad reguladora.</p>
+    </div>
+
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/vistos-buenos.js"></script>
+</body>
+</html>

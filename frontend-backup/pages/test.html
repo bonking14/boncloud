@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba - Importación Ordinaria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .card {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background: #4f8ef7;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .resultado {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🧪 Prueba - Importación Ordinaria</h2>
+        <p>Este es un test ANTES de modificar el sistema real</p>
+        
+        <input type="number" id="fob" placeholder="Valor FOB (USD)" value="125000">
+        <input type="number" id="flete" placeholder="Flete (USD)" value="7500">
+        <input type="number" id="seguro" placeholder="Seguro (USD - 0 = automático)" value="0">
+        <input type="number" id="arancel" placeholder="Arancel (%)" value="15">
+        <input type="number" id="trm" placeholder="TRM (COP)" value="3660.10">
+        
+        <button onclick="calcular()">💰 Calcular</button>
+        
+        <div class="resultado" id="resultado">
+            Esperando cálculo...
+        </div>
+    </div>
+
+    <script>
+        // ========== FUNCIONES COPIADAS DE TU CÓDIGO ORIGINAL ==========
+        
+        function toNumber(value) {
+            if (value === null || value === undefined || value === '') return 0;
+            if (typeof value === 'number') return value;
+            
+            let str = String(value).trim();
+            
+            if (str.includes(',') && str.includes('.')) {
+                const lastDot = str.lastIndexOf('.');
+                const lastComma = str.lastIndexOf(',');
+                if (lastComma > lastDot) {
+                    str = str.replace(/\./g, '');
+                    str = str.replace(',', '.');
+                } else {
+                    str = str.replace(/,/g, '');
+                }
+            } else if (str.includes(',') && !str.includes('.')) {
+                str = str.replace(',', '.');
+            } else if (str.includes('.') && (str.match(/\./g) || []).length > 1) {
+                str = str.replace(/\./g, '');
+            }
+            
+            str = str.replace(/[^0-9.-]/g, '');
+            const num = parseFloat(str);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function redondear(valor) {
+            return Math.round(valor);
+        }
+
+        function formatUSD(valor) {
+            return `USD ${valor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        function formatCOP(valor) {
+            return `COP ${redondear(valor).toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+        }
+
+        // ========== CÁLCULO DE ORDINARIA ==========
+        
+        function calcularOrdinaria(datos) {
+            // 1. Seguro (si es 0, calcular 0.5% del FOB)
+            const seguro = datos.seguro > 0 ? datos.seguro : datos.fob * 0.005;
+            
+            // 2. CIF USD
+            const cifUSD = datos.fob + datos.flete + seguro;
+            
+            // 3. Base Arancelaria COP
+            const baseArancelariaCOP = cifUSD * datos.trm;
+            
+            // 4. Total Arancel
+            const totalArancel = baseArancelariaCOP * (datos.arancel / 100);
+            
+            // 5. Base IVA
+            const baseIVA = baseArancelariaCOP + totalArancel;
+            
+            // 6. Total IVA
+            const totalIVA = baseIVA * 0.19;
+            
+            // 7. Total a Pagar
+            const totalPagar = totalArancel + totalIVA;
+            
+            return {
+                seguro: seguro,
+                cifUSD: cifUSD,
+                baseArancelariaCOP: redondear(baseArancelariaCOP),
+                totalArancel: redondear(totalArancel),
+                baseIVA: redondear(baseIVA),
+                totalIVA: redondear(totalIVA),
+                totalPagar: redondear(totalPagar)
+            };
+        }
+
+        // ========== MOSTRAR RESULTADOS ==========
+        
+        function calcular() {
+            // Obtener valores de los inputs
+            const datos = {
+                fob: toNumber(document.getElementById('fob').value),
+                flete: toNumber(document.getElementById('flete').value),
+                seguro: toNumber(document.getElementById('seguro').value),
+                arancel: toNumber(document.getElementById('arancel').value),
+                trm: toNumber(document.getElementById('trm').value)
+            };
+            
+            // Validar
+            if (datos.fob <= 0) {
+                alert('⚠️ Ingresa un valor FOB válido');
+                return;
+            }
+            
+            if (datos.trm <= 0) {
+                alert('⚠️ Ingresa una TRM válida');
+                return;
+            }
+            
+            // Calcular
+            const r = calcularOrdinaria(datos);
+            
+            // Mostrar resultados
+            document.getElementById('resultado').innerHTML = `
+                <strong>📊 RESULTADOS DE LA PRUEBA:</strong><br><br>
+                1. Valor FOB: ${formatUSD(datos.fob)}<br>
+                2. + Flete: ${formatUSD(datos.flete)}<br>
+                3. + Seguro: ${formatUSD(r.seguro)}<br>
+                4. <strong>= Valor CIF USD: ${formatUSD(r.cifUSD)}</strong><br><br>
+                5. Base Arancelaria COP: ${formatCOP(r.baseArancelariaCOP)}<br>
+                6. + Arancel (${datos.arancel}%): ${formatCOP(r.totalArancel)}<br>
+                7. = Base IVA: ${formatCOP(r.baseIVA)}<br>
+                8. + IVA (19%): ${formatCOP(r.totalIVA)}<br>
+                9. <strong>= TOTAL A PAGAR: ${formatCOP(r.totalPagar)}</strong><br><br>
+                <span style="color: #4ade80;">✅ Prueba exitosa! Los cálculos funcionan correctamente.</span>
+            `;
+        }
+    </script>
+</body>
+</html>

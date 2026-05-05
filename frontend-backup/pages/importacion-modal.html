@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BonCloud — Modalidades de Importación</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/calculadora.css">
+  <link rel="stylesheet" href="../css/importacion-modal.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
+      <div class="nav-group">
+        <div class="nav-group-title nav-item active" id="importacion-toggle">
+          📦 Importación <span class="arrow">▾</span>
+        </div>
+        <div class="nav-submenu" id="importacion-submenu">
+          <a href="#" class="nav-subitem active" data-modal="ordinaria">Ordinaria</a>
+          <a href="#" class="nav-subitem" data-modal="franquicia">Con franquicia</a>
+          <a href="#" class="nav-subitem" data-modal="reimportacion">Reimportación mismo estado</a>
+          <a href="#" class="nav-subitem" data-modal="garantia">Garantía del proveedor</a>
+          <a href="#" class="nav-subitem" data-modal="temporal-corto">Temporal corto plazo</a>
+          <a href="#" class="nav-subitem" data-modal="temporal-largo">Temporal largo plazo</a>
+          <a href="#" class="nav-subitem" data-modal="perfeccionamiento">Perfeccionamiento activo</a>
+          <a href="#" class="nav-subitem" data-modal="transformacion">Transformación y ensamble</a>
+          <a href="#" class="nav-subitem" data-modal="postal">Tráfico postal</a>
+          <a href="#" class="nav-subitem" data-modal="muestras">Muestras sin valor comercial</a>
+          <a href="#" class="nav-subitem" data-modal="viajeros">Viajeros</a>
+        </div>
+      </div>
+      <a href="exportacion-modal.html" class="nav-item">🚢 Exportación</a>
+      <a href="vistos-buenos.html" class="nav-item">✅ Vistos Buenos</a>
+      <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
+      <a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="nombre-usuario"></span>
+      <button id="btnLogout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- HEADER DINÁMICO -->
+    <div class="dashboard-header">
+      <div class="modal-header-info">
+        <span class="modal-badge" id="modal-badge">C100</span>
+        <div>
+          <h1 id="modal-titulo">Importación Ordinaria</h1>
+          <p id="modal-subtitulo">Declaración ordinaria — mercancías para consumo definitivo en Colombia</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO DE LA MODALIDAD -->
+    <div class="modal-info-bar" id="modal-info-bar"></div>
+
+    <!-- FORMULARIO DINÁMICO -->
+    <div class="calc-grid">
+      <div class="calc-form" id="calc-form"></div>
+      <div class="calc-resultados" id="resultados" style="display:none">
+        <h3>📊 Desglose de costos</h3>
+        <div id="resultados-contenido"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/importacion-modal.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BonCloud — Importación</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/calculadora.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
+      <a href="importacion.html" class="nav-item active">📦 Importación</a>
+      <a href="exportacion.html" class="nav-item">🚢 Exportación</a>
+      <a href="#" class="nav-item">📋 Historial</a>
+      <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
+      <a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="nombre-usuario"></span>
+      <button id="btnLogout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="dashboard-header">
+      <h1>📦 Calculadora de Importación</h1>
+      <p>Calcula el costo total de tu mercancía puesta en Colombia</p>
+    </div>
+
+    <div class="calc-grid">
+
+      <!-- FORMULARIO -->
+      <div class="calc-form">
+
+        <div class="form-section">
+          <h3>1. Datos de la mercancía</h3>
+
+          <div class="input-group">
+            <label>Valor FOB (USD)</label>
+            <input type="number" id="fob" placeholder="Ej: 10000" min="0">
+          </div>
+
+          <div class="input-group">
+            <label>Flete internacional (USD)</label>
+            <input type="number" id="flete" placeholder="Ej: 800" min="0">
+          </div>
+
+          <div class="input-group">
+            <label>Seguro (USD) <span class="hint">— deja en 0 para calcular automático (0.5% del FOB)</span></label>
+            <input type="number" id="seguro" placeholder="0" min="0">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>2. Incoterm</h3>
+          <div class="incoterm-grid">
+            <button class="incoterm-btn active" data-term="FOB">FOB</button>
+            <button class="incoterm-btn" data-term="EXW">EXW</button>
+            <button class="incoterm-btn" data-term="CIF">CIF</button>
+            <button class="incoterm-btn" data-term="DDP">DDP</button>
+            <button class="incoterm-btn" data-term="CFR">CFR</button>
+            <button class="incoterm-btn" data-term="FCA">FCA</button>
+          </div>
+          <p class="incoterm-desc" id="incoterm-desc">FOB — El vendedor entrega la mercancía a bordo del buque. El comprador asume flete y seguro.</p>
+        </div>
+
+        <div class="form-section">
+          <h3>3. Aranceles e impuestos</h3>
+
+          <div class="input-group">
+            <label>Subpartida arancelaria</label>
+            <input type="text" id="subpartida" placeholder="Ej: 6403.99.00.00">
+          </div>
+
+          <div class="input-group">
+            <label>Arancel (%)</label>
+            <input type="number" id="arancel" placeholder="Ej: 15" min="0" max="100">
+          </div>
+
+          <div class="input-group">
+            <label>TRM (COP por USD)</label>
+            <input type="number" id="trm" placeholder="Cargando TRM..." min="0">
+            <span class="trm-status" id="trm-status"></span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>4. Gastos de nacionalización (COP)</h3>
+
+          <div class="input-group">
+            <label>Agencia de aduanas</label>
+            <input type="number" id="agencia" placeholder="Ej: 500000" min="0">
+          </div>
+
+          <div class="input-group">
+            <label>Almacenamiento / bodegaje</label>
+            <input type="number" id="bodegaje" placeholder="Ej: 200000" min="0">
+          </div>
+
+          <div class="input-group">
+            <label>Transporte interno</label>
+            <input type="number" id="transporte" placeholder="Ej: 300000" min="0">
+          </div>
+        </div>
+
+        <button class="btn-calcular" id="btnCalcular">Calcular costo total</button>
+
+      </div>
+
+      <!-- RESULTADOS -->
+      <div class="calc-resultados" id="resultados" style="display:none">
+
+        <h3>📊 Desglose de costos</h3>
+
+        <div class="resultado-item">
+          <span>Valor FOB</span>
+          <span id="r-fob"></span>
+        </div>
+        <div class="resultado-item">
+          <span>+ Flete</span>
+          <span id="r-flete"></span>
+        </div>
+        <div class="resultado-item">
+          <span>+ Seguro</span>
+          <span id="r-seguro"></span>
+        </div>
+        <div class="resultado-item destacado">
+          <span>= Valor CIF</span>
+          <span id="r-cif"></span>
+        </div>
+        <div class="resultado-item">
+          <span>+ Arancel</span>
+          <span id="r-arancel"></span>
+        </div>
+        <div class="resultado-item">
+          <span>+ IVA (19%)</span>
+          <span id="r-iva"></span>
+        </div>
+        <div class="resultado-item">
+          <span>+ Nac. y otros</span>
+          <span id="r-nac"></span>
+        </div>
+        <div class="resultado-item total">
+          <span>TOTAL EN COP</span>
+          <span id="r-total"></span>
+        </div>
+
+        <div class="vistos-buenos" id="vistos-buenos">
+          <h3>✅ Vistos buenos requeridos</h3>
+          <div id="vb-lista"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/importacion.js"></script>
+</body>
+</html>
