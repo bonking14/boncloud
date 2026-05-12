@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<link rel="stylesheet" href="../css/styles.css">
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+        <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
+        <a href="importacion.html" class="nav-item">📦 Importación</a>
+        
+        <div class="nav-group">
+            <div class="nav-group-title nav-item active" id="exportacion-toggle">
+                🚢 Exportación <span class="arrow">▾</span>
+            </div>
+            <div class="nav-submenu" id="exportacion-submenu">
+                <a href="#" class="nav-subitem active" data-modal="definitiva">🚢 Definitiva</a>
+                <a href="#" class="nav-subitem" data-modal="temporal">🔄 Temporal</a>
+                <a href="#" class="nav-subitem" data-modal="menaje">🏠 Menaje</a>
+            </div>
+        </div>
+        
+        <a href="vistos-buenos.html" class="nav-item">✅ Vistos Buenos</a>
+        <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
+        <a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+    </nav>
+    <div class="sidebar-footer">
+        <span id="nombre-usuario">Usuario</span>
+        <button id="btnLogout">Cerrar sesión</button>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="dashboard-header">
+        <div class="modal-header-info">
+            <span class="modal-badge" id="modal-badge">EXP-DEF</span>
+            <div>
+                <h1 id="modal-titulo">Exportación Definitiva</h1>
+                <p id="modal-subtitulo">Salida definitiva de mercancías nacionales</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-info-bar" id="modal-info-bar"></div>
+
+    <div class="calc-grid">
+        <div class="calc-form" id="calc-form"></div>
+        <div class="calc-resultados" id="resultados" style="display:none">
+            <h3>📊 Desglose de costos</h3>
+            <div id="resultados-contenido"></div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+<script src="../js/exportacion.js"></script>
+</body>
+</html>

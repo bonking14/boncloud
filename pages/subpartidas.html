@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<link rel="stylesheet" href="../css/styles.css">
+<body>
+
+  <div class="sidebar">
+
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
+      <a href="importacion.html" class="nav-item">📦 Importación</a>
+<a href="exportacion.html" class="nav-item">🚢 Exportación</a>
+      <a href="vistos-buenos.html" class="nav-item">✅ Vistos Buenos</a>
+      <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
+      <a href="subpartidas.html" class="nav-item active">🔢 Subpartidas</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="nombre-usuario"></span>
+      <button id="btnLogout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <div class="dashboard-header">
+      <h1>🔢 Subpartidas Arancelarias</h1>
+      <p>Busca el código arancelario de tu producto y consulta su arancel</p>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="buscador-section">
+      <div class="buscador-box">
+        <span class="buscador-icon">🔍</span>
+        <input
+          type="text"
+          id="buscador"
+          placeholder="Busca por producto o código... Ej: café, zapatos, 6403, maquinaria"
+          autocomplete="off"
+        >
+        <button id="btnLimpiar">✕</button>
+      </div>
+
+      <div class="filtros-seccion">
+        <span class="filtros-label">Secciones SA:</span>
+        <div class="filtros-wrap" id="filtros-secciones"></div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <span id="total-resultados">Mostrando todos los productos</span>
+      <span class="stats-hint">Haz clic en una tarjeta para ver el detalle completo</span>
+    </div>
+
+    <!-- GRID -->
+    <div class="sp-grid" id="sp-grid"></div>
+
+    <!-- DETALLE MODAL -->
+    <div class="sp-modal-overlay" id="sp-modal-overlay" style="display:none">
+      <div class="sp-modal">
+        <button class="sp-modal-close" id="sp-modal-close">✕</button>
+        <div id="sp-modal-contenido"></div>
+      </div>
+    </div>
+
+    <div class="sin-resultados" id="sin-resultados" style="display:none">
+      <p> No se encontraron productos para tu búsqueda.</p>
+      <p>Intenta con otro término o código arancelario.</p>
+    </div>
+
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/subpartidas.js"></script>
+</body>
+</html>

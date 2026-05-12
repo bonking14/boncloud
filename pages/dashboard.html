@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonCloud — Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+        <a href="dashboard.html" class="nav-item active">🏠 Inicio</a>
+        <a href="importacion.html" class="nav-item">📦 Importación</a>
+        <a href="exportacion.html" class="nav-item">🚢 Exportación</a>
+        <a href="vistos-buenos.html" class="nav-item">✅ Vistos Buenos</a>
+        <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
+        <a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+    </nav>
+    <div class="sidebar-footer">
+        <span id="nombre-usuario"></span>
+        <button id="btnLogout">Cerrar sesión</button>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="dashboard-header">
+        <h1>Bienvenido, <span id="saludo"></span> 👋</h1>
+        <p>Plataforma de Inteligencia Portuaria — Puerto de Cartagena</p>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>📦 Importación</h3>
+            <p>Calcula FOB, CIF, aranceles e IVA para tus importaciones.</p>
+            <button class="btn-card" onclick="window.location.href='importacion.html'">Calcular</button>
+        </div>
+        <div class="card">
+            <h3>🚢 Exportación</h3>
+            <p>Estima costos de exportación definitiva, temporal y menaje.</p>
+            <button class="btn-card" onclick="window.location.href='exportacion.html'">Calcular</button>
+        </div>
+        <div class="card">
+            <h3>✅ Vistos Buenos</h3>
+            <p>Consulta permisos y requisitos según tipo de producto.</p>
+            <button class="btn-card" onclick="window.location.href='vistos-buenos.html'">Consultar</button>
+        </div>
+        <div class="card">
+            <h3>🌍 Incoterms 2020</h3>
+            <p>Guía completa de términos de comercio internacional.</p>
+            <button class="btn-card" onclick="window.location.href='incoterms.html'">Ver guía</button>
+        </div>
+        <div class="card">
+            <h3>🔢 Subpartidas</h3>
+            <p>Busca códigos arancelarios, aranceles y requisitos.</p>
+            <button class="btn-card" onclick="window.location.href='subpartidas.html'">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<script src="../js/dashboard.js"></script>
+</body>
+</html>
