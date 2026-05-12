@@ -1,4 +1,4 @@
-const API = 'http://localhost:4000/api';
+
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -26,7 +26,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
-    });
+const API = 'https://boncloud-api.onrender.com/api';   
 
     const data = await res.json();
 
