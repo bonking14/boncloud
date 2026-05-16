@@ -1,45 +1,526 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonCloud — Acceso</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BonCloud — Puerto Cartagena | Smart Logistics Platform</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; user-select:none; }
+body { height:100vh; width:100%; overflow:hidden; background:#010d16;
+  font-family:'SF Pro Display','Inter',-apple-system,sans-serif; }
+canvas { position:absolute; top:0; left:0; width:100%; height:100%; display:block; }
+.login-container {
+  position:absolute; top:50%; right:5%;
+  transform:translateY(-50%);
+  width:420px; max-width:88%; z-index:20;
+  animation:slideIn 1s cubic-bezier(0.2,0.9,0.4,1.1) both;
+}
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(-40%) translateX(30px); }
+  to   { opacity:1; transform:translateY(-50%) translateX(0); }
+}
+.glass-card {
+  background:rgba(4,16,26,0.62);
+  backdrop-filter:blur(22px) saturate(1.4);
+  border-radius:40px; padding:2.6rem 2.4rem;
+  border:1px solid rgba(0,195,255,0.28);
+  box-shadow:0 40px 80px rgba(0,0,0,0.55),
+             0 0 0 0.5px rgba(0,170,220,0.18) inset,
+             0 0 60px rgba(0,140,200,0.06) inset;
+  transition:border-color .35s, box-shadow .35s;
+}
+.glass-card:hover {
+  border-color:rgba(0,210,255,0.5);
+  box-shadow:0 40px 80px rgba(0,0,0,0.55), 0 0 40px rgba(0,180,230,0.12);
+}
+.logo h1 {
+  font-size:2.1rem; font-weight:800; letter-spacing:-0.5px;
+  background:linear-gradient(130deg,#fff 0%,#7ad4ff 55%,#00c8ff 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.logo p { font-size:.6rem; color:#5bb8dc; letter-spacing:2.5px; margin-top:5px; }
+.input-group { margin:1.8rem 0 1.5rem; }
+.input-field { margin-bottom:1.2rem; }
+.input-field label { display:block; font-size:.65rem; font-weight:600; margin-bottom:6px;
+  color:#90cfe8; letter-spacing:.8px; }
+.input-field input {
+  width:100%;
+  background:rgba(0,14,24,0.75);
+  border:1px solid rgba(30,100,130,0.7);
+  border-radius:34px; padding:13px 20px;
+  color:#e8f6ff; font-size:.85rem; outline:none; transition:all .22s;
+}
+.input-field input::placeholder { color:#3a7a98; }
+.input-field input:focus {
+  border-color:#00bfef;
+  box-shadow:0 0 0 3px rgba(0,160,230,0.15);
+  background:rgba(0,20,36,0.85);
+}
+.btn-login {
+  width:100%;
+  background:linear-gradient(105deg,#0d607e 0%,#065070 55%,#0a3d58 100%);
+  border:1px solid rgba(0,180,230,0.2);
+  border-radius:36px; padding:14px;
+  font-weight:700; font-size:.85rem; color:#d4f0ff;
+  cursor:pointer; letter-spacing:.4px;
+  transition:all .25s;
+  box-shadow:0 6px 20px rgba(0,0,0,0.35);
+}
+.btn-login:hover {
+  background:linear-gradient(105deg,#1888aa 0%,#0c6888 55%,#0a4e6e 100%);
+  transform:translateY(-1px);
+  box-shadow:0 10px 28px rgba(0,160,210,0.35);
+}
+.register { text-align:center; font-size:.68rem; margin-top:1.1rem; color:#7aaec8; }
+.register a { color:#ffc96a; text-decoration:none; }
+.register a:hover { color:#ffd98a; }
+.credit {
+  position:absolute; bottom:14px; left:18px;
+  font-size:9px; color:#4a8aaa;
+  background:rgba(0,0,0,0.45); backdrop-filter:blur(6px);
+  padding:4px 16px; border-radius:40px; z-index:20;
+}
+</style>
 </head>
 <body>
-
+<canvas id="c"></canvas>
 <div class="login-container">
-    <div class="login-brand">
-        <h1>✨ BonCloud</h1>
-        <p>Plataforma de Comercio Exterior</p>
+  <div class="glass-card">
+    <div class="logo">
+      <h1>BONCLOUD</h1>
+      <p>SYSTEMS BON CLOUD</p>
     </div>
-
-    <form class="login-form" id="loginForm">
-        <div class="input-group">
-            <label>📧 Correo electrónico</label>
-            <input type="email" id="email" placeholder="usuario@correo.com" required>
-        </div>
-
-        <div class="input-group">
-            <label>🔒 Contraseña</label>
-            <input type="password" id="password" placeholder="••••••••" required>
-        </div>
-
-        <div class="login-options">
-            <label class="remember">
-                <input type="checkbox" id="remember"> Recordarme
-            </label>
-            <a href="#">¿Olvidaste tu contraseña?</a>
-        </div>
-
-        <button type="submit" class="btn-login">🚀 Ingresar</button>
-
-        <p class="register-link">
-            ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
-        </p>
-    </form>
+    <div class="input-group">
+      <div class="input-field">
+        <label>📧 EMAIL</label>
+        <input type="email" id="email" placeholder="operations@boncloud.com">
+      </div>
+      <div class="input-field">
+        <label>🔐 CONTRASEÑA</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+    </div>
+    <button class="btn-login" id="loginBtn">BIENVENIDO</button>
+    <div class="register">🌊 Global Maritime Clearance · <a href="#">Request Demo</a></div>
+  </div>
 </div>
+<div class="credit">Bahía de Cartagena • Real-time logistics intelligence</div>
+<script>
+const C=document.getElementById('c'),X=C.getContext('2d');
+let W,H,t=0;
+function resize(){W=C.width=innerWidth;H=C.height=innerHeight;}
+resize();addEventListener('resize',resize);
+function rnd(a,b){return a+Math.random()*(b-a);}
+function lerp(a,b,t){return a+(b-a)*t;}
 
-<script src="js/main.js"></script>
+// === STARS ===
+const stars=Array.from({length:220},()=>({x:rnd(0,1),y:rnd(0,0.45),s:rnd(0.3,1.8),b:rnd(0.3,1),sp:rnd(0.3,1.5)}));
+function drawStars(){
+  stars.forEach(s=>{
+    let flicker=0.5+0.5*Math.sin(t*s.sp+s.x*100);
+    X.globalAlpha=s.b*flicker*0.8;
+    X.fillStyle='#c8e8ff';
+    X.beginPath();X.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);X.fill();
+  });
+  X.globalAlpha=1;
+}
+
+// === MOON ===
+function drawMoon(){
+  let mx=W*0.15,my=H*0.12,mr=28;
+  let g=X.createRadialGradient(mx,my,mr*0.2,mx,my,mr*4);
+  g.addColorStop(0,'rgba(200,230,255,0.15)');g.addColorStop(1,'rgba(0,30,60,0)');
+  X.fillStyle=g;X.beginPath();X.arc(mx,my,mr*4,0,Math.PI*2);X.fill();
+  let g2=X.createRadialGradient(mx-4,my-3,0,mx,my,mr);
+  g2.addColorStop(0,'#eef8ff');g2.addColorStop(0.5,'#c0d8e8');g2.addColorStop(1,'#8ab0c8');
+  X.fillStyle=g2;X.beginPath();X.arc(mx,my,mr,0,Math.PI*2);X.fill();
+}
+
+// === CLOUDS ===
+const clouds=Array.from({length:6},()=>({x:rnd(-0.1,1.1),y:rnd(0.05,0.3),w:rnd(120,300),h:rnd(15,35),sp:rnd(0.02,0.06),a:rnd(0.03,0.08)}));
+function drawClouds(){
+  clouds.forEach(c=>{
+    c.x+=c.sp*0.0003;if(c.x>1.3)c.x=-0.2;
+    X.globalAlpha=c.a;
+    X.fillStyle='#2a4a5e';
+    let cx=c.x*W,cy=c.y*H;
+    X.beginPath();X.ellipse(cx,cy,c.w,c.h,0,0,Math.PI*2);X.fill();
+    X.beginPath();X.ellipse(cx-c.w*0.3,cy+5,c.w*0.5,c.h*0.7,0,0,Math.PI*2);X.fill();
+    X.beginPath();X.ellipse(cx+c.w*0.35,cy+3,c.w*0.4,c.h*0.6,0,0,Math.PI*2);X.fill();
+  });
+  X.globalAlpha=1;
+}
+// === BUILDINGS (Bocagrande Skyline) ===
+const buildings=[];
+(function generateBuildings(){
+  let bx=0;
+  while(bx<1.05){
+    let bw=rnd(0.015,0.045),bh=rnd(0.08,0.32);
+    let type=Math.random();
+    if(type<0.2){bw=rnd(0.008,0.018);bh=rnd(0.22,0.38);}// tall thin
+    else if(type<0.5){bw=rnd(0.03,0.06);bh=rnd(0.06,0.14);}// short wide
+    let windows=[];
+    let cols=Math.floor(bw*W/8),rows=Math.floor(bh*H/12);
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      windows.push({r,c,on:Math.random()>0.35,phase:rnd(0,100),speed:rnd(0.0003,0.002)});
+    }
+    let hue=rnd(190,220),sat=rnd(10,30),lit=rnd(12,22);
+    buildings.push({x:bx,w:bw,h:bh,windows,hue,sat,lit,
+      antenna:bh>0.2&&Math.random()>0.5,antennaH:rnd(0.01,0.03)});
+    bx+=bw+rnd(0.002,0.012);
+  }
+})();
+
+function drawBuildings(){
+  let horizonY=H*0.52;
+  buildings.forEach(b=>{
+    let bx=b.x*W,bw=b.w*W,bh=b.h*H;
+    let by=horizonY-bh;
+    // building body
+    let bg=X.createLinearGradient(bx,by,bx,horizonY);
+    bg.addColorStop(0,`hsl(${b.hue},${b.sat}%,${b.lit+5}%)`);
+    bg.addColorStop(1,`hsl(${b.hue},${b.sat}%,${b.lit-3}%)`);
+    X.fillStyle=bg;
+    X.fillRect(bx,by,bw,bh);
+    // edge highlights
+    X.strokeStyle=`hsla(${b.hue},${b.sat+20}%,${b.lit+15}%,0.2)`;
+    X.lineWidth=0.5;X.strokeRect(bx,by,bw,bh);
+    // windows
+    let cols=Math.floor(bw/8),rows=Math.floor(bh/12);
+    if(cols<1)cols=1;if(rows<1)rows=1;
+    let ww=Math.max(2,(bw-4)/cols*0.6),wh=Math.max(2,8*0.6);
+    let padX=(bw-(cols*(ww+2)))/2+1,padY=6;
+    b.windows.forEach(win=>{
+      if(win.r>=rows||win.c>=cols)return;
+      // slow natural flicker
+      let cycle=Math.sin(t*win.speed+win.phase);
+      let isOn=win.on?(cycle>-0.7):false;
+      if(isOn){
+        let bright=0.4+0.3*((cycle+0.7)/1.7);
+        let colors=['#ffeebb','#ffe8a0','#c8e0ff','#fff5d0'];
+        X.fillStyle=colors[Math.floor(win.phase)%colors.length];
+        X.globalAlpha=bright;
+        let wx=bx+padX+win.c*(ww+2),wy=by+padY+win.r*(wh+4);
+        X.fillRect(wx,wy,ww,wh);
+        // glow
+        X.globalAlpha=bright*0.15;
+        X.fillRect(wx-1,wy-1,ww+2,wh+2);
+      }
+    });
+    X.globalAlpha=1;
+    // antenna
+    if(b.antenna){
+      let ax=bx+bw/2,ay=by,ah=b.antennaH*H;
+      X.strokeStyle='#3a6a7a';X.lineWidth=1;
+      X.beginPath();X.moveTo(ax,ay);X.lineTo(ax,ay-ah);X.stroke();
+      let blink=Math.sin(t*0.003+b.x*50)>0.6;
+      if(blink){X.fillStyle='#ff3030';X.globalAlpha=0.9;
+        X.beginPath();X.arc(ax,ay-ah,2,0,Math.PI*2);X.fill();
+        X.globalAlpha=0.2;X.beginPath();X.arc(ax,ay-ah,6,0,Math.PI*2);X.fill();
+        X.globalAlpha=1;}
+    }
+  });
+}
+// === CRANES (STS) ===
+const cranes=[
+  {x:0.38,h:0.28,boomLen:0.12,trolleyPos:0.3,trolleyDir:1,trolleySpeed:rnd(0.0002,0.0005)},
+  {x:0.44,h:0.30,boomLen:0.14,trolleyPos:0.6,trolleyDir:-1,trolleySpeed:rnd(0.0002,0.0005)},
+  {x:0.50,h:0.26,boomLen:0.11,trolleyPos:0.5,trolleyDir:1,trolleySpeed:rnd(0.0002,0.0005)},
+  {x:0.55,h:0.29,boomLen:0.13,trolleyPos:0.2,trolleyDir:-1,trolleySpeed:rnd(0.0002,0.0005)},
+];
+function drawCranes(){
+  let horizonY=H*0.52;
+  cranes.forEach(cr=>{
+    let cx=cr.x*W,ch=cr.h*H,boomL=cr.boomLen*W;
+    let baseY=horizonY,topY=baseY-ch;
+    let legW=12;
+    // legs
+    X.strokeStyle='#1a4a5a';X.lineWidth=3;
+    X.beginPath();X.moveTo(cx-legW,baseY);X.lineTo(cx-4,topY);X.stroke();
+    X.beginPath();X.moveTo(cx+legW,baseY);X.lineTo(cx+4,topY);X.stroke();
+    // machinery house
+    X.fillStyle='#1a3848';
+    X.fillRect(cx-10,topY,20,12);
+    // boom
+    X.strokeStyle='#2a6878';X.lineWidth=2.5;
+    X.beginPath();X.moveTo(cx,topY);X.lineTo(cx+boomL,topY-15);X.stroke();
+    // back boom
+    X.beginPath();X.moveTo(cx,topY);X.lineTo(cx-boomL*0.3,topY-10);X.stroke();
+    // trolley
+    cr.trolleyPos+=cr.trolleyDir*cr.trolleySpeed;
+    if(cr.trolleyPos>0.95||cr.trolleyPos<0.05)cr.trolleyDir*=-1;
+    let tx=cx+boomL*cr.trolleyPos,ty=topY-15*cr.trolleyPos+2;
+    X.fillStyle='#3a8898';X.fillRect(tx-3,ty-2,6,4);
+    // cable
+    X.strokeStyle='#2a5868';X.lineWidth=0.8;
+    let cableLen=20+cr.trolleyPos*15;
+    X.beginPath();X.moveTo(tx,ty+2);X.lineTo(tx,ty+cableLen);X.stroke();
+    // spreader
+    X.fillStyle='#e86030';X.fillRect(tx-5,ty+cableLen,10,3);
+    // warning lights
+    let blink=Math.sin(t*0.004+cr.x*20)>0.3;
+    if(blink){
+      X.fillStyle='#ff4020';X.globalAlpha=0.9;
+      X.beginPath();X.arc(cx,topY-2,2.5,0,Math.PI*2);X.fill();
+      X.globalAlpha=0.15;X.beginPath();X.arc(cx,topY-2,10,0,Math.PI*2);X.fill();
+      X.globalAlpha=1;
+    }
+    // base lights
+    X.fillStyle='#40c8ff';X.globalAlpha=0.5;
+    X.fillRect(cx-legW-2,baseY-3,4,2);X.fillRect(cx+legW-2,baseY-3,4,2);
+    X.globalAlpha=1;
+  });
+}
+// === SHIPS ===
+const ships=[
+  {x:0.15,y:0.58,len:100,speed:0.00005,dir:1,hullColor:'#1a2a38',superColor:'#2a3a4a'},
+  {x:0.85,y:0.61,len:120,speed:0.00004,dir:-1,hullColor:'#1a2838',superColor:'#2a3848'},
+  {x:0.50,y:0.55,len:75,speed:0.00003,dir:1,hullColor:'#1a2a3a',superColor:'#2a3a48'},
+  {x:0.35,y:0.68,len:60,speed:0.00002,dir:-1,hullColor:'#182838',superColor:'#283848'},
+  {x:0.70,y:0.74,len:50,speed:0.00003,dir:1,hullColor:'#1a2a36',superColor:'#2a3a46'},
+];
+const wakeParticles=[];
+function drawShips(){
+  let horizonY=H*0.52;
+  ships.forEach(sh=>{
+    sh.x+=sh.speed*sh.dir;
+    if(sh.x>1.15)sh.x=-0.15;if(sh.x<-0.15)sh.x=1.15;
+    let sx=sh.x*W,sy=horizonY+sh.y*H*0.25;
+    let len=sh.len,hw=len*0.12;
+    // hull
+    X.fillStyle=sh.hullColor;
+    X.beginPath();
+    X.moveTo(sx-len/2,sy);
+    X.lineTo(sx-len/2+8,sy+hw);
+    X.lineTo(sx+len/2-5,sy+hw);
+    X.lineTo(sx+len/2+10,sy);
+    X.closePath();X.fill();
+    // waterline
+    X.strokeStyle='#c03020';X.lineWidth=1.5;
+    X.beginPath();X.moveTo(sx-len/2+5,sy+hw*0.7);X.lineTo(sx+len/2+5,sy+hw*0.7);X.stroke();
+    // containers
+    let colors=['#c04030','#3070c0','#d0a020','#308040','#d06020'];
+    let cw=8,ch=5,rows=2,cols=Math.floor(len*0.6/cw);
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      X.fillStyle=colors[(r*cols+c)%colors.length];
+      X.globalAlpha=0.7;
+      X.fillRect(sx-len*0.28+c*cw,sy-ch*r-ch+2,cw-1,ch-1);
+    }
+    X.globalAlpha=1;
+    // superstructure
+    let ssx=sx+len*0.3;
+    X.fillStyle=sh.superColor;X.fillRect(ssx,sy-18,14,18);
+    X.fillStyle='#3a5a6a';X.fillRect(ssx+2,sy-16,10,5);// bridge windows
+    X.fillStyle='#ffe880';X.globalAlpha=0.6;X.fillRect(ssx+3,sy-15,8,3);
+    X.globalAlpha=1;
+    // mast
+    X.strokeStyle='#4a6a7a';X.lineWidth=1;
+    X.beginPath();X.moveTo(ssx+7,sy-18);X.lineTo(ssx+7,sy-28);X.stroke();
+    // nav lights
+    X.fillStyle='#00ff60';X.globalAlpha=0.8;
+    X.beginPath();X.arc(sx-len/2+3,sy-2,1.5,0,Math.PI*2);X.fill();
+    X.fillStyle='#ff2020';
+    X.beginPath();X.arc(sx+len/2+8,sy-2,1.5,0,Math.PI*2);X.fill();
+    X.globalAlpha=1;
+    // smoke
+    if(Math.random()>0.85){
+      wakeParticles.push({x:ssx+7,y:sy-28,vx:rnd(-0.2,0.2),vy:rnd(-0.5,-0.2),life:1,size:rnd(2,5)});
+    }
+  });
+  // draw smoke particles
+  for(let i=wakeParticles.length-1;i>=0;i--){
+    let p=wakeParticles[i];
+    p.x+=p.vx;p.y+=p.vy;p.life-=0.008;p.size+=0.03;
+    if(p.life<=0){wakeParticles.splice(i,1);continue;}
+    X.globalAlpha=p.life*0.3;X.fillStyle='#5a7a8a';
+    X.beginPath();X.arc(p.x,p.y,p.size,0,Math.PI*2);X.fill();
+  }
+  X.globalAlpha=1;
+}
+
+// === BUOYS ===
+const buoys=[{x:0.32,y:0.66},{x:0.58,y:0.72},{x:0.75,y:0.63}];
+function drawBuoys(){
+  let horizonY=H*0.52;
+  buoys.forEach(b=>{
+    let bx=b.x*W,by=horizonY+(b.y-0.5)*H*0.8;
+    let bob=Math.sin(t*0.002+b.x*30)*3;
+    by+=bob;
+    X.fillStyle='#d04030';X.beginPath();X.arc(bx,by,4,0,Math.PI*2);X.fill();
+    X.fillStyle='#e06050';X.beginPath();X.arc(bx-1,by-1,1.5,0,Math.PI*2);X.fill();
+    // blink
+    let blink=Math.sin(t*0.005+b.x*40)>0.7;
+    if(blink){X.fillStyle='#ffff60';X.globalAlpha=0.9;
+      X.beginPath();X.arc(bx,by-5,2,0,Math.PI*2);X.fill();
+      X.globalAlpha=0.15;X.beginPath();X.arc(bx,by-5,8,0,Math.PI*2);X.fill();
+      X.globalAlpha=1;}
+  });
+}
+// === WATER ===
+function drawWater(){
+  let horizonY=H*0.52;
+  // base water gradient
+  let wg=X.createLinearGradient(0,horizonY,0,H);
+  wg.addColorStop(0,'#041820');wg.addColorStop(0.3,'#031218');
+  wg.addColorStop(0.7,'#020c12');wg.addColorStop(1,'#010810');
+  X.fillStyle=wg;X.fillRect(0,horizonY,W,H-horizonY);
+
+  // organic waves
+  for(let layer=0;layer<4;layer++){
+    let freq=0.008+layer*0.004, amp=1.5-layer*0.3, yOff=horizonY+layer*((H-horizonY)/4);
+    X.strokeStyle=`rgba(30,90,120,${0.12-layer*0.025})`;
+    X.lineWidth=0.6;
+    X.beginPath();
+    for(let x=0;x<W;x+=3){
+      let y=yOff+Math.sin(x*freq+t*0.001+layer*2)*amp
+              +Math.sin(x*0.015+t*0.0007)*amp*0.6;
+      x===0?X.moveTo(x,y):X.lineTo(x,y);
+    }
+    X.stroke();
+  }
+
+  // city reflections in water
+  buildings.forEach(b=>{
+    let bx=b.x*W,bw=b.w*W;
+    let litWindows=b.windows.filter(w=>w.on&&Math.sin(t*w.speed+w.phase)>-0.7);
+    if(litWindows.length===0)return;
+    // vertical reflection streak
+    let refX=bx+bw/2;
+    let refStartY=horizonY+5;
+    let refLen=Math.min(b.h*H*0.6,80);
+    let rg=X.createLinearGradient(refX,refStartY,refX,refStartY+refLen);
+    rg.addColorStop(0,'rgba(255,235,170,0.12)');rg.addColorStop(1,'rgba(255,235,170,0)');
+    X.fillStyle=rg;
+    for(let dy=0;dy<refLen;dy+=2){
+      let wobble=Math.sin(dy*0.1+t*0.002+b.x*20)*3;
+      X.globalAlpha=0.08*(1-dy/refLen);
+      X.fillRect(refX+wobble-2,refStartY+dy,4,2);
+    }
+    X.globalAlpha=1;
+  });
+
+  // crane reflections
+  cranes.forEach(cr=>{
+    let cx=cr.x*W;
+    let rg=X.createLinearGradient(cx,horizonY,cx,horizonY+60);
+    rg.addColorStop(0,'rgba(40,200,255,0.08)');rg.addColorStop(1,'rgba(40,200,255,0)');
+    X.fillStyle=rg;
+    for(let dy=0;dy<60;dy+=2){
+      let wobble=Math.sin(dy*0.08+t*0.002)*4;
+      X.fillRect(cx+wobble-3,horizonY+dy,6,2);
+    }
+  });
+
+  // shimmer highlights
+  for(let i=0;i<40;i++){
+    let sx=rnd(0,W),sy=horizonY+rnd(10,H-horizonY-10);
+    let shimmer=Math.sin(t*0.003+sx*0.01+sy*0.02)*0.5+0.5;
+    if(shimmer>0.7){
+      X.globalAlpha=(shimmer-0.7)*0.15;
+      X.fillStyle='#80c8e0';
+      X.fillRect(sx,sy,rnd(8,25),0.5);
+    }
+  }
+  X.globalAlpha=1;
+}
+
+// === ATMOSPHERIC HAZE ===
+function drawHaze(){
+  let horizonY=H*0.52;
+  // horizon glow
+  let hg=X.createLinearGradient(0,horizonY-60,0,horizonY+20);
+  hg.addColorStop(0,'rgba(15,40,60,0)');
+  hg.addColorStop(0.5,'rgba(20,50,70,0.25)');
+  hg.addColorStop(1,'rgba(15,35,50,0.1)');
+  X.fillStyle=hg;X.fillRect(0,horizonY-60,W,80);
+
+  // distant city glow
+  let cg=X.createRadialGradient(W*0.3,horizonY,0,W*0.3,horizonY,W*0.35);
+  cg.addColorStop(0,'rgba(40,80,100,0.08)');cg.addColorStop(1,'rgba(0,0,0,0)');
+  X.fillStyle=cg;X.fillRect(0,horizonY-100,W,200);
+}
+
+// === AIRPLANE ===
+const planes=[
+  {x:-0.1,y:0.08,speed:0.00012,dir:1,phase:0},
+  {x:1.15,y:0.15,speed:0.00009,dir:-1,phase:50},
+  {x:0.3,y:0.05,speed:0.00007,dir:1,phase:120},
+];
+function drawPlanes(){
+  planes.forEach(p=>{
+    p.x+=p.speed*p.dir;
+    if(p.dir>0&&p.x>1.25)p.x=-0.15;
+    if(p.dir<0&&p.x<-0.15)p.x=1.25;
+    let px=p.x*W,py=p.y*H;
+    let sz=p.y<0.1?6:9; // higher = smaller (farther)
+    let alpha=p.y<0.1?0.3:0.5;
+    // body
+    X.fillStyle='#6a8a9a';X.globalAlpha=alpha;
+    X.beginPath();X.ellipse(px,py,sz,sz*0.25,0,0,Math.PI*2);X.fill();
+    // wing lights
+    let blink=Math.sin(t*0.008+p.phase)>0.4;
+    X.globalAlpha=blink?0.9:0.3;
+    let wingSpan=sz*0.8;
+    X.fillStyle=p.dir>0?'#ff2020':'#00ff40';
+    X.beginPath();X.arc(px-wingSpan*p.dir,py,1.2,0,Math.PI*2);X.fill();
+    X.fillStyle=p.dir>0?'#00ff40':'#ff2020';
+    X.beginPath();X.arc(px+wingSpan*p.dir,py,1.2,0,Math.PI*2);X.fill();
+    // strobe
+    if(Math.sin(t*0.01+p.phase*0.5)>0.9){
+      X.fillStyle='#ffffff';X.globalAlpha=0.7;
+      X.beginPath();X.arc(px,py-1.5,1,0,Math.PI*2);X.fill();
+    }
+    X.globalAlpha=1;
+    // contrail
+    let trailDir=-p.dir;
+    X.strokeStyle='rgba(150,180,200,0.05)';X.lineWidth=1.2;
+    X.beginPath();X.moveTo(px+10*trailDir,py);
+    X.lineTo(px+90*trailDir,py+1.5*trailDir);X.stroke();
+  });
+}
+// === SKY GRADIENT ===
+function drawSky(){
+  let g=X.createLinearGradient(0,0,0,H*0.55);
+  g.addColorStop(0,'#010810');
+  g.addColorStop(0.3,'#041620');
+  g.addColorStop(0.6,'#082030');
+  g.addColorStop(0.85,'#0c2a3a');
+  g.addColorStop(1,'#102838');
+  X.fillStyle=g;X.fillRect(0,0,W,H*0.55);
+}
+
+// === RENDER LOOP ===
+function render(){
+  t++;
+  X.clearRect(0,0,W,H);
+  drawSky();
+  drawStars();
+  drawMoon();
+  drawClouds();
+  drawPlanes();
+  drawHaze();
+  drawBuildings();
+  drawCranes();
+  drawWater();
+  drawShips();
+  drawBuoys();
+  requestAnimationFrame(render);
+}
+render();
+
+// === LOGIN BUTTON ===
+document.getElementById('loginBtn').addEventListener('click',function(){
+  let em=document.getElementById('email').value;
+  let pw=document.getElementById('password').value;
+  if(!em||!pw){this.style.background='linear-gradient(105deg,#802020,#601818,#501515)';
+    this.textContent='⚠ COMPLETA LOS CAMPOS';
+    setTimeout(()=>{this.style.background='';this.textContent='BIENVENIDO';},2000);return;}
+  this.textContent='🔄 VERIFICANDO...';this.style.opacity='0.7';
+  setTimeout(()=>{this.textContent='✅ ACCESO CONCEDIDO';
+    this.style.background='linear-gradient(105deg,#0a6040,#085838,#064830)';
+    this.style.opacity='1';},1500);
+});
+
+</script>
 </body>
 </html>

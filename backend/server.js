@@ -8,33 +8,32 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
-// Seguridad
 app.use(helmet());
+
 app.use(cors({
-  origin: 'http://127.0.0.1:5500',
-  credentials: true
+    origin: ['https://bonking14.github.io', 'http://localhost:4000', 'http://127.0.0.1:5500'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Limite de intentos — bloquea fuerza bruta
+app.options('*', cors());
+
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 10, // máximo 10 intentos
-  message: { error: 'Demasiados intentos. Espera 15 minutos.' }
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { error: 'Demasiados intentos. Espera 15 minutos.' }
 });
+
 app.use('/api/auth', limiter);
-
-// Parsear JSON
 app.use(express.json());
-
-// Rutas
 app.use('/api/auth', authRoutes);
 
-// Ruta de prueba
 app.get('/', (req, res) => {
-  res.json({ mensaje: 'BonCloud API corriendo' });
+    res.json({ mensaje: 'BonCloud API corriendo' });
 });
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en puerto ${PORT}`);
+    console.log(`✅ Servidor corriendo en puerto ${PORT}`);
 });
