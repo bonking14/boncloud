@@ -529,7 +529,9 @@ document.getElementById('loginBtn').addEventListener('click',function(){
     this.textContent='✅ ACCESO CONCEDIDO';
     this.style.background='linear-gradient(105deg,#0a6040,#085838,#064830)';
     this.style.opacity='1';
-    setTimeout(()=>{ window.location.href='pages/dashboard.html'; },800);
+  localStorage.setItem('token','boncloud-token');
+localStorage.setItem('usuario',JSON.stringify({nombre:'Bon'}));
+setTimeout(()=>{ window.location.href='pages/dashboard.html'; },800);
   },1500);
 });
 
