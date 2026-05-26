@@ -105,7 +105,7 @@ const modalidades = {
         titulo: 'Importación Ordinaria',
         badge: 'C100',
         subtitulo: 'Mercancías para consumo definitivo en Colombia',
-        info: `<div class="info-collapsible"><div class="info-header" id="infoHeader"><span class="info-arrow">▶</span><strong>📋 Secuencia de cálculo</strong></div><div class="info-content" id="infoContent" style="display: none;"><ol><li>Valor FOB (USD)</li><li>+ Flete</li><li>+ Seguro (0.5% del FOB)</li><li>= Valor CIF USD</li><li>× TRM = Base Arancelaria COP</li><li>× %Arancel = Total Arancel</li><li>Base + Arancel = Base IVA</li><li>× 19% = Total IVA</li><li>+ Gastos nacionalización = TOTAL</li></ol></div></div>`,
+        info: `<div class="info-collapsible"><div class="info-header" id="infoHeader"><span class="info-arrow">▶</span><strong>Secuencia de cálculo</strong></div><div class="info-content" id="infoContent" style="display: none;"><ol><li>Valor FOB (USD)</li><li>+ Flete</li><li>+ Seguro (0.5% del FOB)</li><li>= Valor CIF USD</li><li>× TRM = Base Arancelaria COP</li><li>× %Arancel = Total Arancel</li><li>Base + Arancel = Base IVA</li><li>× 19% = Total IVA</li><li>+ Gastos nacionalización = TOTAL</li></ol></div></div>`,
         campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje', 'transporte'],
         calcular: (v) => {
             const r = calcularOrdinaria(v);
@@ -129,7 +129,7 @@ const modalidades = {
         titulo: 'Importación con Franquicia',
         badge: 'C110',
         subtitulo: 'Exención total de tributos (viajero: hasta USD 200)',
-        info: `<strong>📋 ¿Cuándo se aplica?</strong> Viajeros internacionales. Exento de arancel e IVA.`,
+        info: `<strong>¿Cuándo se aplica?</strong> Viajeros internacionales. Exento de arancel e IVA.`,
         campos: ['fob', 'flete', 'seguro', 'trm', 'agencia', 'bodegaje'],
         calcular: (v) => {
             const r = calcularFranquicia(v);
@@ -151,7 +151,7 @@ const modalidades = {
         titulo: 'Importación Temporal Corto Plazo',
         badge: 'C150',
         subtitulo: 'Hasta 6 meses — tributos suspendidos + póliza',
-        info: `<strong>📋 ¿Cuándo se usa?</strong> Para ferias, exposiciones, eventos. Tributos suspendidos, se paga póliza del 1.5%.`,
+        info: `<strong>¿Cuándo se usa?</strong> Para ferias, exposiciones, eventos. Tributos suspendidos, se paga póliza del 1.5%.`,
         campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje'],
         calcular: (v) => {
             const r = calcularTemporalCorto(v);
@@ -192,7 +192,7 @@ async function cargarTRM() {
         if (el) {
             el.value = data.rates.COP.toFixed(2);
             const st = document.getElementById('trm-status');
-            if (st) st.textContent = `✅ TRM cargada`;
+            if (st) st.textContent = `TRM cargada`;
         }
     } catch (error) {
         const el = document.getElementById('trm');
@@ -233,7 +233,7 @@ function renderModal(key) {
     if (key === 'ordinaria') setTimeout(initCollapsibleInfo, 50);
 
     const form = document.getElementById('calc-form');
-    form.innerHTML = `<div class="form-section"><h3>📋 Datos</h3>${m.campos.map(c => camposHTML[c] || '').join('')}</div><button class="btn-calcular" id="btnCalcular">💰 Calcular</button>`;
+    form.innerHTML = `<div class="form-section"><h3>📋 Datos</h3>${m.campos.map(c => camposHTML[c] || '').join('')}</div><button class="btn-calcular" id="btnCalcular">Calcular</button>`;
 
     document.getElementById('resultados').style.display = 'none';
     cargarTRM();
@@ -245,8 +245,8 @@ function renderModal(key) {
         newBtn.onclick = () => {
             const val = (id) => { const el = document.getElementById(id); return el ? toNumber(el.value) : 0; };
             const v = { fob: val('fob'), flete: val('flete'), seguro: val('seguro'), arancel: val('arancel'), trm: val('trm'), agencia: val('agencia'), bodegaje: val('bodegaje'), transporte: val('transporte') };
-            if (v.fob === 0) { alert('⚠️ Ingresa el valor FOB'); return; }
-            if (v.trm === 0) { alert('⚠️ Ingresa la TRM'); return; }
+            if (v.fob === 0) { alert('Ingresa el valor FOB'); return; }
+            if (v.trm === 0) { alert('Ingresa la TRM'); return; }
             const filas = m.calcular(v);
             document.getElementById('resultados-contenido').innerHTML = filas.map(f => `<div class="resultado-item ${f.clase || ''}"><span>${f.label}</span><span>${f.valor}</span></div>`).join('');
             document.getElementById('resultados').style.display = 'block';

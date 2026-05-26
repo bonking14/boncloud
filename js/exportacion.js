@@ -94,7 +94,7 @@ const modalidades = {
         titulo: 'Exportación Definitiva',
         badge: 'EXP-DEF',
         subtitulo: 'Salida definitiva de mercancías nacionales o nacionalizadas',
-        info: `<strong>📋 Documentos requeridos:</strong> DEX, Factura comercial, BL o AWB, Certificado de origen si aplica.`,
+        info: `<strong>Documentos requeridos:</strong> DEX, Factura comercial, BL o AWB, Certificado de origen si aplica.`,
         campos: ['fob', 'flete', 'seguro', 'trm'],
         calcular: (v) => {
             const r = calcularDefinitiva(v);
@@ -113,7 +113,7 @@ const modalidades = {
         titulo: 'Exportación Temporal',
         badge: 'EXP-TEMP',
         subtitulo: 'Para ferias, exposiciones, eventos — hasta 6 meses',
-        info: `<strong>📋 ¿Cómo funciona?</strong> Las mercancías salen temporalmente y regresan en el mismo estado. Se requiere póliza de garantía del 1.5%.`,
+        info: `<strong>¿Cómo funciona?</strong> Las mercancías salen temporalmente y regresan en el mismo estado. Se requiere póliza de garantía del 1.5%.`,
         campos: ['fob', 'flete', 'seguro', 'trm', 'meses'],
         calcular: (v) => {
             const r = calcularTemporal(v);
@@ -134,7 +134,7 @@ const modalidades = {
         titulo: 'Exportación Menaje',
         badge: 'EXP-MEN',
         subtitulo: 'Residentes que se trasladan definitivamente al exterior',
-        info: `<strong>📋 Requisitos:</strong> Plazo: 30 días antes o 120 días después del viaje. Exento de tributos.`,
+        info: `<strong>Requisitos:</strong> Plazo: 30 días antes o 120 días después del viaje. Exento de tributos.`,
         campos: ['fob', 'flete', 'seguro', 'trm'],
         calcular: (v) => {
             const r = calcularMenaje(v);
@@ -169,7 +169,7 @@ async function cargarTRM() {
         if (el) {
             el.value = data.rates.COP.toFixed(2);
             const st = document.getElementById('trm-status');
-            if (st) st.textContent = `✅ TRM cargada`;
+            if (st) st.textContent = `TRM cargada`;
         }
     } catch (error) {
         const el = document.getElementById('trm');
@@ -191,7 +191,7 @@ function renderModal(key) {
     infoBar.classList.add('visible');
 
     const form = document.getElementById('calc-form');
-    form.innerHTML = `<div class="form-section"><h3>📋 Datos</h3>${m.campos.map(c => camposHTML[c] || '').join('')}</div><button class="btn-calcular" id="btnCalcular">💰 Calcular</button>`;
+    form.innerHTML = `<div class="form-section"><h3>📋 Datos</h3>${m.campos.map(c => camposHTML[c] || '').join('')}</div><button class="btn-calcular" id="btnCalcular">Calcular</button>`;
 
     document.getElementById('resultados').style.display = 'none';
     cargarTRM();
@@ -209,8 +209,8 @@ function renderModal(key) {
                 trm: val('trm'),
                 meses: val('meses')
             };
-            if (v.fob === 0) { alert('⚠️ Ingresa el valor FOB'); return; }
-            if (v.trm === 0) { alert('⚠️ Ingresa la TRM'); return; }
+            if (v.fob === 0) { alert('Ingresa el valor FOB'); return; }
+            if (v.trm === 0) { alert('Ingresa la TRM'); return; }
             const filas = m.calcular(v);
             document.getElementById('resultados-contenido').innerHTML = filas.map(f => `<div class="resultado-item ${f.clase || ''}"><span>${f.label}</span><span>${f.valor}</span></div>`).join('');
             document.getElementById('resultados').style.display = 'block';

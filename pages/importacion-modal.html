@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
-<link rel="stylesheet" href="../css/styles.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonCloud — Importación</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Hojas de estilo del tema dinámico -->
+    <link rel="stylesheet" href="../css/theme.css">
+</head>
 <body>
 
 <div class="sidebar">
     <div class="sidebar-brand"><h2>BonCloud</h2></div>
     <nav>
-        <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
+        <a href="dashboard.html" class="nav-item">Inicio</a>
+        
         <div class="nav-group">
             <div class="nav-group-title nav-item active" id="importacion-toggle">
-                📦 Importación <span class="arrow">▾</span>
+                Importación <span class="arrow">▾</span>
             </div>
             <div class="nav-submenu" id="importacion-submenu">
-                <a href="#" class="nav-subitem active" data-modal="ordinaria">📦 Ordinaria</a>
-                <a href="#" class="nav-subitem" data-modal="franquicia">🛃 Franquicia</a>
-                <a href="#" class="nav-subitem" data-modal="temporal-corto">⏱️ Temporal</a>
+                <a href="#" class="nav-subitem active" data-modal="ordinaria">Ordinaria</a>
+                <a href="#" class="nav-subitem" data-modal="franquicia">Franquicia</a>
+                <a href="#" class="nav-subitem" data-modal="temporal-corto">Temporal</a>
             </div>
         </div>
-        <a href="exportacion.html" class="nav-item">🚢 Exportación</a>
-        <a href="vistos-buenos.html" class="nav-item">✅ Vistos Buenos</a>
-        <a href="incoterms.html" class="nav-item">🌍 Incoterms</a>
-        <a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+        
+        <a href="exportacion.html" class="nav-item">Exportación</a>
+        <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
+        <a href="incoterms.html" class="nav-item">Incoterms</a>
+        <a href="subpartidas.html" class="nav-item">Subpartidas</a>
+        <a href="formularios.html" class="nav-item">Formularios</a>
     </nav>
     <div class="sidebar-footer">
         <span id="nombre-usuario">Usuario</span>
@@ -50,7 +60,9 @@
     </div>
 </div>
 
+<!-- Scripts base, lógica de importación y del tema -->
 <script src="../js/dashboard.js"></script>
 <script src="../js/importacion.js"></script>
+<script src="../js/theme.js"></script>
 </body>
 </html>

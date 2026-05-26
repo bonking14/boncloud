@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonCloud — Formularios</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/formularios.css">
+    <!-- html2pdf para exportar a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+        <a href="dashboard.html" class="nav-item">Inicio</a>
+        <a href="importacion.html" class="nav-item">Importación</a>
+        <a href="exportacion.html" class="nav-item">Exportación</a>
+        <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
+        <a href="incoterms.html" class="nav-item">Incoterms</a>
+        <a href="subpartidas.html" class="nav-item">Subpartidas</a>
+        <a href="formularios.html" class="nav-item active">Formularios</a>
+    </nav>
+    <div class="sidebar-footer">
+        <span id="nombre-usuario"></span>
+        <button id="btnLogout">Cerrar sesión</button>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="dashboard-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+            <h1>Formularios DIAN</h1>
+            <p>Rellena, calcula y exporta formularios oficiales de aduana.</p>
+        </div>
+    
+    </div>
+
+    <!-- Vista 1: Centro de Formularios (Dashboard) -->
+    <div id="vista-dashboard">
+        <div class="search-container">
+            <input type="text" id="buscador-forms" placeholder="Buscar formulario (Ej. 500, Importación)...">
+        </div>
+        <div class="grid-formularios" id="grid-formularios">
+            <!-- Renderizado dinámico desde JS -->
+        </div>
+    </div>
+
+    <!-- Vista 2: Editor de Formularios -->
+    <div id="vista-editor" style="display:none;">
+        <div class="editor-header">
+            <button id="btn-volver" class="btn-card">Volver al Catálogo</button>
+            <div class="editor-actions">
+                <button id="btn-limpiar" class="btn-card">Reiniciar Formulario</button>
+                <button id="btn-descargar" class="btn-card btn-calcular">Descargar PDF Oficial</button>
+            </div>
+        </div>
+        
+        <!-- Área interactiva que emula el formulario de la DIAN -->
+        <div id="form-render-area" class="dian-form-wrapper">
+            <!-- Renderizado dinámico del HTML de cada formulario -->
+        </div>
+    </div>
+
+</div>
+
+<script src="../js/theme.js"></script>
+<script src="../js/formularios.js"></script>
+
+<script>
+    // Recuperar usuario para la barra lateral
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+        if(!token || !usuario) {
+            window.location.href = '../index.html';
+        } else {
+            const spanNombre = document.getElementById('nombre-usuario');
+            if(spanNombre) spanNombre.textContent = usuario.nombre;
+        }
+
+        const btnLogout = document.getElementById('btnLogout');
+        if(btnLogout){
+            btnLogout.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('usuario');
+                window.location.href = '../index.html';
+            });
+        }
+    });
+</script>
+</body>
+</html>

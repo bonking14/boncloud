@@ -81,7 +81,7 @@ const modalidades = {
         titulo: 'Importación Ordinaria',
         badge: 'C100',
         subtitulo: 'Mercancías para consumo definitivo en Colombia',
-        info: '📦 Importación Ordinaria — Declaración de mercancías para consumo definitivo en Colombia. Aplica arancel + IVA (19%) sobre base arancelaria CIF.',
+        info: 'Importación Ordinaria — Declaración de mercancías para consumo definitivo en Colombia. Aplica arancel + IVA (19%) sobre base arancelaria CIF.',
         campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje', 'transporte'],
         calcular: (v) => {
             const r = calcularOrdinaria(v);
@@ -104,7 +104,7 @@ const modalidades = {
         titulo: 'Importación con Franquicia',
         badge: 'C110',
         subtitulo: 'Exención total de tributos (viajero: hasta USD 200)',
-        info: '🛃 Franquicia — Exenta de arancel e IVA. Aplica a viajeros internacionales con cupo libre hasta USD 200 según Decreto 1165 de 2019.',
+        info: 'Franquicia — Exenta de arancel e IVA. Aplica a viajeros internacionales con cupo libre hasta USD 200 según Decreto 1165 de 2019.',
         campos: ['fob', 'flete', 'seguro', 'trm', 'agencia', 'bodegaje'],
         calcular: (v) => {
             const r = calcularFranquicia(v);
@@ -125,7 +125,7 @@ const modalidades = {
         titulo: 'Importación Temporal Corto Plazo',
         badge: 'C150',
         subtitulo: 'Hasta 6 meses — tributos suspendidos + póliza 1.5%',
-        info: '⏱️ Temporal Corto Plazo — Para ferias, exposiciones y eventos. Los tributos se suspenden y se paga una póliza de garantía del 1.5%.',
+        info: 'Temporal Corto Plazo — Para ferias, exposiciones y eventos. Los tributos se suspenden y se paga una póliza de garantía del 1.5%.',
         campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje'],
         calcular: (v) => {
             const r = calcularTemporalCorto(v);
@@ -165,7 +165,7 @@ async function cargarTRM() {
         if (el) {
             el.value = data.rates.COP.toFixed(2);
             const st = document.getElementById('trm-status');
-            if (st) st.textContent = '✅ TRM cargada automáticamente';
+            if (st) st.textContent = 'TRM cargada automáticamente';
         }
     } catch {
         const el = document.getElementById('trm');
@@ -187,7 +187,7 @@ function renderModal(key) {
 
     const form = document.getElementById('calc-form');
     form.innerHTML = m.campos.map(c => camposHTML[c] || '').join('') +
-        `<button class="btn-calcular" id="btnCalcular">💰 Calcular</button>`;
+        `<button class="btn-calcular" id="btnCalcular">Calcular</button>`;
 
     document.getElementById('resultados').style.display = 'none';
     cargarTRM();
@@ -199,8 +199,8 @@ function renderModal(key) {
             arancel: val('arancel'), trm: val('trm'),
             agencia: val('agencia'), bodegaje: val('bodegaje'), transporte: val('transporte')
         };
-        if (v.fob === 0) { alert('⚠️ Ingresa el valor FOB'); return; }
-        if (v.trm === 0) { alert('⚠️ Ingresa la TRM'); return; }
+        if (v.fob === 0) { alert('Ingresa el valor FOB'); return; }
+        if (v.trm === 0) { alert('Ingresa la TRM'); return; }
 
         const filas = m.calcular(v);
         document.getElementById('resultados-contenido').innerHTML = filas.map(f =>

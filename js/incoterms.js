@@ -175,6 +175,7 @@ style.textContent = `
   padding:24px; position:relative;
   animation: modalIn .25s ease;
 }
+.light-mode #inc-modal { background:#ffffff; border:1px solid #e5e7eb; }
 @keyframes modalIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
 
 #inc-modal-close {
@@ -183,6 +184,7 @@ style.textContent = `
   font-size:18px; cursor:pointer; line-height:1;
 }
 #inc-modal-close:hover { color:#c9d1dc; }
+.light-mode #inc-modal-close:hover { color:#111827; }
 
 .modal-top { display:flex; align-items:flex-start; gap:14px; margin-bottom:16px; }
 .modal-code-badge {
@@ -190,9 +192,12 @@ style.textContent = `
   padding:6px 14px; border-radius:7px;
   font-size:16px; font-weight:700; white-space:nowrap;
 }
+.light-mode .modal-code-badge { background:#eff6ff; color:#2563eb; }
 .modal-title-block strong { display:block; font-size:15px; color:#c9d1dc; margin-bottom:3px; }
+.light-mode .modal-title-block strong { color:#111827; }
 .modal-title-block span { font-size:12px; color:#4b5563; }
 .modal-desc { font-size:12px; color:#6b7280; line-height:1.6; margin-bottom:16px; }
+.light-mode .modal-desc { color:#4b5563; }
 
 /* Canvas scene */
 #inc-canvas {
@@ -200,6 +205,7 @@ style.textContent = `
   background:#0a0f18; display:block;
   border:1px solid #1a1f2e; margin-bottom:16px;
 }
+.light-mode #inc-canvas { background:#f9fafb; border:1px solid #e5e7eb; }
 
 /* Controles animación */
 .anim-controls {
@@ -211,8 +217,11 @@ style.textContent = `
   transition:background .2s;
 }
 .btn-anim:hover { background:#1e3a5f; }
+.light-mode .btn-anim { background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; }
+.light-mode .btn-anim:hover { background:#dbeafe; }
 .anim-speed { font-size:11px; color:#4b5563; margin-left:auto; }
 input[type=range]#anim-speed-slider { width:80px; accent-color:#4a7fd4; }
+.light-mode input[type=range]#anim-speed-slider { accent-color:#2563eb; }
 
 /* Etapa actual */
 .etapa-badge {
@@ -220,16 +229,22 @@ input[type=range]#anim-speed-slider { width:80px; accent-color:#4a7fd4; }
   padding:7px 14px; font-size:12px; color:#c9d1dc;
   display:flex; align-items:center; gap:8px; margin-bottom:16px;
 }
+.light-mode .etapa-badge { background:#f9fafb; border:1px solid #e5e7eb; color:#111827; }
 .etapa-dot { width:8px; height:8px; border-radius:50%; background:#4a7fd4; flex-shrink:0; }
+.light-mode .etapa-dot { background:#2563eb; }
 
 /* Tabla responsabilidades modal */
 .modal-resp { display:grid; grid-template-columns:1fr 1fr; gap:4px 20px; margin-bottom:14px; }
 .modal-resp-row { display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #13161f; color:#6b7280; }
+.light-mode .modal-resp-row { border-bottom:1px solid #e5e7eb; color:#4b5563; }
 .modal-resp-row:last-child { border-bottom:none; }
 .rv { color:#4a7f6a; font-weight:500; }
+.light-mode .rv { color:#059669; }
 .rc { color:#7a4f4f; font-weight:500; }
+.light-mode .rc { color:#dc2626; }
 
 .nota-co { font-size:11px; color:#4a7f6a; background:#0a1a12; border:1px solid #1a2e1f; border-radius:6px; padding:8px 12px; }
+.light-mode .nota-co { color:#065f46; background:#ecfdf5; border:1px solid #a7f3d0; }
 `;
 document.head.appendChild(style);
 
@@ -340,37 +355,39 @@ function loopAnim() {
 // ── Dibuja la escena completa ─────────────────────────────
 function drawScene(ctx, W, H, t, inc) {
   const tc = Math.min(t, 1);
+  const isLight = document.documentElement.classList.contains('light-mode');
   ctx.clearRect(0, 0, W, H);
 
   // Cielo degradado
   const sky = ctx.createLinearGradient(0,0,0,H*0.65);
-  sky.addColorStop(0,'#050d1a');
-  sky.addColorStop(1,'#0a1628');
+  sky.addColorStop(0, isLight ? '#87CEEB' : '#050d1a');
+  sky.addColorStop(1, isLight ? '#E0F6FF' : '#0a1628');
   ctx.fillStyle = sky;
   ctx.fillRect(0,0,W,H*0.65);
 
   // Mar
   const sea = ctx.createLinearGradient(0,H*0.55,0,H*0.75);
-  sea.addColorStop(0,'#0a2040');
-  sea.addColorStop(1,'#061428');
+  sea.addColorStop(0, isLight ? '#4FA4C7' : '#0a2040');
+  sea.addColorStop(1, isLight ? '#2D7593' : '#061428');
   ctx.fillStyle = sea;
   ctx.fillRect(0,H*0.55,W,H*0.2);
 
   // Olas animadas
-  drawWaves(ctx, W, H, t);
+  drawWaves(ctx, W, H, t, isLight);
 
   // Suelo
   const ground = ctx.createLinearGradient(0,H*0.72,0,H);
-  ground.addColorStop(0,'#111827');
-  ground.addColorStop(1,'#0d0d13');
+  ground.addColorStop(0, isLight ? '#D0D5DB' : '#111827');
+  ground.addColorStop(1, isLight ? '#B8C0C9' : '#0d0d13');
   ctx.fillStyle = ground;
   ctx.fillRect(0,H*0.72,W,H*0.28);
 
   // Carretera
-  ctx.fillStyle = '#1a1f2e';
+  ctx.fillStyle = isLight ? '#9CA3AF' : '#1a1f2e';
   ctx.fillRect(0,H*0.73,W,H*0.05);
   // líneas carretera
-  ctx.strokeStyle='#374151'; ctx.lineWidth=1.5; ctx.setLineDash([18,14]);
+  ctx.strokeStyle = isLight ? '#F3F4F6' : '#374151'; 
+  ctx.lineWidth=1.5; ctx.setLineDash([18,14]);
   ctx.beginPath(); ctx.moveTo(0,H*0.755); ctx.lineTo(W,H*0.755); ctx.stroke();
   ctx.setLineDash([]);
 
@@ -384,71 +401,71 @@ function drawScene(ctx, W, H, t, inc) {
   const seaY    = H*0.62;
 
   // Edificios
-  drawFabrica(ctx, fabX, groundY, H, '#1e3a5f', 'VENDEDOR');
-  drawAlmacen(ctx, almX, groundY, H, '#3a1a1a', 'COMPRADOR');
-  drawPuerto(ctx, portOX, groundY, H, '#1a2e1f', 'Puerto\nOrigen');
-  drawPuerto(ctx, portDX, groundY, H, '#2e1a1a', 'Puerto\nDestino');
+  drawFabrica(ctx, fabX, groundY, H, isLight ? '#2563EB' : '#1e3a5f', 'VENDEDOR', isLight);
+  drawAlmacen(ctx, almX, groundY, H, isLight ? '#DC2626' : '#3a1a1a', 'COMPRADOR', isLight);
+  drawPuerto(ctx, portOX, groundY, H, isLight ? '#10B981' : '#1a2e1f', 'Puerto\nOrigen', isLight);
+  drawPuerto(ctx, portDX, groundY, H, isLight ? '#F59E0B' : '#2e1a1a', 'Puerto\nDestino', isLight);
 
   // Ruta en el suelo
-  drawRoad(ctx, fabX+30, portOX-10, groundY-2, tc, inc.vendedorHasta, 0, 0.30);
-  drawRoad(ctx, portDX+10, almX-30, groundY-2, tc, inc.vendedorHasta, 0.70, 1.0);
+  drawRoad(ctx, fabX+30, portOX-10, groundY-2, tc, inc.vendedorHasta, 0, 0.30, isLight);
+  drawRoad(ctx, portDX+10, almX-30, groundY-2, tc, inc.vendedorHasta, 0.70, 1.0, isLight);
 
   // Ruta marítima
-  drawSeaRoute(ctx, portOX+10, portDX-10, seaY, tc, inc.vendedorHasta, 0.30, 0.70);
+  drawSeaRoute(ctx, portOX+10, portDX-10, seaY, tc, inc.vendedorHasta, 0.30, 0.70, isLight);
 
   // Camión (tierra)
   if(tc < 0.30) {
     const cx = lerp(fabX+35, portOX-15, tc/0.30);
-    drawTruck(ctx, cx, groundY-2, false);
+    drawTruck(ctx, cx, groundY-2, false, isLight);
   }
   if(tc > 0.70 && tc < 1.0) {
     const cx = lerp(portDX+15, almX-35, (tc-0.70)/0.30);
-    drawTruck(ctx, cx, groundY-2, false);
+    drawTruck(ctx, cx, groundY-2, false, isLight);
   }
 
   // Barco
   if(tc >= 0.28 && tc <= 0.72) {
     const bx = lerp(portOX+20, portDX-20, (tc-0.28)/0.44);
-    drawShip(ctx, bx, seaY, t);
+    drawShip(ctx, bx, seaY, t, isLight);
   }
 
   // Bandera de riesgo (sigue al vehículo activo)
   const flagPos = getFlagPos(tc, inc, fabX, portOX, portDX, almX, groundY, seaY);
-  drawFlag(ctx, flagPos.x, flagPos.y, tc < inc.riskPoint, t);
+  drawFlag(ctx, flagPos.x, flagPos.y, tc < inc.riskPoint, t, isLight);
 
   // Línea vertical de transferencia de riesgo
   const riskX = lerp(fabX+35, almX-35, inc.riskPoint);
-  drawRiskLine(ctx, riskX, H*0.1, H*0.85, tc >= inc.riskPoint);
+  drawRiskLine(ctx, riskX, H*0.1, H*0.85, tc >= inc.riskPoint, isLight);
 
   // Halo de riesgo en el punto de transferencia
   if(Math.abs(tc - inc.riskPoint) < 0.04) {
     const pulse = 0.5 + 0.5*Math.sin(t*18);
     ctx.beginPath();
     ctx.arc(riskX, H*0.5, 18+pulse*10, 0, Math.PI*2);
-    ctx.strokeStyle = `rgba(255,200,50,${0.6+pulse*0.4})`;
+    ctx.strokeStyle = isLight ? `rgba(234,88,12,${0.6+pulse*0.4})` : `rgba(255,200,50,${0.6+pulse*0.4})`;
     ctx.lineWidth = 2;
     ctx.stroke();
   }
 
   // Estrellas
-  drawStars(ctx, W, H, t);
+  drawStars(ctx, W, H, t, isLight);
 
   // Etiqueta de etapa
   const etapa = getEtapa(tc, inc);
   document.getElementById('m-etapa').textContent = etapa;
 
   // HUD superior
-  drawHUD(ctx, W, H, tc, inc);
+  drawHUD(ctx, W, H, tc, inc, isLight);
 }
 
 // ── Utilidades de dibujo ──────────────────────────────────
 
 function lerp(a,b,t){ return a+(b-a)*Math.max(0,Math.min(1,t)); }
 
-function drawWaves(ctx,W,H,t){
+function drawWaves(ctx,W,H,t,isLight){
   for(let i=0;i<3;i++){
     ctx.beginPath();
-    ctx.strokeStyle=`rgba(74,127,212,${0.12+i*0.05})`;
+    ctx.strokeStyle = isLight ? `rgba(255,255,255,${0.2+i*0.1})` : `rgba(74,127,212,${0.12+i*0.05})`;
     ctx.lineWidth=1;
     for(let x=0;x<=W;x+=4){
       const y=H*0.60 + Math.sin((x/80)+t*2+i*1.2)*4 + i*5;
@@ -458,7 +475,8 @@ function drawWaves(ctx,W,H,t){
   }
 }
 
-function drawStars(ctx,W,H,t){
+function drawStars(ctx,W,H,t,isLight){
+  if(isLight) return;
   const stars=[[50,20],[120,15],[200,30],[300,10],[400,25],[500,18],[600,12],[700,28],[800,8]];
   stars.forEach(([x,y],i)=>{
     const b=0.4+0.4*Math.sin(t*1.5+i);
@@ -469,91 +487,91 @@ function drawStars(ctx,W,H,t){
   });
 }
 
-function drawFabrica(ctx,x,groundY,H,color,label){
+function drawFabrica(ctx,x,groundY,H,color,label,isLight){
   const w=54,h=70;
   // Edificio principal
-  ctx.fillStyle='#0f1117';
+  ctx.fillStyle = isLight ? '#F3F4F6' : '#0f1117';
   ctx.strokeStyle=color;
   ctx.lineWidth=1.5;
   roundRect(ctx,x-w/2,groundY-h,w,h,4);
   ctx.fill(); ctx.stroke();
   // Ventanas
   for(let r=0;r<3;r++) for(let c=0;c<2;c++){
-    ctx.fillStyle='rgba(74,127,212,0.3)';
+    ctx.fillStyle = isLight ? 'rgba(59,130,246,0.3)' : 'rgba(74,127,212,0.3)';
     roundRect(ctx,x-18+c*22,groundY-h+10+r*20,14,12,2);
     ctx.fill();
   }
   // Chimenea
-  ctx.fillStyle='#1a1f2e'; ctx.strokeStyle=color; ctx.lineWidth=1;
+  ctx.fillStyle = isLight ? '#E5E7EB' : '#1a1f2e'; ctx.strokeStyle=color; ctx.lineWidth=1;
   roundRect(ctx,x+8,groundY-h-18,10,20,2); ctx.fill(); ctx.stroke();
   // Humo
   for(let i=0;i<3;i++){
     ctx.beginPath();
     ctx.arc(x+13,groundY-h-22-i*8,3+i,0,Math.PI*2);
-    ctx.fillStyle=`rgba(100,110,130,${0.3-i*0.08})`;
+    ctx.fillStyle = isLight ? `rgba(156,163,175,${0.4-i*0.1})` : `rgba(100,110,130,${0.3-i*0.08})`;
     ctx.fill();
   }
   // Label
-  ctx.fillStyle='#4a7fd4'; ctx.font='bold 9px Segoe UI';
+  ctx.fillStyle = isLight ? '#2563EB' : '#4a7fd4'; ctx.font='bold 9px Segoe UI';
   ctx.textAlign='center'; ctx.fillText(label,x,groundY+12);
 }
 
-function drawAlmacen(ctx,x,groundY,H,color,label){
+function drawAlmacen(ctx,x,groundY,H,color,label,isLight){
   const w=54,h=55;
-  ctx.fillStyle='#0f1117'; ctx.strokeStyle=color; ctx.lineWidth=1.5;
+  ctx.fillStyle = isLight ? '#F3F4F6' : '#0f1117'; ctx.strokeStyle=color; ctx.lineWidth=1.5;
   roundRect(ctx,x-w/2,groundY-h,w,h,4); ctx.fill(); ctx.stroke();
   // Puerta
-  ctx.fillStyle='rgba(122,79,79,0.4)';
+  ctx.fillStyle = isLight ? 'rgba(239,68,68,0.4)' : 'rgba(122,79,79,0.4)';
   roundRect(ctx,x-8,groundY-22,16,22,2); ctx.fill();
   // Ventanas
   for(let c=0;c<2;c++){
-    ctx.fillStyle='rgba(122,79,79,0.3)';
+    ctx.fillStyle = isLight ? 'rgba(239,68,68,0.3)' : 'rgba(122,79,79,0.3)';
     roundRect(ctx,x-20+c*28,groundY-h+10,12,10,2); ctx.fill();
   }
-  ctx.fillStyle='#7a4f4f'; ctx.font='bold 9px Segoe UI';
+  ctx.fillStyle = isLight ? '#DC2626' : '#7a4f4f'; ctx.font='bold 9px Segoe UI';
   ctx.textAlign='center'; ctx.fillText(label,x,groundY+12);
 }
 
-function drawPuerto(ctx,x,groundY,H,color,label){
+function drawPuerto(ctx,x,groundY,H,color,label,isLight){
   // Grúa
   ctx.strokeStyle=color; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(x,groundY); ctx.lineTo(x,groundY-50); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x,groundY-50); ctx.lineTo(x+28,groundY-50); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(x+28,groundY-50); ctx.lineTo(x+28,groundY-30); ctx.stroke();
   // Cable
-  ctx.strokeStyle='rgba(100,120,150,0.6)'; ctx.lineWidth=1;
+  ctx.strokeStyle = isLight ? 'rgba(107,114,128,0.6)' : 'rgba(100,120,150,0.6)'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(x+28,groundY-30); ctx.lineTo(x+28,groundY-14); ctx.stroke();
   // Base
   ctx.fillStyle=color; roundRect(ctx,x-6,groundY-10,12,10,2); ctx.fill();
   // Label
-  ctx.fillStyle='#6b7280'; ctx.font='9px Segoe UI'; ctx.textAlign='center';
+  ctx.fillStyle = isLight ? '#4B5563' : '#6b7280'; ctx.font='9px Segoe UI'; ctx.textAlign='center';
   label.split('\n').forEach((l,i)=>ctx.fillText(l,x,groundY+12+i*11));
 }
 
-function drawTruck(ctx,x,y,mirror){
+function drawTruck(ctx,x,y,mirror,isLight){
   ctx.save();
   if(mirror){ ctx.translate(x,0); ctx.scale(-1,1); ctx.translate(-x,0); }
   // Cabina
-  ctx.fillStyle='#1e3a5f'; ctx.strokeStyle='#4a7fd4'; ctx.lineWidth=1;
+  ctx.fillStyle = isLight ? '#2563EB' : '#1e3a5f'; ctx.strokeStyle = isLight ? '#1D4ED8' : '#4a7fd4'; ctx.lineWidth=1;
   roundRect(ctx,x-6,y-22,14,18,3); ctx.fill(); ctx.stroke();
   // Parabrisas
-  ctx.fillStyle='rgba(74,127,212,0.4)';
+  ctx.fillStyle = isLight ? 'rgba(255,255,255,0.6)' : 'rgba(74,127,212,0.4)';
   roundRect(ctx,x-4,y-21,10,8,2); ctx.fill();
   // Carga
-  ctx.fillStyle='#172035'; ctx.strokeStyle='#2a4a7f'; ctx.lineWidth=1;
+  ctx.fillStyle = isLight ? '#E5E7EB' : '#172035'; ctx.strokeStyle = isLight ? '#9CA3AF' : '#2a4a7f'; ctx.lineWidth=1;
   roundRect(ctx,x-22,y-19,18,15,2); ctx.fill(); ctx.stroke();
   // Ruedas
   [x-16,x-3,x+5].forEach(wx=>{
     ctx.beginPath(); ctx.arc(wx,y-2,5,0,Math.PI*2);
-    ctx.fillStyle='#0d0d13'; ctx.strokeStyle='#374151'; ctx.lineWidth=1;
+    ctx.fillStyle = isLight ? '#374151' : '#0d0d13'; ctx.strokeStyle = isLight ? '#111827' : '#374151'; ctx.lineWidth=1;
     ctx.fill(); ctx.stroke();
     ctx.beginPath(); ctx.arc(wx,y-2,2,0,Math.PI*2);
-    ctx.fillStyle='#1a1f2e'; ctx.fill();
+    ctx.fillStyle = isLight ? '#9CA3AF' : '#1a1f2e'; ctx.fill();
   });
   ctx.restore();
 }
 
-function drawShip(ctx,x,y,t){
+function drawShip(ctx,x,y,t,isLight){
   const bob = Math.sin(t*2)*2;
   y += bob;
   // Casco
@@ -563,30 +581,30 @@ function drawShip(ctx,x,y,t){
   ctx.lineTo(x+28,y+16);
   ctx.lineTo(x-28,y+16);
   ctx.closePath();
-  ctx.fillStyle='#1e3a5f'; ctx.strokeStyle='#4a7fd4'; ctx.lineWidth=1.5;
+  ctx.fillStyle = isLight ? '#2563EB' : '#1e3a5f'; ctx.strokeStyle = isLight ? '#1D4ED8' : '#4a7fd4'; ctx.lineWidth=1.5;
   ctx.fill(); ctx.stroke();
   // Superestructura
-  ctx.fillStyle='#172035'; ctx.strokeStyle='#2a4a7f'; ctx.lineWidth=1;
+  ctx.fillStyle = isLight ? '#F3F4F6' : '#172035'; ctx.strokeStyle = isLight ? '#D1D5DB' : '#2a4a7f'; ctx.lineWidth=1;
   roundRect(ctx,x-14,y-14,28,20,3); ctx.fill(); ctx.stroke();
   // Chimenea barco
-  ctx.fillStyle='#4a7fd4';
+  ctx.fillStyle = isLight ? '#3B82F6' : '#4a7fd4';
   roundRect(ctx,x-4,y-22,8,10,2); ctx.fill();
   // Ventanas barco
   for(let i=0;i<3;i++){
     ctx.beginPath(); ctx.arc(x-10+i*10,y-6,2.5,0,Math.PI*2);
-    ctx.fillStyle='rgba(74,127,212,0.5)'; ctx.fill();
+    ctx.fillStyle = isLight ? 'rgba(59,130,246,0.5)' : 'rgba(74,127,212,0.5)'; ctx.fill();
   }
   // Contenedor en cubierta
-  ctx.fillStyle='#4a7f6a'; ctx.strokeStyle='#2a5f4a'; ctx.lineWidth=1;
+  ctx.fillStyle = isLight ? '#10B981' : '#4a7f6a'; ctx.strokeStyle = isLight ? '#059669' : '#2a5f4a'; ctx.lineWidth=1;
   roundRect(ctx,x-20,y-2,14,10,1); ctx.fill(); ctx.stroke();
-  ctx.fillStyle='#7a4f4f'; ctx.strokeStyle='#5f2a2a'; ctx.lineWidth=1;
+  ctx.fillStyle = isLight ? '#EF4444' : '#7a4f4f'; ctx.strokeStyle = isLight ? '#DC2626' : '#5f2a2a'; ctx.lineWidth=1;
   roundRect(ctx,x+4,y-2,14,10,1); ctx.fill(); ctx.stroke();
 }
 
-function drawFlag(ctx,x,y,esVendedor,t){
+function drawFlag(ctx,x,y,esVendedor,t,isLight){
   const wave = Math.sin(t*6)*4;
   // Mástil
-  ctx.strokeStyle='#c9d1dc'; ctx.lineWidth=1.5;
+  ctx.strokeStyle = isLight ? '#4B5563' : '#c9d1dc'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y-28); ctx.stroke();
   // Bandera
   ctx.beginPath();
@@ -594,77 +612,77 @@ function drawFlag(ctx,x,y,esVendedor,t){
   ctx.lineTo(x+18+wave,y-22);
   ctx.lineTo(x,y-16);
   ctx.closePath();
-  ctx.fillStyle = esVendedor ? '#4a7fd4' : '#7a4f4f';
+  ctx.fillStyle = esVendedor ? (isLight ? '#2563EB' : '#4a7fd4') : (isLight ? '#DC2626' : '#7a4f4f');
   ctx.fill();
   // Texto en bandera
   ctx.fillStyle='#fff'; ctx.font='bold 6px Segoe UI'; ctx.textAlign='center';
   ctx.fillText(esVendedor?'V':'C', x+8+wave/2, y-21);
 }
 
-function drawRoad(ctx,x1,x2,y,tc,vendedorHasta,segStart,segEnd){
+function drawRoad(ctx,x1,x2,y,tc,vendedorHasta,segStart,segEnd,isLight){
   const prog = Math.max(0,Math.min(1,(tc-segStart)/(segEnd-segStart)));
   const coveredX = lerp(x1,x2,prog);
   const isVendedor = vendedorHasta >= (segStart+segEnd)/2;
   // Recorrido hecho
   ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(coveredX,y);
-  ctx.strokeStyle = isVendedor ? 'rgba(74,127,212,0.7)' : 'rgba(122,79,79,0.7)';
+  ctx.strokeStyle = isVendedor ? (isLight ? 'rgba(37,99,235,0.7)' : 'rgba(74,127,212,0.7)') : (isLight ? 'rgba(220,38,38,0.7)' : 'rgba(122,79,79,0.7)');
   ctx.lineWidth=3; ctx.stroke();
   // Pendiente
   ctx.beginPath(); ctx.moveTo(coveredX,y); ctx.lineTo(x2,y);
-  ctx.strokeStyle='rgba(55,65,81,0.4)'; ctx.lineWidth=3; ctx.stroke();
+  ctx.strokeStyle = isLight ? 'rgba(156,163,175,0.5)' : 'rgba(55,65,81,0.4)'; ctx.lineWidth=3; ctx.stroke();
 }
 
-function drawSeaRoute(ctx,x1,x2,y,tc,vendedorHasta,segStart,segEnd){
+function drawSeaRoute(ctx,x1,x2,y,tc,vendedorHasta,segStart,segEnd,isLight){
   const prog = Math.max(0,Math.min(1,(tc-segStart)/(segEnd-segStart)));
   const coveredX = lerp(x1,x2,prog);
   const midSeg = (segStart+segEnd)/2;
   const isVendedor = vendedorHasta >= midSeg;
   ctx.setLineDash([6,4]);
   ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(coveredX,y);
-  ctx.strokeStyle = isVendedor ? 'rgba(74,127,212,0.5)' : 'rgba(122,79,79,0.5)';
+  ctx.strokeStyle = isVendedor ? (isLight ? 'rgba(37,99,235,0.5)' : 'rgba(74,127,212,0.5)') : (isLight ? 'rgba(220,38,38,0.5)' : 'rgba(122,79,79,0.5)');
   ctx.lineWidth=2; ctx.stroke();
   ctx.beginPath(); ctx.moveTo(coveredX,y); ctx.lineTo(x2,y);
-  ctx.strokeStyle='rgba(55,65,81,0.25)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle = isLight ? 'rgba(156,163,175,0.5)' : 'rgba(55,65,81,0.25)'; ctx.lineWidth=2; ctx.stroke();
   ctx.setLineDash([]);
 }
 
-function drawRiskLine(ctx,x,y1,y2,passed){
+function drawRiskLine(ctx,x,y1,y2,passed,isLight){
   ctx.save();
-  ctx.strokeStyle = passed ? 'rgba(122,79,79,0.5)' : 'rgba(255,200,50,0.7)';
+  ctx.strokeStyle = passed ? (isLight ? 'rgba(220,38,38,0.5)' : 'rgba(122,79,79,0.5)') : (isLight ? 'rgba(234,88,12,0.7)' : 'rgba(255,200,50,0.7)');
   ctx.lineWidth=1.5; ctx.setLineDash([4,4]);
   ctx.beginPath(); ctx.moveTo(x,y1); ctx.lineTo(x,y2); ctx.stroke();
   ctx.setLineDash([]);
   // Etiqueta
-  ctx.fillStyle = passed ? 'rgba(122,79,79,0.8)' : 'rgba(255,200,50,0.9)';
+  ctx.fillStyle = passed ? (isLight ? 'rgba(220,38,38,0.8)' : 'rgba(122,79,79,0.8)') : (isLight ? 'rgba(234,88,12,0.9)' : 'rgba(255,200,50,0.9)');
   ctx.font='bold 8px Segoe UI'; ctx.textAlign='center';
   ctx.fillText('⚡ RIESGO', x, y1-4);
   ctx.restore();
 }
 
-function drawHUD(ctx,W,H,tc,inc){
+function drawHUD(ctx,W,H,tc,inc,isLight){
   // Barra de progreso total
   const bw=W*0.6, bx=(W-bw)/2, by=H-18;
-  ctx.fillStyle='rgba(26,31,46,0.8)';
+  ctx.fillStyle = isLight ? 'rgba(255,255,255,0.9)' : 'rgba(26,31,46,0.8)';
   roundRect(ctx,bx-6,by-6,bw+12,16,4); ctx.fill();
   // Fondo
-  ctx.fillStyle='#1a1f2e';
+  ctx.fillStyle = isLight ? '#E5E7EB' : '#1a1f2e';
   roundRect(ctx,bx,by,bw,6,3); ctx.fill();
   // Vendedor
   const vEnd = Math.min(tc, inc.vendedorHasta);
-  ctx.fillStyle='#4a7fd4';
+  ctx.fillStyle = isLight ? '#2563EB' : '#4a7fd4';
   roundRect(ctx,bx,by,bw*vEnd,6,3); ctx.fill();
   // Comprador (después del riskPoint)
   if(tc > inc.riskPoint){
-    ctx.fillStyle='#7a4f4f';
+    ctx.fillStyle = isLight ? '#DC2626' : '#7a4f4f';
     roundRect(ctx,bx+bw*inc.riskPoint,by,bw*(tc-inc.riskPoint),6,3); ctx.fill();
   }
   // Marcador de riesgo
-  ctx.fillStyle='#fbbf24';
+  ctx.fillStyle = isLight ? '#EA580C' : '#fbbf24';
   roundRect(ctx,bx+bw*inc.riskPoint-1,by-2,2,10,1); ctx.fill();
   // Labels HUD
-  ctx.fillStyle='#4a7fd4'; ctx.font='bold 8px Segoe UI'; ctx.textAlign='left';
+  ctx.fillStyle = isLight ? '#2563EB' : '#4a7fd4'; ctx.font='bold 8px Segoe UI'; ctx.textAlign='left';
   ctx.fillText('Vendedor',bx,by-8);
-  ctx.fillStyle='#7a4f4f'; ctx.textAlign='right';
+  ctx.fillStyle = isLight ? '#DC2626' : '#7a4f4f'; ctx.textAlign='right';
   ctx.fillText('Comprador',bx+bw,by-8);
 }
 

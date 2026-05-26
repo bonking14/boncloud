@@ -214,8 +214,8 @@ function renderGrid() {
 
 function abrirModal(sp) {
   const vb = sp.vistoBueno.length > 0
-    ? sp.vistoBueno.map(v => `<span class="modal-tag">⚠️ ${v}</span>`).join('')
-    : '<span class="modal-tag">✅ Sin vistos buenos especiales</span>';
+    ? sp.vistoBueno.map(v => `<span class="modal-tag">${v}</span>`).join('')
+    : '<span class="modal-tag">Sin vistos buenos especiales</span>';
 
   const docs = sp.documentos.map(d => `<div class="modal-req">${d}</div>`).join('');
 

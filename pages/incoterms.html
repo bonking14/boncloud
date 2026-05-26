@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
-<link rel="stylesheet" href="../css/styles.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonCloud — Incoterms 2020</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Hojas de estilo del tema dinámico -->
+    <link rel="stylesheet" href="../css/theme.css">
+</head>
 <body>
 
   <div class="sidebar">
     <div class="sidebar-brand"><h2>BonCloud</h2></div>
     <nav>
-      <a href="dashboard.html" class="nav-item">🏠 Inicio</a>
-<a href="importacion.html" class="nav-item">📦 Importación</a>
-<a href="exportacion.html" class="nav-item">🚢 Exportación</a>
-<a href="vistos-buenos.html" class="nav-item">✅ Vistos Buenos</a>
-<a href="incoterms.html" class="nav-item active">🌍 Incoterms</a>
-<a href="subpartidas.html" class="nav-item">🔢 Subpartidas</a>
+      <a href="dashboard.html" class="nav-item">Inicio</a>
+      <a href="importacion.html" class="nav-item">Importación</a>
+      <a href="exportacion.html" class="nav-item">Exportación</a>
+      <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
+      <a href="incoterms.html" class="nav-item active">Incoterms</a>
+      <a href="subpartidas.html" class="nav-item">Subpartidas</a>
+        <a href="formularios.html" class="nav-item">Formularios</a>
     </nav>
     <div class="sidebar-footer">
       <span id="nombre-usuario"></span>
@@ -61,7 +69,9 @@
 
   </div>
 
+  <!-- Scripts base, lógica de incoterms y del tema -->
   <script src="../js/dashboard.js"></script>
   <script src="../js/incoterms.js"></script>
+  <script src="../js/theme.js"></script>
 </body>
 </html>
