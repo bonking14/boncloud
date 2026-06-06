@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario 600 - Declaración de Exportación (DEX)</title>
+<style>
+/* CSS Styles */
+:root {
+  --color-primary: #1a3a6b;
+  --bg-color: #ffffff;
+  --border-color: #000000;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 794px;
+  justify-content: space-between;
+}
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.nav-btn.back-btn {
+  background-color: #666;
+}
+.form-container {
+  background: white;
+  width: 794px;
+  box-sizing: border-box;
+  padding: 8mm;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+.header {
+  display: flex;
+  height: 60px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 5px;
+}
+.logo-dian {
+  width: 150px;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+.logo-dian span:first-child { font-size: 24px; }
+.logo-dian span:last-child { font-size: 6px; }
+.title-center {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+.title-center h1 { margin: 0; font-size: 14px; text-transform: uppercase; }
+.title-center h2 { margin: 0; font-size: 10px; font-weight: normal; }
+.form-num {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+.sub-header {
+  display: flex;
+  border: 1px solid var(--border-color);
+  margin-bottom: 5px;
+  font-size: 8px;
+}
+.sub-header > div {
+  padding: 2px 5px;
+  border-right: 1px solid var(--border-color);
+}
+.sub-header > div:last-child { border-right: none; }
+.cell {
+  border-right: 1px solid var(--border-color);
+  padding: 2px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.cell:last-child { border-right: none; }
+.cell-num {
+  font-size: 6px;
+  color: #333;
+  position: absolute;
+  top: 1px;
+  left: 2px;
+}
+.cell-label {
+  font-size: 7px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: #000;
+  text-align: center;
+  font-weight: bold;
+}
+.cell input, .cell select {
+  border: none;
+  width: 100%;
+  font-size: 9px;
+  font-family: Arial;
+  outline: none;
+  box-sizing: border-box;
+  background: transparent;
+  color: #000;
+  text-align: center;
+}
+.cell input.error {
+  border: 1px solid red;
+  background-color: #ffe6e6;
+}
+.cell input[readonly] {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+.section-title {
+  background-color: var(--color-primary);
+  color: white;
+  text-align: center;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  margin-top: 5px;
+}
+.row {
+  display: flex;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+.flex-3 { flex: 3; }
+.flex-4 { flex: 4; }
+.flex-5 { flex: 5; }
+
+@media print {
+  body {
+    background-color: white;
+    padding: 0;
+    align-items: flex-start;
+  }
+  .nav-bar {
+    display: none;
+  }
+  .form-container {
+    box-shadow: none;
+    margin: 0;
+    padding: 8mm;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
+</style>
+
+<style>
+.nav-bar-container {
+  width: 794px;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+}
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #1a3a6b;
+  font-family: sans-serif;
+}
+.dashboard-header p {
+  margin: 5px 0 20px 0;
+  color: #666;
+  font-size: 14px;
+}
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editor-actions {
+  display: flex;
+  gap: 10px;
+}
+.btn-card {
+  padding: 8px 16px;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #3730a3;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-card:hover {
+  background: #e0e7ff;
+}
+@media print {
+  .nav-bar-container {
+    display: none;
+  }
+}
+</style>
+
+
+<style>
+.hdr-dian {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  border: 1px solid #1a3a6b;
+  background: #fff;
+  margin-bottom: 5px;
+}
+.dian-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6px 8px;
+  border-right: 1px solid #1a3a6b;
+  width: 80px;
+}
+.dian-logo-box {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2db0d6;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+  font-family: Arial, sans-serif;
+}
+.dian-logo-box span {
+  font-weight: 700;
+  color: #6bb96a;
+  font-size: 14px;
+}
+.dian-sub {
+  font-size: 5.5px;
+  color: #333;
+  line-height: 1.1;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+}
+.hdr-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hdr-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  color: #000;
+  padding: 6px 8px 4px;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.nota-lea {
+  font-size: 7px;
+  color: #000;
+  text-align: center;
+  padding: 3px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+}
+.big-num {
+  font-size: 48px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 0.9;
+  background: #5078b5;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #1a3a6b;
+  font-family: Arial, sans-serif;
+}
+.cl {
+  font-size: 7.5px;
+  color: #1a3a6b;
+  line-height: 1.3;
+  display: block;
+  margin-bottom: 1px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+}
+.cl-num {
+  font-size: 7px;
+  color: #1a3a6b;
+  font-style: normal;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+.hdr-input {
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  color: #000;
+  padding: 1px 2px;
+  outline: none;
+}
+.hdr-input:focus {
+  background: #ffffcc;
+  border-bottom-color: #1a3a6b;
+}
+</style>
+
+</head>
+<body>
+
+<div id="form-600" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Declaración de Exportación</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">600</div>
+      </div>
+
+  <div class="section-title">EXPORTADOR</div>
+  <div class="row">
+    <div class="cell flex-2">
+      <span class="cell-num">5</span><span class="cell-label">NIT</span>
+      <input type="text" id="exp_nit" oninput="calculateDV(this.value, 'exp_dv')">
+    </div>
+    <div class="cell" style="width: 30px;">
+      <span class="cell-num">6</span><span class="cell-label">DV</span>
+      <input type="text" id="exp_dv" readonly>
+    </div>
+    <div class="cell flex-2">
+      <span class="cell-num">7</span><span class="cell-label">Primer Apellido</span>
+      <input type="text">
+    </div>
+    <div class="cell flex-2">
+      <span class="cell-num">8</span><span class="cell-label">Segundo Apellido</span>
+      <input type="text">
+    </div>
+    <div class="cell flex-2">
+      <span class="cell-num">9</span><span class="cell-label">Primer Nombre</span>
+      <input type="text">
+    </div>
+    <div class="cell flex-2">
+      <span class="cell-num">10</span><span class="cell-label">Otros Nombres</span>
+      <input type="text">
+    </div>
+  </div>
+  <div class="row">
+    <div class="cell flex-4">
+      <span class="cell-num">11</span><span class="cell-label">Razón Social</span>
+      <input type="text" id="exp_razon">
+    </div>
+    <div class="cell flex-1">
+      <span class="cell-num">12</span><span class="cell-label">Cód. Dirección Seccional</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">DECLARANTE</div>
+  <div class="row">
+    <div class="cell flex-2">
+      <span class="cell-num">24</span><span class="cell-label">NIT</span>
+      <input type="text" oninput="calculateDV(this.value, 'dec_dv')">
+    </div>
+    <div class="cell" style="width: 30px;">
+      <span class="cell-num">25</span><span class="cell-label">DV</span>
+      <input type="text" id="dec_dv" readonly>
+    </div>
+    <div class="cell flex-5">
+      <span class="cell-num">26</span><span class="cell-label">Razón Social</span>
+      <input type="text">
+    </div>
+    <div class="cell flex-1">
+      <span class="cell-num">27</span><span class="cell-label">Tipo Usuario</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">DATOS GENERALES DE LA EXPORTACIÓN</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">30</span><span class="cell-label">Cód. Administración</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">31</span><span class="cell-label">Año Autorización</span><input type="text" placeholder="AAAA"></div>
+    <div class="cell flex-2"><span class="cell-num">32</span><span class="cell-label">No. Autorización</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">33</span><span class="cell-label">Fecha Modificación</span><input type="text" placeholder="AAAA-MM-DD"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">34</span><span class="cell-label">Modalidad Exportación</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">35</span><span class="cell-label">Clase Exportación</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">36</span><span class="cell-label">Datos Anteriores</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">37</span><span class="cell-label">Cód. Vía Transporte</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">38</span><span class="cell-label">Cód. País Destino</span><input type="text" id="pais_destino"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-2"><span class="cell-num">40</span><span class="cell-label">Datos del Documento de Transporte</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">41</span><span class="cell-label">Fecha Doc. Transporte</span><input type="text" placeholder="AAAA-MM-DD"></div>
+    <div class="cell flex-1"><span class="cell-num">42</span><span class="cell-label">Cód. Unidad Medida</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">43</span><span class="cell-label">Cantidad Carga</span><input type="number"></div>
+  </div>
+
+  <div class="section-title">COMPRADOR O DESTINATARIO</div>
+  <div class="row">
+    <div class="cell flex-2"><span class="cell-num">13</span><span class="cell-label">NIT / Identificación</span><input type="text" id="comp_nit"></div>
+    <div class="cell flex-2"><span class="cell-num">14</span><span class="cell-label">Primer Apellido</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">15</span><span class="cell-label">Segundo Apellido</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">16</span><span class="cell-label">Primer Nombre</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">17</span><span class="cell-label">Otros Nombres</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-4"><span class="cell-num">18</span><span class="cell-label">Razón Social del Comprador</span><input type="text" id="comp_razon"></div>
+    <div class="cell flex-1"><span class="cell-num">19</span><span class="cell-label">Cód. País</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">20</span><span class="cell-label">Ciudad</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-4"><span class="cell-num">21</span><span class="cell-label">Dirección del Comprador</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">22</span><span class="cell-label">Teléfono</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">23</span><span class="cell-label">Correo Electrónico</span><input type="text"></div>
+  </div>
+
+  <div class="section-title">FACTURA COMERCIAL Y CONDICIONES</div>
+  <div class="row">
+    <div class="cell flex-2"><span class="cell-num">39</span><span class="cell-label">No. Factura Comercial</span><input type="text" id="factura_num"></div>
+    <div class="cell flex-1"><span class="cell-num">39a</span><span class="cell-label">Fecha Factura</span><input type="text" placeholder="AAAA-MM-DD"></div>
+    <div class="cell flex-1"><span class="cell-num">39b</span><span class="cell-label">Cód. Moneda</span>
+      <select style="border:none;width:100%;font-size:9px;text-align:center;outline:none;background:transparent;">
+        <option value="">-</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="COP">COP</option><option value="GBP">GBP</option>
+      </select>
+    </div>
+    <div class="cell flex-1"><span class="cell-num">39c</span><span class="cell-label">Incoterm</span>
+      <select style="border:none;width:100%;font-size:9px;text-align:center;outline:none;background:transparent;">
+        <option value="">-</option><option>EXW</option><option>FCA</option><option>FAS</option><option>FOB</option><option>CFR</option><option>CIF</option><option>CPT</option><option>CIP</option><option>DAP</option><option>DDP</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-title">DESCRIPCIÓN DE MERCANCÍAS</div>
+  <table style="width:100%; border-collapse:collapse; border:1px solid var(--border-color); margin-bottom:0;">
+    <thead>
+      <tr style="background-color: var(--color-primary); color: white; font-size: 7px; text-align: center;">
+        <th style="border:1px solid var(--border-color); padding:3px; width:25px;">Ítem</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:80px;">Subpartida Arancelaria</th>
+        <th style="border:1px solid var(--border-color); padding:3px;">Descripción de la Mercancía</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:55px;">Cantidad</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:40px;">Unidad</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:65px;">Peso Neto (Kg)</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:80px;">Valor FOB Unit. (USD)</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:80px;">Valor FOB Total (USD)</th>
+      </tr>
+    </thead>
+    <tbody id="mercancias-body">
+      <tr>
+        <td style="border:1px solid var(--border-color); text-align:center; font-size:8px; padding:2px;">1</td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-qty calc-trigger" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="KG"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-unit calc-trigger" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-total" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;font-weight:bold;" readonly></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--border-color); text-align:center; font-size:8px; padding:2px;">2</td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-qty calc-trigger" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="KG"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-unit calc-trigger" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-total" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;font-weight:bold;" readonly></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--border-color); text-align:center; font-size:8px; padding:2px;">3</td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-qty calc-trigger" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="KG"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-unit calc-trigger" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-total" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;font-weight:bold;" readonly></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--border-color); text-align:center; font-size:8px; padding:2px;">4</td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-qty calc-trigger" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="KG"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-unit calc-trigger" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-total" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;font-weight:bold;" readonly></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--border-color); text-align:center; font-size:8px; padding:2px;">5</td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-qty calc-trigger" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="KG"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-unit calc-trigger" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0"></td>
+        <td style="border:1px solid var(--border-color); padding:1px;"><input type="number" class="item-fob-total" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;font-weight:bold;" readonly></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">TOTALES</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">44</span><span class="cell-label">Total Peso Bruto (Kgs)</span><input type="number" step="0.01"></div>
+    <div class="cell flex-1"><span class="cell-num">45</span><span class="cell-label">Total Peso Neto (Kgs)</span><input type="number" step="0.01"></div>
+    <div class="cell flex-1"><span class="cell-num">46</span><span class="cell-label">Total Series Carga</span><input type="number"></div>
+  </div>
+  <div class="row" style="background-color: #fcfcfc;">
+    <div class="cell flex-1"><span class="cell-num">47</span><span class="cell-label">Valor Total FOB (USD)</span><input type="number" id="t_fob" class="calc-trigger" value="0"></div>
+    <div class="cell flex-1"><span class="cell-num">48</span><span class="cell-label">Valor Fletes (USD)</span><input type="number" id="t_fletes" class="calc-trigger" value="0"></div>
+    <div class="cell flex-1"><span class="cell-num">49</span><span class="cell-label">Valor Seguros (USD)</span><input type="number" id="t_seguros" class="calc-trigger" value="0"></div>
+    <div class="cell flex-1"><span class="cell-num">50</span><span class="cell-label">Otros Gastos (USD)</span><input type="number" id="t_otros" class="calc-trigger" value="0"></div>
+    <div class="cell flex-1" style="border-left: 2px solid var(--color-primary);"><span class="cell-num">51</span><span class="cell-label" style="color: var(--color-primary);">Valor Total Agregado (USD)</span><input type="number" id="t_agregado" readonly style="font-weight: bold;"></div>
+  </div>
+  
+  <div class="section-title" style="margin-top: 10px;">DATOS DE ACEPTACIÓN / CERTIFICADO DE EMBARQUE (Exclusivo DIAN)</div>
+  <div class="row">
+    <div class="cell flex-1" style="height: 60px;">
+      <span class="cell-num">52</span><span class="cell-label">Fecha Aceptación DEX</span>
+    </div>
+    <div class="cell flex-1">
+      <span class="cell-num">53</span><span class="cell-label">Número de Aceptación DEX</span>
+    </div>
+    <div class="cell flex-1">
+      <span class="cell-num">54</span><span class="cell-label">Fecha Autorización de Embarque</span>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 5px; margin-top: 10px; height: 120px;">
+    <div style="flex: 1; border: 1px solid var(--border-color); position:relative; padding:5px; font-size:7px; line-height:1.2;">
+      Declaro bajo la gravedad de juramento que los datos aquí consignados son correctos, no incluyen omisiones o falsedades y que el producto exportado cumple con todos los requisitos legales vigentes correspondientes.
+      <div style="position:absolute; bottom: 5px; left: 5px; right: 5px;">
+        <div style="border-bottom: 1px solid var(--border-color); height: 30px;"></div>
+        <div style="font-size:8px; margin-top:2px; font-weight:bold;">Firma del Declarante</div>
+      </div>
+    </div>
+    <div style="flex: 1; border: 1px solid var(--border-color); position:relative; padding:5px; font-size:7px;">
+      Espacio exclusivo para sello y firma del Funcionario Aduanero.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function calculateDV(nit, dvId) {
+    let dv = 0;
+    if(nit) {
+        let cleanNit = nit.replace(/[^0-9]/g, '').substring(0, 10);
+        const pesos = [71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3];
+        let suma = 0;
+        let strNit = cleanNit.padStart(15, '0');
+        for (let i = 0; i < 15; i++) {
+            suma += parseInt(strNit[i]) * pesos[i];
+        }
+        let residuo = suma % 11;
+        if (residuo === 0) dv = 0;
+        else if (residuo === 1) dv = 1;
+        else dv = 11 - residuo;
+    } else {
+        dv = '';
+    }
+    const el = document.getElementById(dvId);
+    if(el) el.value = dv;
+  }
+
+  function performCalculations() {
+    const getVal = id => parseFloat(document.getElementById(id).value) || 0;
+    const setVal = (id, val) => document.getElementById(id).value = val.toFixed(2);
+
+    // Calculate per-row FOB totals (qty × unit price)
+    const rows = document.querySelectorAll('#mercancias-body tr');
+    let sumFob = 0;
+    rows.forEach(row => {
+      const qty = parseFloat(row.querySelector('.item-qty')?.value) || 0;
+      const unit = parseFloat(row.querySelector('.item-fob-unit')?.value) || 0;
+      const totalCell = row.querySelector('.item-fob-total');
+      const lineTotal = qty * unit;
+      if (totalCell) totalCell.value = lineTotal ? lineTotal.toFixed(2) : '';
+      sumFob += lineTotal;
+    });
+
+    // Auto-fill Total FOB from merchandise lines (if items have values)
+    if (sumFob > 0) {
+      document.getElementById('t_fob').value = sumFob.toFixed(2);
+    }
+
+    const fob = getVal('t_fob');
+    const fletes = getVal('t_fletes');
+    const seguros = getVal('t_seguros');
+    const otros = getVal('t_otros');
+    
+    // Valor total agregado USD
+    const agregado = fob + fletes + seguros + otros;
+    setVal('t_agregado', agregado);
+  }
+
+  document.querySelectorAll('.calc-trigger').forEach(input => {
+    input.addEventListener('input', performCalculations);
+  });
+
+  function validateAndPrint() {
+    const required = [
+      {id: 'exp_nit', name: 'NIT del Exportador'},
+      {id: 'exp_razon', name: 'Razón Social del Exportador'},
+      {id: 'pais_destino', name: 'País de Destino (Casilla 38)'},
+      {id: 'factura_num', name: 'No. Factura Comercial (Casilla 39)'}
+    ];
+    let hasError = false;
+    let errorMsg = "Faltan campos obligatorios:\n";
+    required.forEach(field => {
+      const el = document.getElementById(field.id);
+      if(!el.value.trim()) {
+        el.classList.add('error');
+        hasError = true;
+        errorMsg += "- " + field.name + "\n";
+      } else {
+        el.classList.remove('error');
+      }
+    });
+
+    if(hasError) {
+      alert(errorMsg);
+    } else {
+      window.print();
+    }
+  }
+
+  // Init
+  performCalculations();
+</script>
+</body>
+</html>

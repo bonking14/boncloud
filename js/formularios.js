@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Botón de Limpieza Rápida
     document.getElementById('btn-limpiar').addEventListener('click', () => {
+        const iframe = document.getElementById('form-iframe');
+        if (iframe) {
+            iframe.contentWindow.location.reload();
+            return;
+        }
         const inputs = document.querySelectorAll('#form-render-area input:not([readonly])');
         inputs.forEach(input => input.value = '');
         // Disparar cálculos automáticos para resetear a 0
@@ -40,6 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Exportar PDF
     document.getElementById('btn-descargar').addEventListener('click', () => {
+        const iframe = document.getElementById('form-iframe');
+        if (iframe) {
+            if (iframe.contentWindow && iframe.contentWindow.validateAndPrint) {
+                iframe.contentWindow.validateAndPrint();
+            } else {
+                iframe.contentWindow.print();
+            }
+            return;
+        }
         const element = document.getElementById('form-render-area');
         const opt = {
             margin:       0.5,
@@ -77,6 +91,18 @@ function openFormEditor(id) {
     document.getElementById('vista-dashboard').style.display = 'none';
     document.getElementById('vista-editor').style.display = 'block';
     const renderArea = document.getElementById('form-render-area');
+    
+    if (["001", "500", "600", "DTA"].includes(id)) {
+        let file = "";
+        if (id === "001") file = "form-001-rut.html";
+        if (id === "500") file = "form-500-importacion.html";
+        if (id === "600") file = "form-600-exportacion.html";
+        if (id === "DTA") file = "form-dta-transito.html";
+        
+        renderArea.innerHTML = `<iframe id="form-iframe" src="formularios/${file}" style="width:100%; height:1200px; border:none; background:transparent; overflow:hidden;"></iframe>`;
+        return;
+    }
+
     
     if (id === "500") {
         renderArea.innerHTML = getForm500HTML();

@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario 001 - RUT</title>
+<style>
+/* CSS Styles */
+:root {
+  --color-primary: #1a3a6b;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.nav-btn.active {
+  background-color: var(--color-primary);
+  color: white;
+}
+.form-container {
+  background: white;
+  width: 794px;
+  height: 1123px;
+  box-sizing: border-box;
+  padding: 8mm;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  position: relative;
+  display: none;
+}
+.form-container.active {
+  display: block;
+}
+.header {
+  display: flex;
+  height: 60px;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+}
+.logo-dian {
+  width: 150px;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+.logo-dian span:first-child { font-size: 24px; }
+.logo-dian span:last-child { font-size: 6px; }
+.title-center {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+.title-center h1 { margin: 0; font-size: 14px; }
+.title-center h2 { margin: 0; font-size: 10px; font-weight: normal; }
+.form-num {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+.sub-header {
+  display: flex;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+  font-size: 8px;
+}
+.sub-header > div {
+  padding: 2px 5px;
+  border-right: 1px solid #000;
+}
+.sub-header > div:last-child { border-right: none; }
+.ident-row {
+  display: flex;
+  border: 1px solid #000;
+  margin-bottom: 5px;
+}
+.cell {
+  border-right: 1px solid #000;
+  padding: 2px;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.cell:last-child { border-right: none; }
+.cell-num {
+  font-size: 6px;
+  color: #333;
+  position: absolute;
+  top: 1px;
+  left: 2px;
+}
+.cell-label {
+  font-size: 7px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: #555;
+  text-align: center;
+}
+.cell input, .cell select {
+  border: none;
+  width: 100%;
+  font-size: 8px;
+  font-family: Arial;
+  outline: none;
+  box-sizing: border-box;
+  background: transparent;
+  color: #000;
+}
+.cell input.error {
+  border: 1px solid red;
+}
+.section-title {
+  background-color: var(--color-primary);
+  color: white;
+  text-align: center;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 2px;
+  border: 1px solid #000;
+  margin-top: 5px;
+}
+.row {
+  display: flex;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+.grid-26 {
+  display: grid;
+  grid-template-columns: repeat(26, 1fr);
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+.grid-cell {
+  border-right: 1px solid #000;
+  text-align: center;
+  font-size: 6px;
+  padding: 2px 0;
+}
+.grid-cell:last-child { border-right: none; }
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+.flex-3 { flex: 3; }
+.flex-4 { flex: 4; }
+.flex-5 { flex: 5; }
+
+table.dian-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+}
+table.dian-table th, table.dian-table td {
+  border: 1px solid #000;
+  padding: 2px;
+  font-size: 8px;
+}
+table.dian-table th {
+  background-color: transparent;
+  text-align: center;
+}
+table.dian-table input {
+  border: none;
+  width: 100%;
+  font-size: 8px;
+  font-family: Arial;
+  outline: none;
+  background: transparent;
+}
+
+@media print {
+  body {
+    background-color: white;
+    padding: 0;
+    align-items: flex-start;
+  }
+  .nav-bar {
+    display: none;
+  }
+  .form-container {
+    display: block !important;
+    box-shadow: none;
+    margin: 0;
+    padding: 8mm;
+    page-break-after: always;
+  }
+  .form-container:last-child {
+    page-break-after: auto;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
+</style>
+
+<style>
+.nav-bar-container {
+  width: 794px;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+}
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #1a3a6b;
+  font-family: sans-serif;
+}
+.dashboard-header p {
+  margin: 5px 0 20px 0;
+  color: #666;
+  font-size: 14px;
+}
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.editor-actions {
+  display: flex;
+  gap: 10px;
+}
+.btn-card {
+  padding: 8px 16px;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #3730a3;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-card:hover {
+  background: #e0e7ff;
+}
+@media print {
+  .nav-bar-container {
+    display: none;
+  }
+}
+</style>
+
+
+<style>
+.hdr-dian {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  border: 1px solid #1a3a6b;
+  background: #fff;
+  margin-bottom: 5px;
+}
+.dian-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6px 8px;
+  border-right: 1px solid #1a3a6b;
+  width: 80px;
+}
+.dian-logo-box {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2db0d6;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+  font-family: Arial, sans-serif;
+}
+.dian-logo-box span {
+  font-weight: 700;
+  color: #6bb96a;
+  font-size: 14px;
+}
+.dian-sub {
+  font-size: 5.5px;
+  color: #333;
+  line-height: 1.1;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+}
+.hdr-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hdr-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  color: #000;
+  padding: 6px 8px 4px;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.nota-lea {
+  font-size: 7px;
+  color: #000;
+  text-align: center;
+  padding: 3px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+}
+.big-num {
+  font-size: 48px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 0.9;
+  background: #5078b5;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #1a3a6b;
+  font-family: Arial, sans-serif;
+}
+.cl {
+  font-size: 7.5px;
+  color: #1a3a6b;
+  line-height: 1.3;
+  display: block;
+  margin-bottom: 1px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+}
+.cl-num {
+  font-size: 7px;
+  color: #1a3a6b;
+  font-style: normal;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+.hdr-input {
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  color: #000;
+  padding: 1px 2px;
+  outline: none;
+}
+.hdr-input:focus {
+  background: #ffffcc;
+  border-bottom-color: #1a3a6b;
+}
+</style>
+
+</head>
+<body>
+
+  <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+      <button class="nav-btn active" onclick="showSheet(1)">Hoja 1</button>
+  <button class="nav-btn" onclick="showSheet(2)">Hoja 2</button>
+  <button class="nav-btn" onclick="showSheet(3)">Hoja 3</button>
+  <button class="nav-btn" onclick="showSheet(4)">Hoja 4</button>
+  <button class="nav-btn" onclick="showSheet(5)">Hoja 5</button>
+  <button class="nav-btn" onclick="showSheet(6)">Hoja 6</button>
+  <button class="nav-btn" onclick="showSheet(7)">Hoja 7</button>
+  </div>
+
+
+<div id="sheet1" class="form-container active">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_1" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_1" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="row" style="margin-bottom: 5px;">
+    <div class="cell" style="width: 80px;"><span class="cell-num">2</span><span class="cell-label">Concepto</span><input type="text" style="text-align:center;"></div>
+    <div class="cell flex-1" style="font-size: 7px; justify-content: center; align-items: flex-start; padding: 4px; color: #555; line-height: 1.3;">
+      1-Inscripción &nbsp; 2-Actualización &nbsp; 3-Suspensión &nbsp; 4-Cancelación
+    </div>
+  </div>
+
+  <div class="section-title">IDENTIFICACIÓN</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">24</span><span class="cell-label">Tipo contribuyente</span><input type="text" id="tipo_contribuyente"></div>
+    <div class="cell flex-1"><span class="cell-num">25</span><span class="cell-label">Tipo documento</span><input type="text" id="tipo_doc"></div>
+    <div class="cell flex-2"><span class="cell-num">26</span><span class="cell-label">Número de Identificación</span><input type="text" id="num_id"></div>
+    <div class="cell flex-1"><span class="cell-num">27</span><span class="cell-label">Fecha expedición</span><input type="text" placeholder="DD/MM/AAAA"></div>
+  </div>
+  <div class="row">
+    <div class="cell" style="width: 100px; justify-content:center; align-items:center; font-size:8px; text-align:center;">Lugar de expedición</div>
+    <div class="cell flex-1"><span class="cell-num">28</span><span class="cell-label">País</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">29</span><span class="cell-label">Departamento</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">30</span><span class="cell-label">Ciudad/Municipio</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">31</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">32</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">33</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">34</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">35</span><span class="cell-label">Razón social</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-2"><span class="cell-num">36</span><span class="cell-label">Nombre comercial</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">37</span><span class="cell-label">Sigla</span><input type="text"></div>
+  </div>
+
+  <div class="section-title">UBICACIÓN</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">38</span><span class="cell-label">País</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">39</span><span class="cell-label">Departamento</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">40</span><span class="cell-label">Ciudad/Municipio</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">41</span><span class="cell-label">Dirección principal</span><input type="text" id="dir_principal"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-2"><span class="cell-num">42</span><span class="cell-label">Correo electrónico</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">43</span><span class="cell-label">Código postal</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">44</span><span class="cell-label">Teléfono 1</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">45</span><span class="cell-label">Teléfono 2</span><input type="text"></div>
+  </div>
+
+  <div class="section-title">CLASIFICACIÓN</div>
+  <div class="row">
+    <div class="cell" style="width:100px; justify-content:center; align-items:center; font-size:7px; text-align:center;">Actividad principal</div>
+    <div class="cell flex-1"><span class="cell-num">46</span><span class="cell-label">Código</span><input type="text" id="act_principal"></div>
+    <div class="cell flex-1"><span class="cell-num">47</span><span class="cell-label">Fecha inicio actividad</span><input type="text" placeholder="DD/MM/AAAA"></div>
+    <div class="cell" style="width:100px; justify-content:center; align-items:center; font-size:7px; text-align:center;">Actividad secundaria</div>
+    <div class="cell flex-1"><span class="cell-num">48</span><span class="cell-label">Código</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">49</span><span class="cell-label">Fecha inicio actividad</span><input type="text" placeholder="DD/MM/AAAA"></div>
+  </div>
+  <div class="row">
+    <div class="cell" style="width:100px; justify-content:center; align-items:center; font-size:7px;">Otras actividades</div>
+    <div class="cell flex-1"><span class="cell-num">50</span><span class="cell-label">Código 1</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-label">Código 2</span><input type="text"></div>
+    <div class="cell" style="width:100px; justify-content:center; align-items:center; font-size:7px;">Ocupación</div>
+    <div class="cell flex-1"><span class="cell-num">51</span><span class="cell-label">Código</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">52</span><span class="cell-label">Número establecimientos</span><input type="text"></div>
+  </div>
+
+  <div style="border: 1px solid #000; margin-top: 5px;">
+    <div style="font-size:8px; padding: 2px;">Responsabilidades, Calidades y Atributos</div>
+    <div style="display:flex;">
+      <div style="width:60px; font-size:6px; padding:2px; border-right:1px solid #000; border-top:1px solid #000;">53. Código</div>
+      <div style="flex:1;">
+        <div class="grid-26" style="border-left:none; border-right:none; border-bottom:none;">
+          <div class="grid-cell" style="border-top:1px solid #000;">1</div><div class="grid-cell" style="border-top:1px solid #000;">2</div><div class="grid-cell" style="border-top:1px solid #000;">3</div><div class="grid-cell" style="border-top:1px solid #000;">4</div><div class="grid-cell" style="border-top:1px solid #000;">5</div><div class="grid-cell" style="border-top:1px solid #000;">6</div><div class="grid-cell" style="border-top:1px solid #000;">7</div><div class="grid-cell" style="border-top:1px solid #000;">8</div><div class="grid-cell" style="border-top:1px solid #000;">9</div><div class="grid-cell" style="border-top:1px solid #000;">10</div><div class="grid-cell" style="border-top:1px solid #000;">11</div><div class="grid-cell" style="border-top:1px solid #000;">12</div><div class="grid-cell" style="border-top:1px solid #000;">13</div><div class="grid-cell" style="border-top:1px solid #000;">14</div><div class="grid-cell" style="border-top:1px solid #000;">15</div><div class="grid-cell" style="border-top:1px solid #000;">16</div><div class="grid-cell" style="border-top:1px solid #000;">17</div><div class="grid-cell" style="border-top:1px solid #000;">18</div><div class="grid-cell" style="border-top:1px solid #000;">19</div><div class="grid-cell" style="border-top:1px solid #000;">20</div><div class="grid-cell" style="border-top:1px solid #000;">21</div><div class="grid-cell" style="border-top:1px solid #000;">22</div><div class="grid-cell" style="border-top:1px solid #000;">23</div><div class="grid-cell" style="border-top:1px solid #000;">24</div><div class="grid-cell" style="border-top:1px solid #000;">25</div><div class="grid-cell" style="border-top:1px solid #000;">26</div>
+        </div>
+        <div class="grid-26" style="border-left:none; border-right:none; border-bottom:none;">
+          <div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-top:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 5px; margin-top: 5px;">
+    <div style="flex: 1; border: 1px solid #000;">
+      <div style="font-size:8px; padding: 2px; text-align:center; border-bottom:1px solid #000;">Obligados aduaneros</div>
+      <div style="display:flex;">
+        <div style="width:60px; font-size:6px; padding:2px; border-right:1px solid #000;">54. Código</div>
+        <div style="flex:1;">
+          <div style="display: grid; grid-template-columns: repeat(10, 1fr); border-bottom: 1px solid #000;">
+            <div class="grid-cell" style="border-right:1px solid #000;">1</div><div class="grid-cell" style="border-right:1px solid #000;">2</div><div class="grid-cell" style="border-right:1px solid #000;">3</div><div class="grid-cell" style="border-right:1px solid #000;">4</div><div class="grid-cell" style="border-right:1px solid #000;">5</div><div class="grid-cell" style="border-right:1px solid #000;">6</div><div class="grid-cell" style="border-right:1px solid #000;">7</div><div class="grid-cell" style="border-right:1px solid #000;">8</div><div class="grid-cell" style="border-right:1px solid #000;">9</div><div class="grid-cell" style="border-right:1px solid #000;">10</div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(10, 1fr); border-bottom: 1px solid #000;">
+            <div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(10, 1fr); border-bottom: 1px solid #000;">
+            <div class="grid-cell" style="border-right:1px solid #000;">11</div><div class="grid-cell" style="border-right:1px solid #000;">12</div><div class="grid-cell" style="border-right:1px solid #000;">13</div><div class="grid-cell" style="border-right:1px solid #000;">14</div><div class="grid-cell" style="border-right:1px solid #000;">15</div><div class="grid-cell" style="border-right:1px solid #000;">16</div><div class="grid-cell" style="border-right:1px solid #000;">17</div><div class="grid-cell" style="border-right:1px solid #000;">18</div><div class="grid-cell" style="border-right:1px solid #000;">19</div><div class="grid-cell" style="border-right:1px solid #000;">20</div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(10, 1fr);">
+            <div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div><div class="grid-cell" style="border-right:1px solid #000;"><input type="text" style="width:100%;text-align:center;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 1; border: 1px solid #000;">
+      <div style="font-size:8px; padding: 2px; text-align:center; border-bottom:1px solid #000;">Exportadores</div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">55</span><span class="cell-label">Forma</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">56</span><span class="cell-label">Tipo</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell" style="width:60px; justify-content:center; align-items:center; font-size:7px;">Servicio</div>
+        <div class="cell flex-1"><span class="cell-label">1</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-label">2</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-label">3</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">57</span><span class="cell-label">Modo</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">58</span><span class="cell-label">CPC</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="border: 1px solid #000; margin-top: 5px;">
+    <div style="font-size:8px; padding: 2px; border-bottom:1px solid #000;">Para uso exclusivo de la DIAN</div>
+    <div class="row" style="border:none;">
+      <div class="cell flex-1" style="flex-direction:row; justify-content:center; align-items:center; font-size:8px;">
+        <span class="cell-num">59</span> Anexos: SI <input type="checkbox" style="width:auto; margin:0 5px;"> NO <input type="checkbox" style="width:auto; margin:0 5px;">
+      </div>
+      <div class="cell flex-1"><span class="cell-num">60</span><span class="cell-label">No. de Folios</span><input type="text"></div>
+      <div class="cell flex-1"><span class="cell-num">61</span><span class="cell-label">Fecha</span><input type="text"></div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 5px; margin-top: 5px; height: 110px;">
+    <div style="flex: 1; border: 1px solid #000; position:relative; padding:5px; font-size:7px; line-height:1.2;">
+      La información suministrada a través del formulario oficial del Registro Único Tributario, deberá ser exacta y veraz; en caso de constatar inexactitud en alguno de los datos suministrados se adelantarán los procedimientos administrativos sancionatorios o de suspensión, según el caso. (Parágrafo 1o. del Artículo 1.6.1.2.20. del Decreto 1625 de 2016).
+      <div style="position:absolute; bottom: 5px; left: 5px; right: 5px;">
+        <div style="border-bottom: 1px solid #000; height: 20px;"></div>
+        <div style="font-size:8px; margin-top:2px;">Firma del solicitante</div>
+      </div>
+    </div>
+    <div style="flex: 1; border: 1px solid #000; position:relative; padding:5px; font-size:7px;">
+      Sin perjuicio de las verificaciones que la DIAN realice.
+      <div style="position:absolute; bottom: 5px; left: 5px; right: 5px;">
+        <div style="border-bottom: 1px solid #000; height: 20px;"></div>
+        <div style="font-size:8px; margin-top:2px;">Firma autorizada</div>
+        <div style="display:flex; margin-top:5px; font-size:8px;">
+          <div style="flex:1;">984. Nombre <input type="text" style="width:70%; border:none; border-bottom:1px dotted #000; outline:none; font-size:8px; background:transparent;"></div>
+          <div style="flex:1;">985. Cargo <input type="text" style="width:70%; border:none; border-bottom:1px dotted #000; outline:none; font-size:8px; background:transparent;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sheet2" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_2" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_2" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  
+  <div class="section-title">CARACTERÍSTICAS Y FORMAS DE LAS ORGANIZACIONES</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">62</span><span class="cell-label">Naturaleza</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">63</span><span class="cell-label">Formas asociativas</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">64</span><span class="cell-label">Entidades o institutos de derecho público...</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">65</span><span class="cell-label">Fondos</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">66</span><span class="cell-label">Cooperativas</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">67</span><span class="cell-label">Sociedades y organismos extranjeros</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">68</span><span class="cell-label">Sin personería jurídica</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">69</span><span class="cell-label">Otras organizaciones no clasificadas</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">70</span><span class="cell-label">Beneficio</span><input type="text"></div>
+  </div>
+
+  <div style="display:flex; gap:5px; margin-top:5px;">
+    <div style="flex: 2;">
+      <div class="section-title" style="margin-top:0;">CONSTITUCIÓN, REGISTRO Y ÚLTIMA REFORMA</div>
+      <table class="dian-table" style="margin-top:0; border-top:none;">
+        <tr>
+          <th>Documento</th>
+          <th>1. Constitución</th>
+          <th>2. Reforma</th>
+        </tr>
+        <tr>
+          <td>71. Clase</td><td><input type="text"></td><td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>72. Número</td><td><input type="text"></td><td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>73. Fecha</td><td><input type="text"></td><td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>74. Número de notaría</td><td><input type="text"></td><td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>75. Entidad de registro</td><td><input type="text"></td><td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>76. Fecha de registro</td><td><input type="text"></td><td><input type="text"></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="padding:0;">
+            <div style="display:flex;">
+              <div style="flex:1; border-right:1px solid #000; padding:2px;"><span class="cell-num" style="position:static">77</span> No. Matrícula mercantil <input type="text" style="width:100%;"></div>
+              <div style="flex:1; border-right:1px solid #000; padding:2px;"><span class="cell-num" style="position:static">78</span> Departamento <input type="text" style="width:100%;"></div>
+              <div style="flex:1; padding:2px;"><span class="cell-num" style="position:static">79</span> Ciudad/Municipio <input type="text" style="width:100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="padding:0;">
+            <div style="display:flex; align-items:center;">
+              <div style="padding:2px 5px; font-size:8px;">Vigencia:</div>
+              <div style="flex:1; border-left:1px solid #000; padding:2px;"><span class="cell-num" style="position:static">80</span> Desde <input type="text" style="width:100%;"></div>
+              <div style="flex:1; border-left:1px solid #000; padding:2px;"><span class="cell-num" style="position:static">81</span> Hasta <input type="text" style="width:100%;"></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div style="flex: 1;">
+      <div class="section-title" style="margin-top:0;">COMPOSICIÓN DEL CAPITAL</div>
+      <table class="dian-table" style="margin-top:0;">
+        <tr>
+          <td>82. Nacional %</td><td><input type="number" id="porc_82" class="porc_input" oninput="validatePorc()"></td>
+        </tr>
+        <tr>
+          <td>83. Nacional público %</td><td><input type="number" id="porc_83" class="porc_input" oninput="validatePorc()"></td>
+        </tr>
+        <tr>
+          <td>84. Nacional privado %</td><td><input type="number" id="porc_84" class="porc_input" oninput="validatePorc()"></td>
+        </tr>
+        <tr>
+          <td>85. Extranjero %</td><td><input type="number" id="porc_85" class="porc_input" oninput="validatePorc()"></td>
+        </tr>
+        <tr>
+          <td>86. Extranjero público %</td><td><input type="number" id="porc_86" class="porc_input" oninput="validatePorc()"></td>
+        </tr>
+        <tr>
+          <td>87. Extranjero privado %</td><td><input type="number" id="porc_87" class="porc_input" oninput="validatePorc()"></td>
+        </tr>
+      </table>
+      <div style="color:red; font-size:8px; display:none; padding:2px;" id="porc_error">La suma excede 100%</div>
+      
+      <div style="border:1px solid #000; margin-top:5px;">
+        <div style="background-color: transparent; text-align: center; font-size: 8px; font-weight: bold; border-bottom: 1px solid #000; padding: 2px;">ENTIDAD DE VIGILANCIA Y CONTROL</div>
+        <div style="padding:5px; font-size:8px;">
+          <span class="cell-num" style="position:static">88</span> Entidad de vigilancia y control
+          <input type="text" style="width:100%; border:none; outline:none; font-size:8px; margin-top:5px; border-bottom:1px dotted #000; background:transparent;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">ESTADO Y BENEFICIO</div>
+  <table class="dian-table" style="margin-top:0;">
+    <tr>
+      <th>Item</th>
+      <th>89. Estado actual</th>
+      <th>90. Fecha cambio de estado</th>
+      <th>91. NIT</th>
+      <th>92. DV</th>
+    </tr>
+    <tr><td style="text-align:center;">1</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">2</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">3</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">4</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">5</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+  </table>
+
+  <div class="section-title">VINCULACIÓN ECONÓMICA</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">93</span><span class="cell-label">Vinculación económica</span><input type="text"></div>
+    <div class="cell flex-3"><span class="cell-num">94</span><span class="cell-label">Nombre del grupo económico y/o empresarial</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">95</span><span class="cell-label">NIT Matriz o Controlante</span><input type="text"></div>
+    <div class="cell" style="width:30px;"><span class="cell-num">96</span><span class="cell-label">DV</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">97</span><span class="cell-label">Nombre o razón social de la matriz o controlante</span><input type="text"></div>
+  </div>
+
+  <table class="dian-table" style="margin-top:5px;">
+    <tr>
+      <th>Item</th>
+      <th>170. Número de id. tributaria exterior</th>
+      <th>171. País</th>
+      <th>172. NIT sociedad o natural del exterior con EP</th>
+      <th>173. Nombre o razón social de la sociedad o natural del exterior con EP</th>
+    </tr>
+    <tr><td style="text-align:center;">1</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">2</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">3</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr><td style="text-align:center;">4</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+  </table>
+</div>
+
+<div id="sheet3" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_3" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_3" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">REPRESENTACIÓN</div>
+  
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      1
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">98</span><span class="cell-label">Representación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">99</span><span class="cell-label">Fecha inicio ejercicio representación</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">100</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">101</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">102</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">103</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">104</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">105</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">106</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">107</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">108</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">109</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">110</span><span class="cell-label">Razón social representante legal</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      2
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">111</span><span class="cell-label">Representación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">112</span><span class="cell-label">Fecha inicio ejercicio representación</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">113</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">114</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">115</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">116</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">117</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">118</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">119</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">120</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">121</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">122</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">123</span><span class="cell-label">Razón social representante legal</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      3
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">124</span><span class="cell-label">Representación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">125</span><span class="cell-label">Fecha inicio ejercicio representación</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">126</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">127</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">128</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">129</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">130</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">131</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">132</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">133</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">134</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">135</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">136</span><span class="cell-label">Razón social representante legal</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      4
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">137</span><span class="cell-label">Representación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">138</span><span class="cell-label">Fecha inicio ejercicio representación</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">139</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">140</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">141</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">142</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">143</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">144</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">145</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">146</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">147</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">148</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">149</span><span class="cell-label">Razón social representante legal</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      5
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">150</span><span class="cell-label">Representación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">151</span><span class="cell-label">Fecha inicio ejercicio representación</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">152</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">153</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">154</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">155</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">156</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">157</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">158</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">159</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">160</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">161</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">162</span><span class="cell-label">Razón social representante legal</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="sheet4" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_4" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_4" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">SOCIOS Y/O MIEMBROS DE JUNTAS DIRECTIVAS, CONSORCIOS, UNIONES TEMPORALES</div>
+  
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      1
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">111</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">112</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">113</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">114</span><span class="cell-label">Nacionalidad</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">115</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">116</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">117</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">118</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">119</span><span class="cell-label">Razón social</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">120</span><span class="cell-label">Valor capital del socio</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">121</span><span class="cell-label">% Participación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">122</span><span class="cell-label">Fecha de ingreso</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">123</span><span class="cell-label">Fecha de retiro</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      2
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">124</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">125</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">126</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">127</span><span class="cell-label">Nacionalidad</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">128</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">129</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">130</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">131</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">132</span><span class="cell-label">Razón social</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">133</span><span class="cell-label">Valor capital del socio</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">134</span><span class="cell-label">% Participación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">135</span><span class="cell-label">Fecha de ingreso</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">136</span><span class="cell-label">Fecha de retiro</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      3
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">137</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">138</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">139</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">140</span><span class="cell-label">Nacionalidad</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">141</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">142</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">143</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">144</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">145</span><span class="cell-label">Razón social</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">146</span><span class="cell-label">Valor capital del socio</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">147</span><span class="cell-label">% Participación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">148</span><span class="cell-label">Fecha de ingreso</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">149</span><span class="cell-label">Fecha de retiro</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      4
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">150</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">151</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">152</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">153</span><span class="cell-label">Nacionalidad</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">154</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">155</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">156</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">157</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">158</span><span class="cell-label">Razón social</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">159</span><span class="cell-label">Valor capital del socio</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">160</span><span class="cell-label">% Participación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">161</span><span class="cell-label">Fecha de ingreso</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">162</span><span class="cell-label">Fecha de retiro</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      5
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">163</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">164</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">165</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">166</span><span class="cell-label">Nacionalidad</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">167</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">168</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">169</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">170</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">171</span><span class="cell-label">Razón social</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">172</span><span class="cell-label">Valor capital del socio</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">173</span><span class="cell-label">% Participación</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">174</span><span class="cell-label">Fecha de ingreso</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">175</span><span class="cell-label">Fecha de retiro</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="sheet5" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_5" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_5" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">REVISOR FISCAL Y CONTADOR</div>
+  
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 25px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:8px; border-right:1px solid #000; background:#f0f0f0; padding: 5px 0;">
+      Revisor fiscal principal
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">124</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">125</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">126</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">127</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">128</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">129</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">130</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">131</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">132</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">133</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">134</span><span class="cell-label">Sociedad o firma designada</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">135</span><span class="cell-label">Fecha de nombramiento</span><input type="text"></div>
+        <div class="cell flex-3"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 25px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:8px; border-right:1px solid #000; background:#f0f0f0; padding: 5px 0;">
+      Revisor fiscal suplente
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">136</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">137</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">138</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">139</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">140</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">141</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">142</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">143</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">144</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">145</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">146</span><span class="cell-label">Sociedad o firma designada</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">147</span><span class="cell-label">Fecha de nombramiento</span><input type="text"></div>
+        <div class="cell flex-3"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 25px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:8px; border-right:1px solid #000; background:#f0f0f0; padding: 5px 0;">
+      Contador
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">148</span><span class="cell-label">Tipo de documento</span><input type="text"></div>
+        <div class="cell flex-2"><span class="cell-num">149</span><span class="cell-label">Número de identificación</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">150</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">151</span><span class="cell-label">Número de tarjeta profesional</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">152</span><span class="cell-label">Primer apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">153</span><span class="cell-label">Segundo apellido</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">154</span><span class="cell-label">Primer nombre</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">155</span><span class="cell-label">Otros nombres</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">156</span><span class="cell-label">NIT</span><input type="text"></div>
+        <div class="cell" style="width:30px;"><span class="cell-num">157</span><span class="cell-label">DV</span><input type="text"></div>
+        <div class="cell flex-3"><span class="cell-num">158</span><span class="cell-label">Sociedad o firma designada</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">159</span><span class="cell-label">Fecha de nombramiento</span><input type="text"></div>
+        <div class="cell flex-3"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="sheet6" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_6" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_6" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">ESTABLECIMIENTOS, AGENCIAS, SUCURSALES, OFICINAS, SEDES O NEGOCIOS ENTRE OTROS</div>
+  
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      1
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">160</span><span class="cell-label">Tipo de establecimiento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">161</span><span class="cell-label">Actividad económica</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">162</span><span class="cell-label">Nombre del establecimiento</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">163</span><span class="cell-label">Departamento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">164</span><span class="cell-label">Ciudad/Municipio</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">165</span><span class="cell-label">Dirección</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">166</span><span class="cell-label">Número de matrícula mercantil</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">167</span><span class="cell-label">Fecha de la matrícula mercantil</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">168</span><span class="cell-label">Teléfono</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">169</span><span class="cell-label">Fecha de cierre</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      2
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">170</span><span class="cell-label">Tipo de establecimiento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">171</span><span class="cell-label">Actividad económica</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">172</span><span class="cell-label">Nombre del establecimiento</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">173</span><span class="cell-label">Departamento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">174</span><span class="cell-label">Ciudad/Municipio</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">175</span><span class="cell-label">Dirección</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">176</span><span class="cell-label">Número de matrícula mercantil</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">177</span><span class="cell-label">Fecha de la matrícula mercantil</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">178</span><span class="cell-label">Teléfono</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">179</span><span class="cell-label">Fecha de cierre</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; border: 1px solid #000; margin-bottom: 5px;">
+    <div style="width: 20px; writing-mode: vertical-rl; transform: rotate(180deg); text-align:center; font-size:10px; border-right:1px solid #000; background:#f0f0f0;">
+      3
+    </div>
+    <div style="flex:1;">
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">180</span><span class="cell-label">Tipo de establecimiento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">181</span><span class="cell-label">Actividad económica</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">182</span><span class="cell-label">Nombre del establecimiento</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">183</span><span class="cell-label">Departamento</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">184</span><span class="cell-label">Ciudad/Municipio</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none; border-bottom:1px solid #000;">
+        <div class="cell flex-1"><span class="cell-num">185</span><span class="cell-label">Dirección</span><input type="text"></div>
+      </div>
+      <div class="row" style="border:none;">
+        <div class="cell flex-1"><span class="cell-num">186</span><span class="cell-label">Número de matrícula mercantil</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">187</span><span class="cell-label">Fecha de la matrícula mercantil</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">188</span><span class="cell-label">Teléfono</span><input type="text"></div>
+        <div class="cell flex-1"><span class="cell-num">189</span><span class="cell-label">Fecha de cierre</span><input type="text"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="sheet7" class="form-container">
+  
+  <div class="hdr-dian">
+        <div class="dian-brand">
+          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
+          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
+        </div>
+        <div class="hdr-center">
+          <div class="hdr-title">Registro Único Tributario</div>
+          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
+             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
+                <span class="cl"><span class="cl-num">1.</span> Año</span>
+                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
+             </div>
+             <div style="padding: 2px 4px; flex: 1;">
+                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
+                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
+             </div>
+          </div>
+          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
+        </div>
+        <div class="big-num">001</div>
+      </div>
+  <div class="ident-row">
+    <div class="cell" style="flex: 3;">
+      <span class="cell-num">5</span>
+      <span class="cell-label">Número de Identificación Tributaria (NIT)</span>
+      <input type="text" id="nit_7" oninput="syncNit(this)" onblur="calculateDV(this.value)">
+    </div>
+    <div class="cell" style="flex: 1;">
+      <span class="cell-num">6</span>
+      <span class="cell-label">DV</span>
+      <input type="text" id="dv_7" readonly style="background:#eee; text-align:center;">
+    </div>
+    <div class="cell" style="flex: 2;">
+      <span class="cell-num">12</span>
+      <span class="cell-label">Dirección seccional</span>
+      <input type="text">
+    </div>
+    <div class="cell" style="flex: 4;">
+      <span class="cell-num">14</span>
+      <span class="cell-label">Buzón electrónico</span>
+      <input type="text">
+    </div>
+  </div>
+
+  <div class="section-title">ESTADO Y BENEFICIO</div>
+  <table class="dian-table" style="margin-top:0;">
+    <tr>
+      <th>Item</th>
+      <th>89. Estado actual</th>
+      <th>90. Fecha cambio de estado</th>
+      <th>91. NIT</th>
+      <th>92. DV</th>
+    </tr>
+    <tr style="background-color: transparent;"><td style="text-align:center;">1</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">2</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">3</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">4</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">5</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">6</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">7</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">8</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">9</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">10</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">11</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">12</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">13</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">14</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">15</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">16</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">17</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">18</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">19</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">20</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: transparent;"><td style="text-align:center;">21</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr><tr style="background-color: #e8e8e8;"><td style="text-align:center;">22</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+  </table>
+</div>
+
+<script>
+  function showSheet(num) {
+    document.querySelectorAll('.form-container').forEach(el => el.classList.remove('active'));
+    document.getElementById('sheet' + num).classList.add('active');
+    
+    document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+      if(index < 7) {
+        if(index + 1 === num) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+  }
+
+  function syncNit(input) {
+    const val = input.value.replace(/[^0-9]/g, '').substring(0, 10);
+    for(let i=1; i<=7; i++) {
+      const el = document.getElementById('nit_' + i);
+      if(el && el !== input) el.value = val;
+    }
+    input.value = val;
+    calculateDV(val);
+  }
+
+  function calculateDV(nit) {
+    if (!nit) return;
+    let dv = 0;
+    const pesos = [71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3];
+    let suma = 0;
+    let strNit = nit.toString().padStart(15, '0');
+    
+    for (let i = 0; i < 15; i++) {
+        suma += parseInt(strNit[i]) * pesos[i];
+    }
+    
+    let residuo = suma % 11;
+    if (residuo === 0) dv = 0;
+    else if (residuo === 1) dv = 1;
+    else dv = 11 - residuo;
+    
+    for(let i=1; i<=7; i++) {
+      const el = document.getElementById('dv_' + i);
+      if(el) el.value = dv;
+    }
+  }
+
+  function validatePorc() {
+    let total = 0;
+    for(let i=82; i<=87; i++) {
+      let val = parseFloat(document.getElementById('porc_' + i).value) || 0;
+      total += val;
+    }
+    if(total > 100) {
+      document.getElementById('porc_error').style.display = 'block';
+    } else {
+      document.getElementById('porc_error').style.display = 'none';
+    }
+  }
+
+  function validateAndPrint() {
+    const required = [
+      {id: 'nit_1', name: 'NIT'},
+      {id: 'tipo_contribuyente', name: 'Tipo contribuyente'},
+      {id: 'tipo_doc', name: 'Tipo documento'},
+      {id: 'num_id', name: 'Número identificación'},
+      {id: 'dir_principal', name: 'Dirección principal'},
+      {id: 'act_principal', name: 'Actividad principal'}
+    ];
+    
+    let hasError = false;
+    let errorMsg = "Faltan los siguientes campos obligatorios:\n";
+    
+    required.forEach(field => {
+      const el = document.getElementById(field.id);
+      if(!el.value.trim()) {
+        el.classList.add('error');
+        hasError = true;
+        errorMsg += "- " + field.name + "\n";
+      } else {
+        el.classList.remove('error');
+      }
+    });
+
+    if(hasError) {
+      alert(errorMsg);
+      showSheet(1);
+    } else {
+      window.print();
+    }
+  }
+</script>
+</body>
+</html>
