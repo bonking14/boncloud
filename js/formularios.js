@@ -3,7 +3,8 @@ const formularios = [
   { id: "500", nombre: "Formulario 500 - Declaración de Importación", tipo: "Importación" },
   { id: "560", nombre: "Formulario 560 - Declaración Andina del Valor (DAV)", tipo: "Importación" },
   { id: "600", nombre: "Formulario 600 - Declaración de Exportación (DEX)", tipo: "Exportación" },
-  { id: "DTA", nombre: "Formulario de Tránsito Aduanero (DTA)", tipo: "Tránsito" }
+  { id: "DTA", nombre: "Formulario de Tránsito Aduanero (DTA)", tipo: "Tránsito" },
+  { id: "SIM", nombre: "Simulador de Importaciones IA", tipo: "Simulación" }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -110,6 +111,9 @@ function openFormEditor(id) {
     } else if (id === "560") {
         renderArea.innerHTML = getForm560HTML();
         setupForm560Logic();
+    } else if (id === "SIM") {
+        renderArea.innerHTML = getSimuladorHTML();
+        setupSimuladorLogic();
     } else {
         renderArea.innerHTML = `
             <div style="padding:40px; text-align:center;">

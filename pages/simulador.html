@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonCloud — Formularios</title>
+    <title>BonCloud — Simulador Logístico</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/theme.css">
     <link rel="stylesheet" href="../css/formularios.css">
@@ -23,8 +23,8 @@
         <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
         <a href="incoterms.html" class="nav-item">Incoterms</a>
         <a href="subpartidas.html" class="nav-item">Subpartidas</a>
-        <a href="formularios.html" class="nav-item active">Formularios</a>
-        <a href="simulador.html" class="nav-item">🤖 Simulador Logístico</a>
+        <a href="formularios.html" class="nav-item">Formularios</a>
+        <a href="simulador.html" class="nav-item active">🤖 Simulador Logístico</a>
     </nav>
     <div class="sidebar-footer">
         <span id="nombre-usuario"></span>
@@ -33,52 +33,30 @@
 </div>
 
 <div class="main-content">
-    <div class="dashboard-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
-        <div>
-            <h1>Formularios DIAN</h1>
-            <p>Rellena, calcula y exporta formularios oficiales de aduana.</p>
-        </div>
-    
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+        <h1>Simulador Logístico IA</h1>
+        <p>Analiza operaciones de importación, tiempos y riesgos mediante Inteligencia Artificial.</p>
     </div>
 
-    <!-- Vista 1: Centro de Formularios (Dashboard) -->
-    <div id="vista-dashboard">
-        <div class="search-container">
-            <input type="text" id="buscador-forms" placeholder="Buscar formulario (Ej. 500, Importación)...">
-        </div>
-        <div class="grid-formularios" id="grid-formularios">
-            <!-- Renderizado dinámico desde JS -->
-        </div>
-    </div>
-
-    <!-- Vista 2: Editor de Formularios -->
-    <div id="vista-editor" style="display:none;">
-        <div class="editor-header">
-            <button id="btn-volver" class="btn-card">Volver al Catálogo</button>
-            <div class="editor-actions">
-                <button id="btn-limpiar" class="btn-card">Reiniciar Formulario</button>
-                <button id="btn-descargar" class="btn-card btn-calcular">Descargar PDF Oficial</button>
-            </div>
-        </div>
-        
-        <!-- Área interactiva que emula el formulario de la DIAN -->
-        <div id="form-render-area" class="dian-form-wrapper">
-            <!-- Renderizado dinámico del HTML de cada formulario -->
-        </div>
-    </div>
-
+    <!-- Contenedor principal donde se renderizará el HTML del simulador -->
+    <div id="simulador-container"></div>
 </div>
 
+<!-- Scripts base y lógica del tema -->
+<script src="../js/dashboard.js"></script>
 <script src="../js/theme.js"></script>
 <script src="../js/simulador.js"></script>
-<script src="../js/formularios.js"></script>
 
 <script>
-    // Recuperar usuario para la barra lateral
     document.addEventListener('DOMContentLoaded', () => {
+        // Renderizar HTML del simulador en el contenedor
+        document.getElementById('simulador-container').innerHTML = getSimuladorHTML();
+        // Inicializar lógica (navegación, calculos, fetch, pdf)
+        setupSimuladorLogic();
+
+        // Recuperar usuario para la barra lateral
         const token = localStorage.getItem('token');
         const usuario = JSON.parse(localStorage.getItem('usuario'));
-
         if(!token || !usuario) {
             window.location.href = '../index.html';
         } else {
