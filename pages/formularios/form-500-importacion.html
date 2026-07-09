@@ -374,6 +374,9 @@ table.liquid-table td input[readonly] {
 </head>
 <body>
 
+
+
+
 <div id="form-500" class="form-container">
   
   <div class="hdr-dian">
@@ -456,6 +459,25 @@ table.liquid-table td input[readonly] {
     </div>
   </div>
 
+  <div class="section-title">PROVEEDOR / EXPORTADOR EN EL EXTERIOR</div>
+  <div class="row">
+    <div class="cell flex-2"><span class="cell-num">13</span><span class="cell-label">NIT / Identificación</span><input type="text" id="prov_nit"></div>
+    <div class="cell flex-2"><span class="cell-num">14</span><span class="cell-label">Primer Apellido</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">15</span><span class="cell-label">Segundo Apellido</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">16</span><span class="cell-label">Primer Nombre</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">17</span><span class="cell-label">Otros Nombres</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-4"><span class="cell-num">18</span><span class="cell-label">Razón Social</span><input type="text" id="prov_razon"></div>
+    <div class="cell flex-1"><span class="cell-num">19</span><span class="cell-label">Cód. País</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">20</span><span class="cell-label">Ciudad</span><input type="text"></div>
+  </div>
+  <div class="row">
+    <div class="cell flex-4"><span class="cell-num">21</span><span class="cell-label">Dirección</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">22</span><span class="cell-label">Teléfono</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">23</span><span class="cell-label">Correo Electrónico</span><input type="text"></div>
+  </div>
+
   <div class="section-title">DATOS GENERALES</div>
   <div class="row">
     <div class="cell flex-1"><span class="cell-num">30</span><span class="cell-label">Cód. Administración</span><input type="text"></div>
@@ -471,6 +493,39 @@ table.liquid-table td input[readonly] {
     <div class="cell flex-2"><span class="cell-num">43</span><span class="cell-label">Manifiesto de Carga</span><input type="text"></div>
     <div class="cell flex-1"><span class="cell-num">44</span><span class="cell-label">Fecha Llegada</span><input type="text" placeholder="AAAA-MM-DD"></div>
   </div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">28</span><span class="cell-label">Tipo Solicitud</span><input type="text"></div>
+    <div class="cell flex-2"><span class="cell-num">29</span><span class="cell-label">Número Anterior</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">35</span><span class="cell-label">Cód. Depósito</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">36</span><span class="cell-label">Cód. Lugar Ingreso</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">37</span><span class="cell-label">Cód. Dpto. Destino</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">38</span><span class="cell-label">No. Bultos</span><input type="number"></div>
+    <div class="cell flex-1"><span class="cell-num">39</span><span class="cell-label">Peso Bruto Kgs</span><input type="number" step="0.01"></div>
+  </div>
+
+  <div class="section-title">DESCRIPCIÓN DE MERCANCÍAS — SUBPARTIDA ARANCELARIA</div>
+  <!-- Alerta de vistos buenos -->
+  <div id="vb-alert" style="display:none; background:#fef3c7; border:1px solid #f59e0b; padding:6px 10px; margin-top:4px; font-size:8px; border-radius:3px; color:#92400e;">
+    <strong>⚠ Vistos Buenos Requeridos:</strong> <span id="vb-alert-text"></span>
+  </div>
+  <table style="width:100%; border-collapse:collapse; border:1px solid var(--border-color); margin-top:4px;">
+    <thead>
+      <tr style="background-color: var(--color-primary); color: white; font-size: 7px; text-align: center;">
+        <th style="border:1px solid var(--border-color); padding:3px; width:22px;">Ítem</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:95px;">45. Subpartida Arancel.</th>
+        <th style="border:1px solid var(--border-color); padding:3px;">46. Descripción Mercancía</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:50px;">49. Cant.</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:35px;">50. Unid.</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:55px;">51. Peso Neto</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:70px;">FOB Unit. USD</th>
+        <th style="border:1px solid var(--border-color); padding:3px; width:70px;">FOB Total USD</th>
+      </tr>
+    </thead>
+    <tbody id="mercancias-body-500">
+    </tbody>
+  </table>
+  <!-- Dropdown de sugerencias -->
+  <div id="sp-suggestions" style="display:none; position:absolute; z-index:999; background:#fff; border:1px solid #1a3a6b; max-height:150px; overflow-y:auto; font-size:9px; box-shadow:0 4px 12px rgba(0,0,0,0.2); width:280px;"></div>
 
   <div class="section-title">VALOR EN ADUANA</div>
   <div class="row">
@@ -533,6 +588,19 @@ table.liquid-table td input[readonly] {
     </div>
   </div>
 
+  <div class="section-title">PAGO</div>
+  <div class="row">
+    <div class="cell flex-1"><span class="cell-num">91</span><span class="cell-label">Cód. Banco Recaudador</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">92</span><span class="cell-label">Forma de Pago</span>
+      <select style="border:none;width:100%;font-size:8px;text-align:center;outline:none;background:transparent;">
+        <option value="">-</option><option value="1">1 – Efectivo</option><option value="2">2 – Cheque</option><option value="3">3 – Transferencia</option><option value="4">4 – Tarjeta</option>
+      </select>
+    </div>
+    <div class="cell flex-2"><span class="cell-num">93</span><span class="cell-label">No. Recibo de Pago</span><input type="text"></div>
+    <div class="cell flex-1"><span class="cell-num">94</span><span class="cell-label">Fecha de Pago</span><input type="text" placeholder="AAAA-MM-DD"></div>
+    <div class="cell flex-1"><span class="cell-num">95</span><span class="cell-label">Cód. Entidad Recaudadora</span><input type="text"></div>
+  </div>
+
   <div style="display: flex; gap: 5px; margin-top: 10px; height: 120px;">
     <div style="flex: 1; border: 1px solid var(--border-color); position:relative; padding:5px; font-size:7px; line-height:1.2;">
       Declaro bajo la gravedad de juramento que los datos aquí consignados son correctos, no incluyen omisiones o falsedades.
@@ -549,33 +617,148 @@ table.liquid-table td input[readonly] {
 </div>
 
 <script>
+  // ===== CATÁLOGO DE SUBPARTIDAS (vinculado con subpartidas.js del aplicativo) =====
   function calculateDV(nit, dvId) {
-    let dv = 0;
+    let dv = '';
     if(nit) {
-        let cleanNit = nit.replace(/[^0-9]/g, '').substring(0, 10);
-        const pesos = [71, 67, 59, 53, 47, 43, 41, 37, 29, 23, 19, 17, 13, 7, 3];
-        let suma = 0;
-        let strNit = cleanNit.padStart(15, '0');
-        for (let i = 0; i < 15; i++) {
-            suma += parseInt(strNit[i]) * pesos[i];
-        }
-        let residuo = suma % 11;
-        if (residuo === 0) dv = 0;
-        else if (residuo === 1) dv = 1;
-        else dv = 11 - residuo;
-    } else {
-        dv = '';
+      let cleanNit = nit.replace(/[^0-9]/g, '').substring(0, 10);
+      const pesos = [71,67,59,53,47,43,41,37,29,23,19,17,13,7,3];
+      let suma = 0, strNit = cleanNit.padStart(15, '0');
+      for (let i = 0; i < 15; i++) suma += parseInt(strNit[i]) * pesos[i];
+      let residuo = suma % 11;
+      dv = residuo === 0 ? 0 : residuo === 1 ? 1 : 11 - residuo;
     }
     const el = document.getElementById(dvId);
     if(el) el.value = dv;
   }
 
-  function performCalculations() {
-    const getVal = id => parseFloat(document.getElementById(id).value) || 0;
-    const setVal = (id, val) => document.getElementById(id).value = val.toFixed(2);
+  // ===== GENERAR TABLA DE MERCANCÍAS (5 ítems) =====
+  function buildMercTable() {
+    const tbody = document.getElementById('mercancias-body-500');
+    if (!tbody) return;
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+      html += `<tr>
+        <td style="border:1px solid var(--border-color);text-align:center;font-size:8px;padding:2px;">${i}</td>
+        <td style="border:1px solid var(--border-color);padding:1px;position:relative;">
+          <input type="text" class="sp-input" data-row="${i}" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="Ej: 0901.11">
+        </td>
+        <td style="border:1px solid var(--border-color);padding:1px;">
+          <input type="text" class="sp-desc" data-row="${i}" style="border:none;width:100%;font-size:8px;outline:none;" placeholder="Descripción" readonly>
+        </td>
+        <td style="border:1px solid var(--border-color);padding:1px;">
+          <input type="number" class="item-qty-500 calc-trigger" data-row="${i}" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0">
+        </td>
+        <td style="border:1px solid var(--border-color);padding:1px;">
+          <input type="text" style="border:none;width:100%;font-size:8px;outline:none;text-align:center;" placeholder="KG">
+        </td>
+        <td style="border:1px solid var(--border-color);padding:1px;">
+          <input type="number" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;">
+        </td>
+        <td style="border:1px solid var(--border-color);padding:1px;">
+          <input type="number" class="item-fob-unit-500 calc-trigger" data-row="${i}" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;" value="0">
+        </td>
+        <td style="border:1px solid var(--border-color);padding:1px;">
+          <input type="number" class="item-fob-total-500" data-row="${i}" step="0.01" style="border:none;width:100%;font-size:8px;outline:none;text-align:right;font-weight:bold;" readonly>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+  }
 
+  // ===== AUTOCOMPLETADO DE SUBPARTIDAS =====
+  let activeInput = null;
+  function setupAutocomplete() {
+    const sugBox = document.getElementById('sp-suggestions');
+    document.querySelectorAll('.sp-input').forEach(inp => {
+      inp.addEventListener('input', function() {
+        activeInput = this;
+        const q = this.value.toLowerCase().replace(/[.\s]/g, '');
+        if (q.length < 2) { sugBox.style.display = 'none'; return; }
+        const matches = subpartidas.filter(s =>
+          s.codigo.replace(/[.\s]/g, '').includes(q) ||
+          s.titulo.toLowerCase().includes(q)
+        ).slice(0, 8);
+        if (matches.length === 0) { sugBox.style.display = 'none'; return; }
+        sugBox.innerHTML = matches.map(s =>
+          `<div class="sp-sug-item" data-codigo="${s.codigo}" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;transition:background .1s;">
+            <strong style="color:#1a3a6b;">${s.codigo}</strong><br>
+            <span style="color:#555;font-size:8px;">${s.titulo} | Arancel: ${s.arancel}% | IVA: ${s.iva}%</span>
+          </div>`
+        ).join('');
+        // Position below the input
+        const rect = this.getBoundingClientRect();
+        const container = document.getElementById('form-500');
+        const cRect = container.getBoundingClientRect();
+        sugBox.style.left = (rect.left - cRect.left) + 'px';
+        sugBox.style.top = (rect.bottom - cRect.top + 2) + 'px';
+        sugBox.style.display = 'block';
+        // Hover effect
+        sugBox.querySelectorAll('.sp-sug-item').forEach(item => {
+          item.addEventListener('mouseenter', () => item.style.background = '#eef2ff');
+          item.addEventListener('mouseleave', () => item.style.background = '#fff');
+          item.addEventListener('click', () => selectSubpartida(item.dataset.codigo));
+        });
+      });
+      inp.addEventListener('blur', () => setTimeout(() => sugBox.style.display = 'none', 200));
+    });
+  }
+
+  function selectSubpartida(codigo) {
+    const sp = subpartidas.find(s => s.codigo === codigo);
+    if (!sp || !activeInput) return;
+    const row = activeInput.dataset.row;
+    activeInput.value = sp.codigo;
+    const descField = document.querySelector(`.sp-desc[data-row="${row}"]`);
+    if (descField) { descField.value = sp.titulo; descField.removeAttribute('readonly'); }
+    // Auto-fill arancel and IVA in autoliquidación
+    const tasaArancel = document.getElementById('tasa_arancel');
+    const tasaIva = document.getElementById('tasa_iva');
+    if (tasaArancel && (parseFloat(tasaArancel.value) === 0 || tasaArancel.value === ''))
+      tasaArancel.value = sp.arancel;
+    if (tasaIva && (parseFloat(tasaIva.value) === 0 || tasaIva.value === ''))
+      tasaIva.value = sp.iva;
+    // Show vistos buenos alert
+    showVistoBueno();
+    document.getElementById('sp-suggestions').style.display = 'none';
+    performCalculations();
+  }
+
+  function showVistoBueno() {
+    const allVb = new Set();
+    document.querySelectorAll('.sp-input').forEach(inp => {
+      const sp = subpartidas.find(s => s.codigo === inp.value);
+      if (sp && sp.vistoBueno && sp.vistoBueno.length > 0) sp.vistoBueno.forEach(v => allVb.add(v));
+    });
+    const alertEl = document.getElementById('vb-alert');
+    const alertText = document.getElementById('vb-alert-text');
+    if (allVb.size > 0) {
+      alertText.textContent = [...allVb].join(' | ');
+      alertEl.style.display = 'block';
+    } else {
+      alertEl.style.display = 'none';
+    }
+  }
+
+  // ===== CÁLCULOS =====
+  function performCalculations() {
+    const getVal = id => parseFloat(document.getElementById(id)?.value) || 0;
+    const setVal = (id, val) => { const el = document.getElementById(id); if(el) el.value = val.toFixed(2); };
     const tc = getVal('tasa_cambio');
-    
+
+    // Per-row FOB totals
+    let sumFob = 0;
+    for (let i = 1; i <= 5; i++) {
+      const qty = parseFloat(document.querySelector(`.item-qty-500[data-row="${i}"]`)?.value) || 0;
+      const unit = parseFloat(document.querySelector(`.item-fob-unit-500[data-row="${i}"]`)?.value) || 0;
+      const totalCell = document.querySelector(`.item-fob-total-500[data-row="${i}"]`);
+      const lineTotal = qty * unit;
+      if (totalCell) totalCell.value = lineTotal ? lineTotal.toFixed(2) : '';
+      sumFob += lineTotal;
+    }
+    // Auto-fill FOB from merchandise if items have values
+    if (sumFob > 0) document.getElementById('v_fob').value = sumFob.toFixed(2);
+
     // Valor en aduana
     const fob = getVal('v_fob');
     const fletes = getVal('v_fletes');
@@ -583,7 +766,6 @@ table.liquid-table td input[readonly] {
     const otros = getVal('v_otros');
     const aduana_usd = fob + fletes + seguros + otros;
     setVal('v_aduana_usd', aduana_usd);
-    
     const aduana_cop = aduana_usd * tc;
     setVal('v_aduana_cop', aduana_cop);
 
@@ -602,8 +784,7 @@ table.liquid-table td input[readonly] {
     const anti = (aduana_cop * getVal('tasa_anti')) / 100;
     setVal('total_anti', anti);
 
-    // Liquidación IVA
-    // Base de IVA = Valor en aduana COP + Arancel + Salvaguardia + Antidumping
+    // Liquidación IVA (Base = Aduana COP + Arancel + Salvaguardia + Antidumping)
     const base_iva = aduana_cop + arancel + salva + anti;
     setVal('base_iva', base_iva);
     const iva = (base_iva * getVal('tasa_iva')) / 100;
@@ -615,10 +796,6 @@ table.liquid-table td input[readonly] {
     setVal('total_pagar', total);
   }
 
-  document.querySelectorAll('.calc-trigger').forEach(input => {
-    input.addEventListener('input', performCalculations);
-  });
-
   function validateAndPrint() {
     const required = [
       {id: 'imp_nit', name: 'NIT del Importador'},
@@ -629,23 +806,25 @@ table.liquid-table td input[readonly] {
     required.forEach(field => {
       const el = document.getElementById(field.id);
       if(!el.value.trim()) {
-        el.classList.add('error');
-        hasError = true;
+        el.classList.add('error'); hasError = true;
         errorMsg += "- " + field.name + "\n";
-      } else {
-        el.classList.remove('error');
-      }
+      } else { el.classList.remove('error'); }
     });
-
-    if(hasError) {
-      alert(errorMsg);
-    } else {
-      window.print();
-    }
+    if(hasError) { alert(errorMsg); } else { window.print(); }
   }
 
-  // Init
+  // ===== INIT =====
+  buildMercTable();
+  setupAutocomplete();
+  document.querySelectorAll('.calc-trigger').forEach(input => {
+    input.addEventListener('input', performCalculations);
+  });
+  // Also bind dynamically created calc-trigger inputs
+  document.addEventListener('input', e => {
+    if (e.target.classList.contains('calc-trigger')) performCalculations();
+  });
   performCalculations();
 </script>
+<script src="../../js/subpartidas.js"></script>
 </body>
 </html>

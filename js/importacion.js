@@ -146,14 +146,14 @@ const modalidades = {
 
 // ========== CAMPOS HTML ==========
 const camposHTML = {
-    fob:       `<div class="form-field"><label>Valor FOB (USD)</label><input type="number" step="0.01" id="fob" placeholder="Ej: 125000" min="0"></div>`,
-    flete:     `<div class="form-field"><label>Flete internacional (USD)</label><input type="number" step="0.01" id="flete" placeholder="Ej: 7500" min="0"></div>`,
-    seguro:    `<div class="form-field"><label>Seguro (USD)</label><input type="number" step="0.01" id="seguro" placeholder="0" min="0"><span class="field-hint">Dejar en 0 = se calcula automático (0.5% del FOB)</span></div>`,
-    arancel:   `<div class="form-field"><label>Arancel (%)</label><input type="number" step="0.01" id="arancel" placeholder="15" value="15" min="0"></div>`,
-    trm:       `<div class="form-field"><label>TRM (COP por USD)</label><input type="number" step="0.01" id="trm" placeholder="Cargando..."><span class="field-hint" id="trm-status"></span></div>`,
-    agencia:   `<div class="form-field"><label>Agencia aduanera (COP)</label><input type="number" step="0.01" id="agencia" placeholder="Ej: 500000" min="0"></div>`,
-    bodegaje:  `<div class="form-field"><label>Bodegaje (COP)</label><input type="number" step="0.01" id="bodegaje" placeholder="Ej: 200000" min="0"></div>`,
-    transporte:`<div class="form-field"><label>Transporte interno (COP)</label><input type="number" step="0.01" id="transporte" placeholder="Ej: 300000" min="0"></div>`
+    fob:       `<div class="form-field"><label>Valor FOB (USD)</label><input type="text" class="format-num" id="fob" placeholder="Ej: 125,000"></div>`,
+    flete:     `<div class="form-field"><label>Flete internacional (USD) <i class="ph ph-info tooltip" title="Costo del transporte desde el país de origen al de destino"></i></label><input type="text" class="format-num" id="flete" placeholder="Ej: 7,500"></div>`,
+    seguro:    `<div class="form-field"><label>Seguro (USD) <i class="ph ph-info tooltip" title="Dejar en 0 = se calcula automático (0.5% del FOB)"></i></label><input type="text" class="format-num" id="seguro" placeholder="0"></div>`,
+    arancel:   `<div class="form-field"><label>Arancel (%) <i class="ph ph-info tooltip" title="Porcentaje aplicable según la subpartida arancelaria"></i></label><input type="text" class="format-num" id="arancel" placeholder="15" value="15"></div>`,
+    trm:       `<div class="form-field"><label>TRM (COP por USD) <i class="ph ph-info tooltip" title="Tasa de Cambio Representativa del Mercado"></i></label><input type="text" class="format-num" id="trm" placeholder="Cargando..."><span class="field-hint" id="trm-status"></span></div>`,
+    agencia:   `<div class="form-field"><label>Agencia aduanera (COP) <i class="ph ph-info tooltip" title="Honorarios cobrados por la SIA"></i></label><input type="text" class="format-num" id="agencia" placeholder="Ej: 500,000"></div>`,
+    bodegaje:  `<div class="form-field"><label>Bodegaje (COP)</label><input type="text" class="format-num" id="bodegaje" placeholder="Ej: 200,000"></div>`,
+    transporte:`<div class="form-field"><label>Transporte interno (COP)</label><input type="text" class="format-num" id="transporte" placeholder="Ej: 300,000"></div>`
 };
 
 // ========== TRM ==========
@@ -185,9 +185,26 @@ function renderModal(key) {
     const infoBar = document.getElementById('modal-info-bar');
     infoBar.innerHTML = m.info;
 
+    const baseFields = ['fob', 'flete', 'seguro'];
+    const localFields = ['arancel', 'trm', 'agencia', 'bodegaje', 'transporte'];
+
+    const col1 = m.campos.filter(c => baseFields.includes(c)).map(c => camposHTML[c] || '').join('');
+    const col2 = m.campos.filter(c => localFields.includes(c)).map(c => camposHTML[c] || '').join('');
+
     const form = document.getElementById('calc-form');
-    form.innerHTML = m.campos.map(c => camposHTML[c] || '').join('') +
-        `<button class="btn-calcular" id="btnCalcular">Calcular</button>`;
+    form.innerHTML = `
+        <div class="form-layout">
+            <div class="form-col">
+                <h4 class="col-title">Valores Base</h4>
+                <div class="col-content">${col1}</div>
+            </div>
+            <div class="form-col">
+                <h4 class="col-title">Tasas y Gastos Locales</h4>
+                <div class="col-content">${col2}</div>
+            </div>
+        </div>
+        <button class="btn-calcular btn-cta" id="btnCalcular">Calcular Declaración</button>
+    `;
 
     document.getElementById('resultados').style.display = 'none';
     cargarTRM();
@@ -248,3 +265,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     renderModal('ordinaria');
 });
+
+// ========== FORMATO DE ENTRADA ==========
+document.addEventListener('input', e => {
+    if (e.target.classList.contains('format-num')) {
+        let raw = e.target.value.replace(/[^0-9.]/g, '');
+        if (raw) {
+            let parts = raw.split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            e.target.value = parts.join('.');
+        }
+    }
+});
+
+document.addEventListener('blur', e => {
+    if (e.target.classList.contains('format-num')) {
+        let val = toNumber(e.target.value);
+        if (val > 0 || e.target.id === 'seguro' || e.target.id === 'arancel') {
+            e.target.style.borderColor = '#22c55e';
+            e.target.style.boxShadow = '0 0 0 2px rgba(34, 197, 94, 0.1)';
+        } else {
+            e.target.style.borderColor = '#ef4444';
+            e.target.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.1)';
+        }
+    }
+}, true);

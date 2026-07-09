@@ -17,8 +17,8 @@
 
   --text-primary:   #e2e8f0;
   --text-secondary: #c9d1dc;
-  --text-muted:     #6b7280;
-  --text-hint:      #374151;
+  --text-muted:     #94a3b8;
+  --text-hint:      #64748b;
   --text-accent:    #4a7fd4;
   --text-accent2:   #7eb3f5;
 
@@ -35,23 +35,23 @@
 
 /* ── MODO CLARO ────────────────────────────────────────────── */
 :root.light-mode {
-  --bg-base:       #f0f4f8;
-  --bg-panel:      #ffffff;
-  --bg-hover:      #e8edf5;
-  --bg-active:     #dce8f7;
-  --bg-input:      #f8fafc;
+  --bg-base:       #F1E3F3; /* Lavender Veil */
+  --bg-panel:      #C2BBF0; /* Periwinkle */
+  --bg-hover:      #8FB8ED; /* Baby Blue Ice */
+  --bg-active:     #62BFED; /* Deep Sky Blue */
+  --bg-input:      #F1E3F3;
   --bg-card:       #ffffff;
-  --bg-table-row:  #f1f5f9;
+  --bg-table-row:  rgba(255, 255, 255, 0.4);
 
-  --border:        #d1dce8;
-  --border-accent: #4a7fd4;
+  --border:        #8FB8ED;
+  --border-accent: #1E65CC; /* Darker Dodger Blue for contrast */
 
   --text-primary:   #0f172a;
-  --text-secondary: #1e293b;
+  --text-secondary: #334155;
   --text-muted:     #475569;
-  --text-hint:      #94a3b8;
-  --text-accent:    #1d4ed8;
-  --text-accent2:   #3b82f6;
+  --text-hint:      #64748b;
+  --text-accent:    #1E65CC;
+  --text-accent2:   #ffffff;
 
   --vendedor-bg:   #166534;
   --comprador-bg:  #991b1b;
@@ -60,8 +60,8 @@
   --btn-danger-text: #991b1b;
   --btn-danger-hover:#fecaca;
 
-  --scrollbar-thumb: #cbd5e1;
-  --scrollbar-hover: #94a3b8;
+  --scrollbar-thumb: #8FB8ED;
+  --scrollbar-hover: #62BFED;
 }
 
 /* ── APLICAR VARIABLES A LOS SELECTORES EXISTENTES ─────────── */

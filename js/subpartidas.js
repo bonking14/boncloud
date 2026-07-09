@@ -142,6 +142,115 @@ const subpartidas = [
     vistoBueno: ['Aerocivil — Permiso importación aeronaves', 'Matrícula aeronáutica'],
     documentos: ['Permiso Aerocivil', 'Certificado de aeronavegabilidad', 'Matrícula', 'Manual de mantenimiento'],
     notas: 'IVA excluido y arancel 0%. Requiere proceso especial ante Aerocivil.'
+  },
+  // ============= NUEVAS SUBPARTIDAS =============
+  {
+    codigo: '3304.99.00.00', titulo: 'Preparaciones de belleza y maquillaje',
+    desc: 'Preparaciones de belleza, maquillaje y cuidado de la piel, excepto protector solar.',
+    seccion: 'Químicos y plásticos', arancel: 15, iva: 19,
+    keywords: ['cosmeticos', 'maquillaje', 'belleza', 'crema', 'skincare', 'beauty'],
+    vistoBueno: ['INVIMA — Notificación sanitaria obligatoria'],
+    documentos: ['Notificación sanitaria INVIMA', 'Certificado de libre venta', 'Etiqueta en español', 'Factura comercial'],
+    notas: 'Requiere notificación sanitaria INVIMA. Etiquetado en español obligatorio antes de comercializar.'
+  },
+  {
+    codigo: '9503.00.99.00', titulo: 'Juguetes y modelos recreativos',
+    desc: 'Juguetes, modelos a escala y rompecabezas de todo tipo.',
+    seccion: 'Otros', arancel: 15, iva: 19,
+    keywords: ['juguetes', 'toys', 'muñecos', 'lego', 'juegos', 'rompecabezas'],
+    vistoBueno: ['SIC — Reglamento técnico de seguridad de juguetes'],
+    documentos: ['Certificado de conformidad SIC', 'Factura comercial', 'Etiqueta con advertencias en español'],
+    notas: 'Deben cumplir con el Reglamento Técnico de Seguridad de Juguetes (Resolución SIC). Arancel 15%.'
+  },
+  {
+    codigo: '3105.20.00.00', titulo: 'Fertilizantes NPK (Nitrógeno, Fósforo, Potasio)',
+    desc: 'Abonos minerales o químicos con los tres elementos fertilizantes: nitrógeno, fósforo y potasio.',
+    seccion: 'Químicos y plásticos', arancel: 5, iva: 0,
+    keywords: ['fertilizante', 'abono', 'npk', 'agricola', 'cultivo', 'agroquimico'],
+    vistoBueno: ['ICA — Registro de venta de insumos agrícolas'],
+    documentos: ['Registro ICA', 'Certificado de análisis', 'Ficha técnica', 'Factura comercial'],
+    notas: 'IVA 0% como insumo agrícola. Requiere registro de venta del ICA antes de comercializar.'
+  },
+  {
+    codigo: '4011.10.00.00', titulo: 'Neumáticos nuevos de caucho para automóviles',
+    desc: 'Neumáticos (llantas) nuevos de caucho, del tipo utilizado en automóviles de turismo.',
+    seccion: 'Químicos y plásticos', arancel: 15, iva: 19,
+    keywords: ['llantas', 'neumaticos', 'caucho', 'tires', 'ruedas', 'vehiculo'],
+    vistoBueno: ['SIC — Reglamento técnico RTEFI'],
+    documentos: ['Certificado de conformidad RTEFI', 'Factura comercial', 'Certificado de origen'],
+    notas: 'Sujetos al Reglamento Técnico de Etiquetado e Información de neumáticos. Arancel 15%.'
+  },
+  {
+    codigo: '1006.30.00.00', titulo: 'Arroz semiblanqueado o blanqueado',
+    desc: 'Arroz semiblanqueado o blanqueado, incluso pulido o glaseado.',
+    seccion: 'Alimentaria', arancel: 80, iva: 0,
+    keywords: ['arroz', 'rice', 'cereal', 'grano', 'alimento basico'],
+    vistoBueno: ['ICA — Permiso fitosanitario', 'INVIMA — Registro sanitario'],
+    documentos: ['Permiso fitosanitario ICA', 'Registro INVIMA', 'Certificado fitosanitario origen', 'Factura comercial'],
+    notas: 'IVA 0% como alimento básico. Arancel del 80% para proteger la producción nacional. Sujeto a contingente arancelario.'
+  },
+  {
+    codigo: '1806.32.00.00', titulo: 'Chocolate y preparaciones con cacao (en tabletas o barras)',
+    desc: 'Chocolate y demás preparaciones alimenticias que contengan cacao, en bloques, tabletas o barras, sin relleno.',
+    seccion: 'Alimentaria', arancel: 20, iva: 19,
+    keywords: ['chocolate', 'cacao', 'dulce', 'confiteria', 'barra', 'tableta'],
+    vistoBueno: ['INVIMA — Registro sanitario alimentos'],
+    documentos: ['Registro sanitario INVIMA', 'Certificado de análisis', 'Etiqueta nutricional en español', 'Factura comercial'],
+    notas: 'Arancel 20%. Requiere registro sanitario INVIMA y etiquetado nutricional. Puede aplicar impuesto saludable.'
+  },
+  {
+    codigo: '2523.29.00.00', titulo: 'Cemento Portland (otros)',
+    desc: 'Cemento Portland, excepto cemento blanco o coloreado artificialmente.',
+    seccion: 'Metales', arancel: 10, iva: 19,
+    keywords: ['cemento', 'portland', 'construccion', 'concreto', 'obra'],
+    vistoBueno: ['SIC — Reglamento técnico de cemento'],
+    documentos: ['Certificado de conformidad NTC', 'Factura comercial', 'Certificado de calidad'],
+    notas: 'Sujeto a reglamento técnico de cementos. Arancel 10%. Con TLC puede aplicar preferencia arancelaria.'
+  },
+  {
+    codigo: '8445.20.00.00', titulo: 'Máquinas para hilar materia textil',
+    desc: 'Máquinas para hilar materia textil, incluso de uso industrial.',
+    seccion: 'Electrónica', arancel: 5, iva: 19,
+    keywords: ['maquinaria', 'textil', 'hilado', 'industrial', 'telar', 'confeccion'],
+    vistoBueno: [],
+    documentos: ['Factura comercial', 'Ficha técnica del equipo', 'Manual de operación', 'Certificado de origen'],
+    notas: 'Arancel reducido al 5% para fomentar la industria textil. Puede ser 0% con TLC.'
+  },
+  {
+    codigo: '8507.60.00.00', titulo: 'Baterías de iones de litio',
+    desc: 'Acumuladores eléctricos de iones de litio, incluso recargables.',
+    seccion: 'Electrónica', arancel: 5, iva: 19,
+    keywords: ['bateria', 'litio', 'acumulador', 'battery', 'lithium', 'recargable', 'energia'],
+    vistoBueno: ['MinTransporte — Si es para vehículo eléctrico', 'ANLA — Si contiene sustancia peligrosa'],
+    documentos: ['Factura comercial', 'Ficha de seguridad (MSDS)', 'Certificado de pruebas UN38.3', 'Declaración de mercancía peligrosa'],
+    notas: 'Mercancía peligrosa Clase 9. Requiere embalaje certificado y documentación especial de transporte.'
+  },
+  {
+    codigo: '9018.90.90.00', titulo: 'Instrumentos y aparatos de medicina y cirugía',
+    desc: 'Instrumentos y aparatos de medicina, cirugía, odontología o veterinaria, no clasificados en otra partida.',
+    seccion: 'Otros', arancel: 0, iva: 0,
+    keywords: ['medico', 'cirugia', 'instrumental', 'hospital', 'quirurgico', 'salud'],
+    vistoBueno: ['INVIMA — Registro sanitario dispositivos médicos'],
+    documentos: ['Registro sanitario INVIMA', 'Certificado BPM del fabricante', 'Manual de uso', 'Factura comercial'],
+    notas: 'IVA excluido y arancel 0% para dispositivos médicos. Registro sanitario INVIMA obligatorio.'
+  },
+  {
+    codigo: '2309.90.90.00', titulo: 'Preparaciones para alimentación de animales',
+    desc: 'Preparaciones del tipo utilizado para la alimentación de animales, incluyendo premezclas y concentrados.',
+    seccion: 'Alimentaria', arancel: 15, iva: 0,
+    keywords: ['alimento animal', 'concentrado', 'pet food', 'mascota', 'ganado', 'pecuario'],
+    vistoBueno: ['ICA — Registro de alimentos para animales'],
+    documentos: ['Registro ICA', 'Certificado de análisis', 'Etiqueta aprobada ICA', 'Factura comercial'],
+    notas: 'IVA excluido como insumo pecuario. Requiere registro de alimentos para animales ante el ICA.'
+  },
+  {
+    codigo: '8502.31.00.00', titulo: 'Grupos electrógenos con motor diésel (≤ 75 kVA)',
+    desc: 'Grupos electrógenos con motor de émbolo de encendido por compresión (diésel), de potencia inferior o igual a 75 kVA.',
+    seccion: 'Electrónica', arancel: 5, iva: 19,
+    keywords: ['generador', 'planta electrica', 'diesel', 'energia', 'electrogeno', 'emergencia'],
+    vistoBueno: ['SIC — Reglamento técnico RETIE'],
+    documentos: ['Certificado RETIE', 'Factura comercial', 'Ficha técnica', 'Manual de operación'],
+    notas: 'Requiere certificación RETIE para instalación. Arancel 5%. Puede ser 0% si proviene de país con TLC.'
   }
 ];
 

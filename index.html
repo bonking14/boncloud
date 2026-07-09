@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>BonCloud — Puerto Cartagena | Smart Logistics Platform</title>
+<link rel="stylesheet" href="css/ios-dashboard.css">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; user-select:none; }
 body { height:100vh; width:100%; overflow:hidden; background:#010d16;
@@ -139,6 +140,134 @@ body.light-mode .credit { color:#2a6a9a; background:rgba(255,255,255,0.5); }
     <div class="register">Sistemas bon cloud· <a href="#">Request Demo</a></div>
   </div>
 </div>
+
+<!-- Dashboard Estilo iOS (Inicialmente oculto) -->
+<div id="ios-dashboard" style="display: none;">
+  <div class="ios-header">
+    <div class="ios-brand">
+      <h2>BONCLOUD</h2>
+      <p>Plataforma de Aprendizaje</p>
+    </div>
+    <div class="ios-greeting">
+      Hola, <span id="ios-user-name">Usuario</span> 👋
+    </div>
+    <div class="ios-user-menu">
+      <button class="ios-btn-logout" id="ios-logoutBtn">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <div class="ios-grid">
+    <!-- Widget 1: Reloj de Cartagena (2x1) -->
+    <div class="ios-widget widget-2x1 widget-clock">
+      <div>
+        <div class="clock-location">Cartagena, Colombia</div>
+        <div class="clock-time" id="widget-time">00:00:00</div>
+        <div class="clock-date" id="widget-date">Cargando fecha...</div>
+      </div>
+    </div>
+
+    <!-- Widget 2: Estado del Puerto (2x1) -->
+    <div class="ios-widget widget-2x1 widget-port">
+      <div class="port-status-header">
+        <span class="clock-location">Puerto de Cartagena</span>
+        <span class="port-badge">Operativo</span>
+      </div>
+      <div>
+        <div class="port-stats">
+          <div class="stat-item">
+            <span class="stat-val" id="port-trm">4,200 COP</span>
+            <span class="stat-lbl">TRM Referencia</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val">24/7</span>
+            <span class="stat-lbl">Operaciones</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val">Bajo</span>
+            <span class="stat-lbl">Nivel de Alertas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App 1: Importación -->
+    <div class="ios-app-card app-importacion" data-src="pages/importacion.html" data-title="Importación Logística">
+      <div class="ios-app-icon icon-grad-blue">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 15V8H3V6h4V4h4v2h2v2h8v3h-1l-2 4H4zm1 2c1 0 2-.5 3-1.5 1 1 2 1.5 3 1.5s2-.5 3-1.5c1 1 2 1.5 3 1.5s2-.5 3-1.5c1 1 2 1.5 3 1.5v2c-1 0-2-.5-3-1.5-1 1-2 1.5-3 1.5s-2-.5-3-1.5c-1 1-2 1.5-3 1.5s-2-.5-3-1.5c-1 1-2 1.5-3 1.5H4v-2z" /></svg>
+      </div>
+      <div class="ios-app-title">Importación</div>
+      <div class="ios-app-desc">Calculadora de costos FOB, CIF, aranceles e IVA.</div>
+    </div>
+
+    <!-- App 2: Exportación -->
+    <div class="ios-app-card app-exportacion" data-src="pages/exportacion.html" data-title="Exportación Portuaria">
+      <div class="ios-app-icon icon-grad-orange">
+        <svg viewBox="0 0 24 24"><path d="M17 9H7V7h10v2zm0 4H7v-2h10v2zm-2 4H7v-2h8v2zm7-12v14c0 1.66-1.34 3-3 3H5c-1.66 0-3-1.34-3-3V5c0-1.66 1.34-3 3-3h14c1.66 0 3 1.34 3 3zm-2 0H5v14h14V5z"/></svg>
+      </div>
+      <div class="ios-app-title">Exportación</div>
+      <div class="ios-app-desc">Estima costos y procesos de salida de mercancías.</div>
+    </div>
+
+    <!-- App 3: Vistos Buenos -->
+    <div class="ios-app-card app-vistos" data-src="pages/vistos-buenos.html" data-title="Consulta de Vistos Buenos">
+      <div class="ios-app-icon icon-grad-green">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      </div>
+      <div class="ios-app-title">Vistos Buenos</div>
+      <div class="ios-app-desc">Requisitos, permisos y licencias por tipo de producto.</div>
+    </div>
+
+    <!-- App 4: Incoterms -->
+    <div class="ios-app-card app-incoterms" data-src="pages/incoterms.html" data-title="Incoterms 2020">
+      <div class="ios-app-icon icon-grad-purple">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.4z"/></svg>
+      </div>
+      <div class="ios-app-title">Incoterms</div>
+      <div class="ios-app-desc">Reglas oficiales de comercio internacional y responsabilidades.</div>
+    </div>
+
+    <!-- App 5: Subpartidas -->
+    <div class="ios-app-card app-subpartidas" data-src="pages/subpartidas.html" data-title="Subpartidas Arancelarias">
+      <div class="ios-app-icon icon-grad-cyan">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </div>
+      <div class="ios-app-title">Subpartidas</div>
+      <div class="ios-app-desc">Búsqueda avanzada de códigos arancelarios y tributos.</div>
+    </div>
+
+    <!-- App 6: Formularios -->
+    <div class="ios-app-card app-formularios" data-src="pages/formularios.html" data-title="Formularios Oficiales DIAN">
+      <div class="ios-app-icon icon-grad-yellow">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      </div>
+      <div class="ios-app-title">Formularios</div>
+      <div class="ios-app-desc">Relleno interactivo y descarga de PDFs oficiales DIAN.</div>
+    </div>
+
+    <!-- App 7: Simulador Logístico -->
+    <div class="ios-app-card app-simulador" data-src="pages/simulador.html" data-title="Simulador Logístico Portuario">
+      <div class="ios-app-icon icon-grad-indigo">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2z"/></svg>
+      </div>
+      <div class="ios-app-title">Simulador</div>
+      <div class="ios-app-desc">Simula costos, tiempos y riesgos con IA o reglas.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Sistema de Ventana Modal tipo iOS -->
+<div id="ios-modal-overlay"></div>
+<div id="ios-modal-sheet">
+  <div class="ios-sheet-grabber" id="ios-modal-grabber"></div>
+  <div class="ios-sheet-header">
+    <h3 class="ios-sheet-title" id="ios-modal-title">Herramienta</h3>
+    <button class="ios-sheet-close" id="ios-modal-closeBtn">&times;</button>
+  </div>
+  <div class="ios-sheet-body">
+    <iframe class="ios-sheet-iframe" id="ios-modal-iframe" src="about:blank"></iframe>
+  </div>
+</div>
+
 <div class="credit">Bahía de Cartagena • Real-time logistics intelligence</div>
 
 <script>
@@ -589,9 +718,166 @@ document.getElementById('loginBtn').addEventListener('click',function(){
     this.style.opacity='1';
     localStorage.setItem('token','boncloud-token');
     localStorage.setItem('usuario',JSON.stringify({nombre:'Bon'}));
-    setTimeout(()=>{ window.location.href='pages/dashboard.html'; },800);
+    
+    // Transition to the new iOS Dashboard
+    setTimeout(()=>{
+      showDashboard('Bon');
+    },800);
   },1500);
 });
+
+// === iOS DASHBOARD & MODAL LOGIC ===
+function showDashboard(userName) {
+  const loginContainer = document.querySelector('.login-container');
+  const iosDashboard = document.getElementById('ios-dashboard');
+  const greetingSpan = document.getElementById('ios-user-name');
+  
+  if (greetingSpan) greetingSpan.textContent = userName;
+  
+  if (loginContainer) loginContainer.classList.add('fade-out');
+  
+  setTimeout(() => {
+    if (loginContainer) loginContainer.style.display = 'none';
+    if (iosDashboard) {
+      iosDashboard.style.display = 'flex';
+      // Force reflow
+      iosDashboard.offsetHeight;
+      iosDashboard.classList.add('active');
+    }
+  }, 500);
+  
+  startWidgetClock();
+}
+
+function startWidgetClock() {
+  const timeEl = document.getElementById('widget-time');
+  const dateEl = document.getElementById('widget-date');
+  if (!timeEl || timeEl.dataset.clockStarted) return;
+  timeEl.dataset.clockStarted = 'true';
+  
+  function updateTime() {
+    const now = new Date();
+    const optionsTime = { timeZone: 'America/Bogota', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    const optionsDate = { timeZone: 'America/Bogota', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    
+    if (timeEl) timeEl.textContent = now.toLocaleTimeString('es-CO', optionsTime);
+    if (dateEl) {
+      let dateStr = now.toLocaleDateString('es-CO', optionsDate);
+      dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+      dateEl.textContent = dateStr;
+    }
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
+}
+
+// Auto-login session check
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  
+  // Theme initialization check
+  if (saved === 'light') {
+    document.documentElement.classList.add('light-mode');
+  }
+  
+  if (token === 'boncloud-token' && usuario) {
+    const loginContainer = document.querySelector('.login-container');
+    const iosDashboard = document.getElementById('ios-dashboard');
+    const greetingSpan = document.getElementById('ios-user-name');
+    
+    if (loginContainer) loginContainer.style.display = 'none';
+    if (iosDashboard) {
+      if (greetingSpan) greetingSpan.textContent = usuario.nombre;
+      iosDashboard.style.display = 'flex';
+      iosDashboard.classList.add('active');
+    }
+    startWidgetClock();
+    updateThemeBtn();
+  }
+});
+
+// Modal Logic
+const modalOverlay = document.getElementById('ios-modal-overlay');
+const modalSheet = document.getElementById('ios-modal-sheet');
+const modalTitle = document.getElementById('ios-modal-title');
+const modalIframe = document.getElementById('ios-modal-iframe');
+const modalCloseBtn = document.getElementById('ios-modal-closeBtn');
+
+document.querySelectorAll('.ios-app-card').forEach(card => {
+  card.addEventListener('click', function() {
+    const src = this.getAttribute('data-src');
+    const title = this.getAttribute('data-title');
+    
+    if (modalIframe && modalTitle && modalOverlay && modalSheet) {
+      modalIframe.src = src;
+      modalTitle.textContent = title;
+      modalOverlay.classList.add('active');
+      modalSheet.classList.add('active');
+    }
+  });
+});
+
+function closeModal() {
+  if (modalOverlay && modalSheet && modalIframe) {
+    modalOverlay.classList.remove('active');
+    modalSheet.classList.remove('active');
+    setTimeout(() => {
+      modalIframe.src = 'about:blank';
+    }, 450);
+  }
+}
+
+if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+
+// Cerrar sesión
+const logoutBtn = document.getElementById('ios-logoutBtn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.reload();
+  });
+}
+
+// theme logic modifications to support ios-themeBtn
+const themeBtnDash = document.getElementById('ios-themeBtn');
+if (themeBtnDash) {
+  themeBtnDash.addEventListener('click', function(e) {
+    e.preventDefault();
+    isLight = !isLight;
+    document.body.classList.toggle('light-mode', isLight);
+    document.documentElement.classList.toggle('light-mode', isLight);
+    localStorage.setItem('boncloud-theme', isLight ? 'light' : 'dark');
+    updateThemeBtn();
+  });
+}
+
+// Modify the existing theme update to apply to the dashboard button too
+const originalUpdateThemeBtn = updateThemeBtn;
+updateThemeBtn = function() {
+  isLight = document.body.classList.contains('light-mode');
+  document.documentElement.classList.toggle('light-mode', isLight);
+  const label = isLight ? 'Tema Oscuro' : 'Tema Claro';
+  
+  const loginBtn = document.getElementById('btnThemeLogin');
+  if (loginBtn) loginBtn.textContent = isLight ? 'Modo oscuro' : 'Modo claro';
+  
+  const dashBtn = document.getElementById('ios-themeBtn');
+  if (dashBtn) {
+    dashBtn.textContent = label;
+    if (isLight) {
+      dashBtn.style.background = 'rgba(0, 80, 120, 0.1)';
+      dashBtn.style.borderColor = 'rgba(0, 80, 120, 0.25)';
+      dashBtn.style.color = '#005080';
+    } else {
+      dashBtn.style.background = 'rgba(0, 195, 255, 0.15)';
+      dashBtn.style.borderColor = 'rgba(0, 195, 255, 0.4)';
+      dashBtn.style.color = 'var(--ios-text-secondary)';
+    }
+  }
+};
 </script>
 </body>
 </html>
