@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BonCloud — Puerto Cartagena | Smart Logistics Platform</title>
+<link rel="stylesheet" href="css/ios-dashboard.css">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; user-select:none; }
+body { height:100vh; width:100%; overflow:hidden; background:#010d16;
+  font-family:'SF Pro Display','Inter',-apple-system,sans-serif; }
+canvas { position:absolute; top:0; left:0; width:100%; height:100%; display:block; }
+
+/* Botón de tema */
+#btnThemeLogin {
+  position:absolute; top:16px; right:16px; z-index:30;
+  background:rgba(0,0,0,0.35); backdrop-filter:blur(8px);
+  border:1px solid rgba(0,195,255,0.25); border-radius:30px;
+  padding:7px 16px; color:#90cfe8; font-size:12px;
+  cursor:pointer; transition:all .25s;
+  display:flex; align-items:center; gap:6px;
+  font-family:'SF Pro Display','Inter',-apple-system,sans-serif;
+}
+#btnThemeLogin:hover { background:rgba(0,80,120,0.5); border-color:rgba(0,210,255,0.5); color:#d4f0ff; }
+
+.light-mode #btnThemeLogin, body.light-mode #btnThemeLogin {
+  background:rgba(255,255,255,0.85); border-color:rgba(30,80,160,0.35);
+  color:#0f172a; font-weight:600;
+}
+.light-mode #btnThemeLogin:hover, body.light-mode #btnThemeLogin:hover { background:rgba(255,255,255,0.98); }
+
+/* Card adaptada */
+.light-mode .glass-card, body.light-mode .glass-card {
+  background:rgba(255,255,255,0.88);
+  border-color:rgba(30,80,160,0.3);
+  box-shadow:0 40px 80px rgba(15,23,42,0.15), 0 0 0 0.5px rgba(30,80,160,0.15) inset;
+}
+.light-mode .logo h1, body.light-mode .logo h1 {
+  background:linear-gradient(130deg,#0f172a 0%,#1e40af 55%,#0284c7 100%);
+  -webkit-background-clip:text; background-clip:text;
+}
+.light-mode .logo p, body.light-mode .logo p { color:#1e293b; font-weight:600; }
+.light-mode .input-field label, body.light-mode .input-field label { color:#0f172a; font-weight:700; }
+.light-mode .input-field input, body.light-mode .input-field input {
+  background:rgba(255,255,255,0.95);
+  border-color:rgba(30,80,160,0.35);
+  color:#0f172a; font-weight:500;
+}
+.light-mode .input-field input::placeholder, body.light-mode .input-field input::placeholder { color:#64748b; }
+.light-mode .input-field input:focus, body.light-mode .input-field input:focus { border-color:#1d4ed8; box-shadow:0 0 0 3px rgba(29,78,216,0.18); }
+.light-mode .btn-login, body.light-mode .btn-login {
+  background:linear-gradient(105deg,#2563eb 0%,#1d4ed8 55%,#1e40af 100%);
+  color:#ffffff; font-weight:700;
+}
+.light-mode .btn-login:hover, body.light-mode .btn-login:hover {
+  background:linear-gradient(105deg,#3b82f6 0%,#2563eb 55%,#1d4ed8 100%);
+}
+.light-mode .register, body.light-mode .register { color:#334155; }
+.light-mode .register a, body.light-mode .register a { color:#1d4ed8; font-weight:600; }
+.light-mode .credit, body.light-mode .credit { color:#334155; background:rgba(255,255,255,0.8); }
+
+.login-container {
+  position:absolute; top:50%; right:5%;
+  transform:translateY(-50%);
+  width:420px; max-width:88%; z-index:20;
+  animation:slideIn 1s cubic-bezier(0.2,0.9,0.4,1.1) both;
+}
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(-40%) translateX(30px); }
+  to   { opacity:1; transform:translateY(-50%) translateX(0); }
+}
+.glass-card {
+  background:rgba(4,16,26,0.62);
+  backdrop-filter:blur(22px) saturate(1.4);
+  border-radius:40px; padding:2.6rem 2.4rem;
+  border:1px solid rgba(0,195,255,0.28);
+  box-shadow:0 40px 80px rgba(0,0,0,0.55),
+             0 0 0 0.5px rgba(0,170,220,0.18) inset,
+             0 0 60px rgba(0,140,200,0.06) inset;
+  transition:border-color .35s, box-shadow .35s, background .35s;
+}
+.glass-card:hover { border-color:rgba(0,210,255,0.5); }
+.logo h1 {
+  font-size:2.1rem; font-weight:800; letter-spacing:-0.5px;
+  background:linear-gradient(130deg,#fff 0%,#7ad4ff 55%,#00c8ff 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.logo p { font-size:.6rem; color:#5bb8dc; letter-spacing:2.5px; margin-top:5px; }
+.input-group { margin:1.8rem 0 1.5rem; }
+.input-field { margin-bottom:1.2rem; }
+.input-field label { display:block; font-size:.65rem; font-weight:600; margin-bottom:6px;
+  color:#90cfe8; letter-spacing:.8px; transition:color .3s; }
+.input-field input {
+  width:100%; background:rgba(0,14,24,0.75);
+  border:1px solid rgba(30,100,130,0.7);
+  border-radius:34px; padding:13px 20px;
+  color:#e8f6ff; font-size:.85rem; outline:none; transition:all .22s;
+}
+.input-field input::placeholder { color:#3a7a98; }
+.input-field input:focus { border-color:#00bfef; box-shadow:0 0 0 3px rgba(0,160,230,0.15); background:rgba(0,20,36,0.85); }
+.btn-login {
+  width:100%; background:linear-gradient(105deg,#0d607e 0%,#065070 55%,#0a3d58 100%);
+  border:1px solid rgba(0,180,230,0.2); border-radius:36px; padding:14px;
+  font-weight:700; font-size:.85rem; color:#d4f0ff; cursor:pointer;
+  letter-spacing:.4px; transition:all .25s; box-shadow:0 6px 20px rgba(0,0,0,0.35);
+}
+.btn-login:hover { transform:translateY(-1px); box-shadow:0 10px 28px rgba(0,160,210,0.35); }
+.register { text-align:center; font-size:.68rem; margin-top:1.1rem; color:#7aaec8; transition:color .3s; }
+.register a { color:#ffc96a; text-decoration:none; }
+.register a:hover { color:#ffd98a; }
+.credit {
+  position:absolute; bottom:14px; left:18px;
+  font-size:9px; color:#4a8aaa; background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px); padding:4px 16px; border-radius:40px; z-index:20;
+  transition:color .3s, background .3s;
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<button id="btnThemeLogin">Modo claro</button>
+
+<div class="login-container">
+  <div class="glass-card">
+    <div class="logo">
+      <h1>BONCLOUD</h1>
+      <p>SYSTEMS BON CLOUD</p>
+    </div>
+    <div class="input-group">
+      <div class="input-field">
+        <label>EMAIL</label>
+        <input type="email" id="email" placeholder="operations@boncloud.com">
+      </div>
+      <div class="input-field">
+        <label>CONTRASEÑA</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+    </div>
+    <button class="btn-login" id="loginBtn">BIENVENIDO</button>
+    <div class="register">Sistemas bon cloud· <a href="#">Request Demo</a></div>
+  </div>
+</div>
+
+<!-- Dashboard Estilo iOS (Inicialmente oculto) -->
+<div id="ios-dashboard" style="display: none;">
+  <div class="ios-header">
+    <div class="ios-brand">
+      <h2>BONCLOUD</h2>
+      <p>Plataforma de Aprendizaje</p>
+    </div>
+    <div class="ios-greeting">
+      Hola, <span id="ios-user-name">Usuario</span> 👋
+    </div>
+    <div class="ios-user-menu">
+      <button class="ios-btn-logout" id="ios-logoutBtn">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <div class="ios-grid">
+    <!-- Widget 1: Reloj de Cartagena (2x1) -->
+    <div class="ios-widget widget-2x1 widget-clock">
+      <div>
+        <div class="clock-location">Cartagena, Colombia</div>
+        <div class="clock-time" id="widget-time">00:00:00</div>
+        <div class="clock-date" id="widget-date">Cargando fecha...</div>
+      </div>
+    </div>
+
+    <!-- Widget 2: Estado del Puerto (2x1) -->
+    <div class="ios-widget widget-2x1 widget-port">
+      <div class="port-status-header">
+        <span class="clock-location">Puerto de Cartagena</span>
+        <span class="port-badge">Operativo</span>
+      </div>
+      <div>
+        <div class="port-stats">
+          <div class="stat-item">
+            <span class="stat-val" id="port-trm">4,200 COP</span>
+            <span class="stat-lbl">TRM Referencia</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val">24/7</span>
+            <span class="stat-lbl">Operaciones</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val">Bajo</span>
+            <span class="stat-lbl">Nivel de Alertas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App 0: Ruta Guiada -->
+    <div class="ios-app-card app-curso" data-src="pages/curso.html" data-title="Ruta de Aprendizaje Guiada">
+      <div class="ios-app-icon icon-grad-blue" style="background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3L1 9l11 6l9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      </div>
+      <div class="ios-app-title">Ruta Guiada</div>
+      <div class="ios-app-desc">Aprende comercio exterior paso a paso con quizzes y badges.</div>
+    </div>
+
+    <!-- App 1: Importación -->
+    <div class="ios-app-card app-importacion" data-src="pages/importacion.html" data-title="Importación Logística">
+      <div class="ios-app-icon icon-grad-blue">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 15V8H3V6h4V4h4v2h2v2h8v3h-1l-2 4H4zm1 2c1 0 2-.5 3-1.5 1 1 2 1.5 3 1.5s2-.5 3-1.5c1 1 2 1.5 3 1.5s2-.5 3-1.5c1 1 2 1.5 3 1.5v2c-1 0-2-.5-3-1.5-1 1-2 1.5-3 1.5s-2-.5-3-1.5c-1 1-2 1.5-3 1.5s-2-.5-3-1.5c-1 1-2 1.5-3 1.5H4v-2z" /></svg>
+      </div>
+      <div class="ios-app-title">Importación</div>
+      <div class="ios-app-desc">Calculadora de costos FOB, CIF, aranceles e IVA.</div>
+    </div>
+
+    <!-- App 2: Exportación -->
+    <div class="ios-app-card app-exportacion" data-src="pages/exportacion.html" data-title="Exportación Portuaria">
+      <div class="ios-app-icon icon-grad-orange">
+        <svg viewBox="0 0 24 24"><path d="M17 9H7V7h10v2zm0 4H7v-2h10v2zm-2 4H7v-2h8v2zm7-12v14c0 1.66-1.34 3-3 3H5c-1.66 0-3-1.34-3-3V5c0-1.66 1.34-3 3-3h14c1.66 0 3 1.34 3 3zm-2 0H5v14h14V5z"/></svg>
+      </div>
+      <div class="ios-app-title">Exportación</div>
+      <div class="ios-app-desc">Estima costos y procesos de salida de mercancías.</div>
+    </div>
+
+    <!-- App 3: Vistos Buenos -->
+    <div class="ios-app-card app-vistos" data-src="pages/vistos-buenos.html" data-title="Consulta de Vistos Buenos">
+      <div class="ios-app-icon icon-grad-green">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      </div>
+      <div class="ios-app-title">Vistos Buenos</div>
+      <div class="ios-app-desc">Requisitos, permisos y licencias por tipo de producto.</div>
+    </div>
+
+    <!-- App 4: Incoterms -->
+    <div class="ios-app-card app-incoterms" data-src="pages/incoterms.html" data-title="Incoterms 2020">
+      <div class="ios-app-icon icon-grad-purple">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.4z"/></svg>
+      </div>
+      <div class="ios-app-title">Incoterms</div>
+      <div class="ios-app-desc">Reglas oficiales de comercio internacional y responsabilidades.</div>
+    </div>
+
+    <!-- App 5: Subpartidas -->
+    <div class="ios-app-card app-subpartidas" data-src="pages/subpartidas.html" data-title="Subpartidas Arancelarias">
+      <div class="ios-app-icon icon-grad-cyan">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </div>
+      <div class="ios-app-title">Subpartidas</div>
+      <div class="ios-app-desc">Búsqueda avanzada de códigos arancelarios y tributos.</div>
+    </div>
+
+    <!-- App 6: Formularios -->
+    <div class="ios-app-card app-formularios" data-src="pages/formularios.html" data-title="Formularios Oficiales DIAN">
+      <div class="ios-app-icon icon-grad-yellow">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      </div>
+      <div class="ios-app-title">Formularios</div>
+      <div class="ios-app-desc">Relleno interactivo y descarga de PDFs oficiales DIAN.</div>
+    </div>
+
+    <!-- App 7: Glosario -->
+    <div class="ios-app-card app-glosario" data-src="pages/glosario.html" data-title="Glosario Aduanero y Comercio Exterior">
+      <div class="ios-app-icon icon-grad-teal" style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+      </div>
+      <div class="ios-app-title">Glosario</div>
+      <div class="ios-app-desc">Términos clave, normativas DIAN, Incoterms y acrónimos.</div>
+    </div>
+
+    <!-- App 8: Simulador Logístico -->
+    <div class="ios-app-card app-simulador" data-src="pages/simulador.html" data-title="Simulador Logístico Portuario">
+      <div class="ios-app-icon icon-grad-indigo">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2z"/></svg>
+      </div>
+      <div class="ios-app-title">Simulador</div>
+      <div class="ios-app-desc">Simula costos, tiempos y riesgos con IA o reglas.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Sistema de Ventana Modal tipo iOS -->
+<div id="ios-modal-overlay"></div>
+<div id="ios-modal-sheet">
+  <div class="ios-sheet-grabber" id="ios-modal-grabber"></div>
+  <div class="ios-sheet-header">
+    <h3 class="ios-sheet-title" id="ios-modal-title">Herramienta</h3>
+    <button class="ios-sheet-close" id="ios-modal-closeBtn">&times;</button>
+  </div>
+  <div class="ios-sheet-body">
+    <iframe class="ios-sheet-iframe" id="ios-modal-iframe" src="about:blank"></iframe>
+  </div>
+</div>
+
+<div class="credit">Bahía de Cartagena • Real-time logistics intelligence</div>
+
+<script>
+const C=document.getElementById('c'),X=C.getContext('2d');
+let W,H,t=0;
+let isLight=false;
+
+// Tema guardado
+const saved=localStorage.getItem('boncloud-theme');
+if(saved==='light'){ isLight=true; document.body.classList.add('light-mode'); updateThemeBtn(); }
+
+document.getElementById('btnThemeLogin').addEventListener('click',function(){
+  isLight=!isLight;
+  document.body.classList.toggle('light-mode',isLight);
+  localStorage.setItem('boncloud-theme',isLight?'light':'dark');
+  updateThemeBtn();
+});
+
+function updateThemeBtn(){
+  document.getElementById('btnThemeLogin').textContent=isLight?'Modo oscuro':'Modo claro';
+}
+
+function resize(){W=C.width=innerWidth;H=C.height=innerHeight;}
+resize();addEventListener('resize',resize);
+function rnd(a,b){return a+Math.random()*(b-a);}
+
+// === PALETAS ===
+function pal(dark,light){ return isLight?light:dark; }
+
+// === SKY ===
+function drawSky(){
+  let g=X.createLinearGradient(0,0,0,H*0.55);
+  if(isLight){
+    g.addColorStop(0,'#4a9fd4');
+    g.addColorStop(0.3,'#6ab8e8');
+    g.addColorStop(0.7,'#8ecfef');
+    g.addColorStop(1,'#b8e2f5');
+  } else {
+    g.addColorStop(0,'#010810');
+    g.addColorStop(0.3,'#041620');
+    g.addColorStop(0.6,'#082030');
+    g.addColorStop(0.85,'#0c2a3a');
+    g.addColorStop(1,'#102838');
+  }
+  X.fillStyle=g;X.fillRect(0,0,W,H*0.55);
+}
+
+// === STARS (solo noche) ===
+const stars=Array.from({length:220},()=>({x:rnd(0,1),y:rnd(0,0.45),s:rnd(0.3,1.8),b:rnd(0.3,1),sp:rnd(0.3,1.5)}));
+function drawStars(){
+  if(isLight)return;
+  stars.forEach(s=>{
+    let flicker=0.5+0.5*Math.sin(t*s.sp+s.x*100);
+    X.globalAlpha=s.b*flicker*0.8;
+    X.fillStyle='#c8e8ff';
+    X.beginPath();X.arc(s.x*W,s.y*H,s.s,0,Math.PI*2);X.fill();
+  });
+  X.globalAlpha=1;
+}
+
+// === SOL / LUNA ===
+function drawCelestial(){
+  if(isLight){
+    // Sol
+    let sx=W*0.15,sy=H*0.12,sr=36;
+    let glow=X.createRadialGradient(sx,sy,sr*0.2,sx,sy,sr*5);
+    glow.addColorStop(0,'rgba(255,240,150,0.35)');
+    glow.addColorStop(1,'rgba(255,220,80,0)');
+    X.fillStyle=glow;X.beginPath();X.arc(sx,sy,sr*5,0,Math.PI*2);X.fill();
+    let sg=X.createRadialGradient(sx-4,sy-4,0,sx,sy,sr);
+    sg.addColorStop(0,'#fff8c0');
+    sg.addColorStop(0.5,'#ffe866');
+    sg.addColorStop(1,'#ffcc00');
+    X.fillStyle=sg;X.beginPath();X.arc(sx,sy,sr,0,Math.PI*2);X.fill();
+  } else {
+    // Luna
+    let mx=W*0.15,my=H*0.12,mr=28;
+    let g=X.createRadialGradient(mx,my,mr*0.2,mx,my,mr*4);
+    g.addColorStop(0,'rgba(200,230,255,0.15)');g.addColorStop(1,'rgba(0,30,60,0)');
+    X.fillStyle=g;X.beginPath();X.arc(mx,my,mr*4,0,Math.PI*2);X.fill();
+    let g2=X.createRadialGradient(mx-4,my-3,0,mx,my,mr);
+    g2.addColorStop(0,'#eef8ff');g2.addColorStop(0.5,'#c0d8e8');g2.addColorStop(1,'#8ab0c8');
+    X.fillStyle=g2;X.beginPath();X.arc(mx,my,mr,0,Math.PI*2);X.fill();
+  }
+}
+
+// === CLOUDS ===
+const clouds=Array.from({length:6},()=>({x:rnd(-0.1,1.1),y:rnd(0.05,0.3),w:rnd(120,300),h:rnd(15,35),sp:rnd(0.02,0.06),a:rnd(0.03,0.08)}));
+function drawClouds(){
+  clouds.forEach(c=>{
+    c.x+=c.sp*0.0003;if(c.x>1.3)c.x=-0.2;
+    X.globalAlpha=isLight?c.a*4:c.a;
+    X.fillStyle=isLight?'#ffffff':'#2a4a5e';
+    let cx=c.x*W,cy=c.y*H;
+    X.beginPath();X.ellipse(cx,cy,c.w,c.h,0,0,Math.PI*2);X.fill();
+    X.beginPath();X.ellipse(cx-c.w*0.3,cy+5,c.w*0.5,c.h*0.7,0,0,Math.PI*2);X.fill();
+    X.beginPath();X.ellipse(cx+c.w*0.35,cy+3,c.w*0.4,c.h*0.6,0,0,Math.PI*2);X.fill();
+  });
+  X.globalAlpha=1;
+}
+
+// === BUILDINGS ===
+const buildings=[];
+(function generateBuildings(){
+  let bx=0;
+  while(bx<1.05){
+    let bw=rnd(0.015,0.045),bh=rnd(0.08,0.32);
+    let type=Math.random();
+    if(type<0.2){bw=rnd(0.008,0.018);bh=rnd(0.22,0.38);}
+    else if(type<0.5){bw=rnd(0.03,0.06);bh=rnd(0.06,0.14);}
+    let windows=[];
+    let cols=Math.floor(bw*W/8),rows=Math.floor(bh*H/12);
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      windows.push({r,c,on:Math.random()>0.35,phase:rnd(0,100),speed:rnd(0.0003,0.002)});
+    }
+    let hue=rnd(190,220),sat=rnd(10,30),lit=rnd(12,22);
+    buildings.push({x:bx,w:bw,h:bh,windows,hue,sat,lit,
+      antenna:bh>0.2&&Math.random()>0.5,antennaH:rnd(0.01,0.03)});
+    bx+=bw+rnd(0.002,0.012);
+  }
+})();
+
+function drawBuildings(){
+  let horizonY=H*0.52;
+  buildings.forEach(b=>{
+    let bx=b.x*W,bw=b.w*W,bh=b.h*H;
+    let by=horizonY-bh;
+    let litBase=isLight?b.lit+30:b.lit;
+    let satBase=isLight?b.sat+10:b.sat;
+    let bg=X.createLinearGradient(bx,by,bx,horizonY);
+    bg.addColorStop(0,`hsl(${b.hue},${satBase}%,${litBase+5}%)`);
+    bg.addColorStop(1,`hsl(${b.hue},${satBase}%,${litBase-3}%)`);
+    X.fillStyle=bg;
+    X.fillRect(bx,by,bw,bh);
+    X.strokeStyle=`hsla(${b.hue},${satBase+20}%,${litBase+15}%,0.2)`;
+    X.lineWidth=0.5;X.strokeRect(bx,by,bw,bh);
+    // ventanas — solo de noche
+    if(!isLight){
+      let cols=Math.floor(bw/8),rows=Math.floor(bh/12);
+      if(cols<1)cols=1;if(rows<1)rows=1;
+      let ww=Math.max(2,(bw-4)/cols*0.6),wh=Math.max(2,8*0.6);
+      let padX=(bw-(cols*(ww+2)))/2+1,padY=6;
+      b.windows.forEach(win=>{
+        if(win.r>=rows||win.c>=cols)return;
+        let cycle=Math.sin(t*win.speed+win.phase);
+        let isOn=win.on?(cycle>-0.7):false;
+        if(isOn){
+          let bright=0.4+0.3*((cycle+0.7)/1.7);
+          let colors=['#ffeebb','#ffe8a0','#c8e0ff','#fff5d0'];
+          X.fillStyle=colors[Math.floor(win.phase)%colors.length];
+          X.globalAlpha=bright;
+          let wx=bx+padX+win.c*(ww+2),wy=by+padY+win.r*(wh+4);
+          X.fillRect(wx,wy,ww,wh);
+          X.globalAlpha=bright*0.15;X.fillRect(wx-1,wy-1,ww+2,wh+2);
+        }
+      });
+    } else {
+      // De día: ventanas reflectivas azules
+      let cols=Math.floor(bw/8),rows=Math.floor(bh/12);
+      if(cols<1)cols=1;if(rows<1)rows=1;
+      let ww=Math.max(2,(bw-4)/cols*0.6),wh=Math.max(2,8*0.6);
+      let padX=(bw-(cols*(ww+2)))/2+1,padY=6;
+      b.windows.forEach(win=>{
+        if(win.r>=rows||win.c>=cols)return;
+        X.fillStyle='#a8d4f0';
+        X.globalAlpha=0.35;
+        let wx=bx+padX+win.c*(ww+2),wy=by+padY+win.r*(wh+4);
+        X.fillRect(wx,wy,ww,wh);
+      });
+    }
+    X.globalAlpha=1;
+    if(b.antenna){
+      let ax=bx+bw/2,ay=by,ah=b.antennaH*H;
+      X.strokeStyle=isLight?'#7a9aaa':'#3a6a7a';X.lineWidth=1;
+      X.beginPath();X.moveTo(ax,ay);X.lineTo(ax,ay-ah);X.stroke();
+    }
+  });
+}
+
+// === CRANES ===
+const cranes=[
+  {x:0.38,h:0.28,boomLen:0.12,trolleyPos:0.3,trolleyDir:1,trolleySpeed:rnd(0.0002,0.0005)},
+  {x:0.44,h:0.30,boomLen:0.14,trolleyPos:0.6,trolleyDir:-1,trolleySpeed:rnd(0.0002,0.0005)},
+  {x:0.50,h:0.26,boomLen:0.11,trolleyPos:0.5,trolleyDir:1,trolleySpeed:rnd(0.0002,0.0005)},
+  {x:0.55,h:0.29,boomLen:0.13,trolleyPos:0.2,trolleyDir:-1,trolleySpeed:rnd(0.0002,0.0005)},
+];
+function drawCranes(){
+  let horizonY=H*0.52;
+  cranes.forEach(cr=>{
+    let cx=cr.x*W,ch=cr.h*H,boomL=cr.boomLen*W;
+    let baseY=horizonY,topY=baseY-ch;
+    let legW=12;
+    let craneColor=isLight?'#3a6a8a':'#1a4a5a';
+    let machineColor=isLight?'#4a7a9a':'#1a3848';
+    let boomColor=isLight?'#5a8aaa':'#2a6878';
+    X.strokeStyle=craneColor;X.lineWidth=3;
+    X.beginPath();X.moveTo(cx-legW,baseY);X.lineTo(cx-4,topY);X.stroke();
+    X.beginPath();X.moveTo(cx+legW,baseY);X.lineTo(cx+4,topY);X.stroke();
+    X.fillStyle=machineColor;X.fillRect(cx-10,topY,20,12);
+    X.strokeStyle=boomColor;X.lineWidth=2.5;
+    X.beginPath();X.moveTo(cx,topY);X.lineTo(cx+boomL,topY-15);X.stroke();
+    X.beginPath();X.moveTo(cx,topY);X.lineTo(cx-boomL*0.3,topY-10);X.stroke();
+    cr.trolleyPos+=cr.trolleyDir*cr.trolleySpeed;
+    if(cr.trolleyPos>0.95||cr.trolleyPos<0.05)cr.trolleyDir*=-1;
+    let tx=cx+boomL*cr.trolleyPos,ty=topY-15*cr.trolleyPos+2;
+    X.fillStyle=isLight?'#5aaaca':'#3a8898';X.fillRect(tx-3,ty-2,6,4);
+    X.strokeStyle=isLight?'#4a7a9a':'#2a5868';X.lineWidth=0.8;
+    let cableLen=20+cr.trolleyPos*15;
+    X.beginPath();X.moveTo(tx,ty+2);X.lineTo(tx,ty+cableLen);X.stroke();
+    X.fillStyle='#e86030';X.fillRect(tx-5,ty+cableLen,10,3);
+    if(!isLight){
+      let blink=Math.sin(t*0.004+cr.x*20)>0.3;
+      if(blink){
+        X.fillStyle='#ff4020';X.globalAlpha=0.9;
+        X.beginPath();X.arc(cx,topY-2,2.5,0,Math.PI*2);X.fill();
+        X.globalAlpha=0.15;X.beginPath();X.arc(cx,topY-2,10,0,Math.PI*2);X.fill();
+        X.globalAlpha=1;
+      }
+    }
+    X.fillStyle=isLight?'#2090c0':'#40c8ff';X.globalAlpha=0.5;
+    X.fillRect(cx-legW-2,baseY-3,4,2);X.fillRect(cx+legW-2,baseY-3,4,2);
+    X.globalAlpha=1;
+  });
+}
+
+// === SHIPS ===
+const ships=[
+  {x:0.15,y:0.58,len:100,speed:0.00005,dir:1,hullColor:'#1a2a38',superColor:'#2a3a4a'},
+  {x:0.85,y:0.61,len:120,speed:0.00004,dir:-1,hullColor:'#1a2838',superColor:'#2a3848'},
+  {x:0.50,y:0.55,len:75,speed:0.00003,dir:1,hullColor:'#1a2a3a',superColor:'#2a3a48'},
+  {x:0.35,y:0.68,len:60,speed:0.00002,dir:-1,hullColor:'#182838',superColor:'#283848'},
+  {x:0.70,y:0.74,len:50,speed:0.00003,dir:1,hullColor:'#1a2a36',superColor:'#2a3a46'},
+];
+const wakeParticles=[];
+function drawShips(){
+  let horizonY=H*0.52;
+  ships.forEach(sh=>{
+    sh.x+=sh.speed*sh.dir;
+    if(sh.x>1.15)sh.x=-0.15;if(sh.x<-0.15)sh.x=1.15;
+    let sx=sh.x*W,sy=horizonY+sh.y*H*0.25;
+    let len=sh.len,hw=len*0.12;
+    let hullC=isLight?'#2a4a6a':sh.hullColor;
+    let superC=isLight?'#3a6080':sh.superColor;
+    X.fillStyle=hullC;
+    X.beginPath();
+    X.moveTo(sx-len/2,sy);X.lineTo(sx-len/2+8,sy+hw);
+    X.lineTo(sx+len/2-5,sy+hw);X.lineTo(sx+len/2+10,sy);
+    X.closePath();X.fill();
+    X.strokeStyle='#c03020';X.lineWidth=1.5;
+    X.beginPath();X.moveTo(sx-len/2+5,sy+hw*0.7);X.lineTo(sx+len/2+5,sy+hw*0.7);X.stroke();
+    let colors=['#c04030','#3070c0','#d0a020','#308040','#d06020'];
+    let cw=8,ch=5,rows=2,cols=Math.floor(len*0.6/cw);
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      X.fillStyle=colors[(r*cols+c)%colors.length];
+      X.globalAlpha=isLight?0.9:0.7;
+      X.fillRect(sx-len*0.28+c*cw,sy-ch*r-ch+2,cw-1,ch-1);
+    }
+    X.globalAlpha=1;
+    let ssx=sx+len*0.3;
+    X.fillStyle=superC;X.fillRect(ssx,sy-18,14,18);
+    X.fillStyle=isLight?'#5a8aaa':'#3a5a6a';X.fillRect(ssx+2,sy-16,10,5);
+    X.fillStyle=isLight?'#aad4f0':'#ffe880';X.globalAlpha=0.6;X.fillRect(ssx+3,sy-15,8,3);
+    X.globalAlpha=1;
+    X.strokeStyle=isLight?'#6a8aaa':'#4a6a7a';X.lineWidth=1;
+    X.beginPath();X.moveTo(ssx+7,sy-18);X.lineTo(ssx+7,sy-28);X.stroke();
+    X.fillStyle='#00ff60';X.globalAlpha=0.8;
+    X.beginPath();X.arc(sx-len/2+3,sy-2,1.5,0,Math.PI*2);X.fill();
+    X.fillStyle='#ff2020';
+    X.beginPath();X.arc(sx+len/2+8,sy-2,1.5,0,Math.PI*2);X.fill();
+    X.globalAlpha=1;
+    if(Math.random()>0.85){
+      wakeParticles.push({x:ssx+7,y:sy-28,vx:rnd(-0.2,0.2),vy:rnd(-0.5,-0.2),life:1,size:rnd(2,5)});
+    }
+  });
+  for(let i=wakeParticles.length-1;i>=0;i--){
+    let p=wakeParticles[i];
+    p.x+=p.vx;p.y+=p.vy;p.life-=0.008;p.size+=0.03;
+    if(p.life<=0){wakeParticles.splice(i,1);continue;}
+    X.globalAlpha=p.life*0.3;
+    X.fillStyle=isLight?'#8aaabb':'#5a7a8a';
+    X.beginPath();X.arc(p.x,p.y,p.size,0,Math.PI*2);X.fill();
+  }
+  X.globalAlpha=1;
+}
+
+// === BUOYS ===
+const buoys=[{x:0.32,y:0.66},{x:0.58,y:0.72},{x:0.75,y:0.63}];
+function drawBuoys(){
+  let horizonY=H*0.52;
+  buoys.forEach(b=>{
+    let bx=b.x*W,by=horizonY+(b.y-0.5)*H*0.8;
+    let bob=Math.sin(t*0.002+b.x*30)*3;by+=bob;
+    X.fillStyle='#d04030';X.beginPath();X.arc(bx,by,4,0,Math.PI*2);X.fill();
+    X.fillStyle='#e06050';X.beginPath();X.arc(bx-1,by-1,1.5,0,Math.PI*2);X.fill();
+    let blink=Math.sin(t*0.005+b.x*40)>0.7;
+    if(blink){
+      X.fillStyle='#ffff60';X.globalAlpha=0.9;
+      X.beginPath();X.arc(bx,by-5,2,0,Math.PI*2);X.fill();
+      X.globalAlpha=0.15;X.beginPath();X.arc(bx,by-5,8,0,Math.PI*2);X.fill();
+      X.globalAlpha=1;
+    }
+  });
+}
+
+// === WATER ===
+function drawWater(){
+  let horizonY=H*0.52;
+  let wg=X.createLinearGradient(0,horizonY,0,H);
+  if(isLight){
+    wg.addColorStop(0,'#4ab0d8');wg.addColorStop(0.3,'#38a0c8');
+    wg.addColorStop(0.7,'#2888b0');wg.addColorStop(1,'#1a6890');
+  } else {
+    wg.addColorStop(0,'#041820');wg.addColorStop(0.3,'#031218');
+    wg.addColorStop(0.7,'#020c12');wg.addColorStop(1,'#010810');
+  }
+  X.fillStyle=wg;X.fillRect(0,horizonY,W,H-horizonY);
+
+  for(let layer=0;layer<4;layer++){
+    let freq=0.008+layer*0.004,amp=1.5-layer*0.3,yOff=horizonY+layer*((H-horizonY)/4);
+    X.strokeStyle=isLight
+      ?`rgba(255,255,255,${0.15-layer*0.03})`
+      :`rgba(30,90,120,${0.12-layer*0.025})`;
+    X.lineWidth=0.6;
+    X.beginPath();
+    for(let x=0;x<W;x+=3){
+      let y=yOff+Math.sin(x*freq+t*0.001+layer*2)*amp+Math.sin(x*0.015+t*0.0007)*amp*0.6;
+      x===0?X.moveTo(x,y):X.lineTo(x,y);
+    }
+    X.stroke();
+  }
+
+  // Reflejos
+  if(!isLight){
+    buildings.forEach(b=>{
+      let bx=b.x*W,bw=b.w*W;
+      let litWindows=b.windows.filter(w=>w.on&&Math.sin(t*w.speed+w.phase)>-0.7);
+      if(litWindows.length===0)return;
+      let refX=bx+bw/2,refStartY=horizonY+5,refLen=Math.min(b.h*H*0.6,80);
+      let rg=X.createLinearGradient(refX,refStartY,refX,refStartY+refLen);
+      rg.addColorStop(0,'rgba(255,235,170,0.12)');rg.addColorStop(1,'rgba(255,235,170,0)');
+      X.fillStyle=rg;
+      for(let dy=0;dy<refLen;dy+=2){
+        let wobble=Math.sin(dy*0.1+t*0.002+b.x*20)*3;
+        X.globalAlpha=0.08*(1-dy/refLen);
+        X.fillRect(refX+wobble-2,refStartY+dy,4,2);
+      }
+      X.globalAlpha=1;
+    });
+  } else {
+    // Reflejos de sol en el agua
+    for(let i=0;i<20;i++){
+      let sx=rnd(0,W*0.4),sy=horizonY+rnd(10,80);
+      let shimmer=Math.sin(t*0.003+sx*0.01)*0.5+0.5;
+      if(shimmer>0.5){
+        X.globalAlpha=(shimmer-0.5)*0.3;
+        X.fillStyle='#ffffff';
+        X.fillRect(sx,sy,rnd(15,40),0.8);
+      }
+    }
+  }
+  X.globalAlpha=1;
+}
+
+// === HAZE ===
+function drawHaze(){
+  let horizonY=H*0.52;
+  let hg=X.createLinearGradient(0,horizonY-60,0,horizonY+20);
+  if(isLight){
+    hg.addColorStop(0,'rgba(100,180,220,0)');
+    hg.addColorStop(0.5,'rgba(180,220,240,0.2)');
+    hg.addColorStop(1,'rgba(150,200,230,0.1)');
+  } else {
+    hg.addColorStop(0,'rgba(15,40,60,0)');
+    hg.addColorStop(0.5,'rgba(20,50,70,0.25)');
+    hg.addColorStop(1,'rgba(15,35,50,0.1)');
+  }
+  X.fillStyle=hg;X.fillRect(0,horizonY-60,W,80);
+}
+
+// === PLANES ===
+const planes=[
+  {x:-0.1,y:0.08,speed:0.00012,dir:1,phase:0},
+  {x:1.15,y:0.15,speed:0.00009,dir:-1,phase:50},
+  {x:0.3,y:0.05,speed:0.00007,dir:1,phase:120},
+];
+function drawPlanes(){
+  planes.forEach(p=>{
+    p.x+=p.speed*p.dir;
+    if(p.dir>0&&p.x>1.25)p.x=-0.15;
+    if(p.dir<0&&p.x<-0.15)p.x=1.25;
+    let px=p.x*W,py=p.y*H;
+    let sz=p.y<0.1?6:9;
+    let alpha=isLight?(p.y<0.1?0.5:0.7):(p.y<0.1?0.3:0.5);
+    X.fillStyle=isLight?'#8aaabb':'#6a8a9a';X.globalAlpha=alpha;
+    X.beginPath();X.ellipse(px,py,sz,sz*0.25,0,0,Math.PI*2);X.fill();
+    let blink=Math.sin(t*0.008+p.phase)>0.4;
+    X.globalAlpha=blink?0.9:0.3;
+    let wingSpan=sz*0.8;
+    X.fillStyle=p.dir>0?'#ff2020':'#00ff40';
+    X.beginPath();X.arc(px-wingSpan*p.dir,py,1.2,0,Math.PI*2);X.fill();
+    X.fillStyle=p.dir>0?'#00ff40':'#ff2020';
+    X.beginPath();X.arc(px+wingSpan*p.dir,py,1.2,0,Math.PI*2);X.fill();
+    X.globalAlpha=1;
+    let trailDir=-p.dir;
+    X.strokeStyle=isLight?'rgba(200,220,240,0.15)':'rgba(150,180,200,0.05)';
+    X.lineWidth=1.2;
+    X.beginPath();X.moveTo(px+10*trailDir,py);X.lineTo(px+90*trailDir,py+1.5*trailDir);X.stroke();
+  });
+}
+
+// === RENDER ===
+function render(){
+  t++;
+  X.clearRect(0,0,W,H);
+  drawSky();
+  drawStars();
+  drawCelestial();
+  drawClouds();
+  drawPlanes();
+  drawHaze();
+  drawBuildings();
+  drawCranes();
+  drawWater();
+  drawShips();
+  drawBuoys();
+  requestAnimationFrame(render);
+}
+render();
+
+// === LOGIN ===
+document.getElementById('loginBtn').addEventListener('click',function(){
+  let em=document.getElementById('email').value;
+  let pw=document.getElementById('password').value;
+  if(!em||!pw){
+    this.style.background='linear-gradient(105deg,#802020,#601818,#501515)';
+    this.textContent='COMPLETA LOS CAMPOS';
+    setTimeout(()=>{this.style.background='';this.textContent='BIENVENIDO';},2000);return;
+  }
+  if(em!=='bon@boncloud.com'||pw!=='Admin123!'){
+    this.style.background='linear-gradient(105deg,#802020,#601818,#501515)';
+    this.textContent='CREDENCIALES INCORRECTAS';
+    setTimeout(()=>{this.style.background='';this.textContent='BIENVENIDO';},2000);return;
+  }
+  this.textContent='VERIFICANDO...';this.style.opacity='0.7';
+  setTimeout(()=>{
+    this.textContent='ACCESO CONCEDIDO';
+    this.style.background='linear-gradient(105deg,#0a6040,#085838,#064830)';
+    this.style.opacity='1';
+    localStorage.setItem('token','boncloud-token');
+    localStorage.setItem('usuario',JSON.stringify({nombre:'Bon'}));
+    
+    // Transition to the new iOS Dashboard
+    setTimeout(()=>{
+      showDashboard('Bon');
+    },800);
+  },1500);
+});
+
+// === iOS DASHBOARD & MODAL LOGIC ===
+function showDashboard(userName) {
+  const loginContainer = document.querySelector('.login-container');
+  const iosDashboard = document.getElementById('ios-dashboard');
+  const greetingSpan = document.getElementById('ios-user-name');
+  
+  if (greetingSpan) greetingSpan.textContent = userName;
+  
+  if (loginContainer) loginContainer.classList.add('fade-out');
+  
+  setTimeout(() => {
+    if (loginContainer) loginContainer.style.display = 'none';
+    if (iosDashboard) {
+      iosDashboard.style.display = 'flex';
+      // Force reflow
+      iosDashboard.offsetHeight;
+      iosDashboard.classList.add('active');
+    }
+  }, 500);
+  
+  startWidgetClock();
+}
+
+function startWidgetClock() {
+  const timeEl = document.getElementById('widget-time');
+  const dateEl = document.getElementById('widget-date');
+  if (!timeEl || timeEl.dataset.clockStarted) return;
+  timeEl.dataset.clockStarted = 'true';
+  
+  function updateTime() {
+    const now = new Date();
+    const optionsTime = { timeZone: 'America/Bogota', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    const optionsDate = { timeZone: 'America/Bogota', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    
+    if (timeEl) timeEl.textContent = now.toLocaleTimeString('es-CO', optionsTime);
+    if (dateEl) {
+      let dateStr = now.toLocaleDateString('es-CO', optionsDate);
+      dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+      dateEl.textContent = dateStr;
+    }
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
+}
+
+// Auto-login session check
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  
+  // Theme initialization check
+  if (saved === 'light') {
+    document.documentElement.classList.add('light-mode');
+  }
+  
+  if (token === 'boncloud-token' && usuario) {
+    const loginContainer = document.querySelector('.login-container');
+    const iosDashboard = document.getElementById('ios-dashboard');
+    const greetingSpan = document.getElementById('ios-user-name');
+    
+    if (loginContainer) loginContainer.style.display = 'none';
+    if (iosDashboard) {
+      if (greetingSpan) greetingSpan.textContent = usuario.nombre;
+      iosDashboard.style.display = 'flex';
+      iosDashboard.classList.add('active');
+    }
+    startWidgetClock();
+    updateThemeBtn();
+  }
+});
+
+// Modal Logic
+const modalOverlay = document.getElementById('ios-modal-overlay');
+const modalSheet = document.getElementById('ios-modal-sheet');
+const modalTitle = document.getElementById('ios-modal-title');
+const modalIframe = document.getElementById('ios-modal-iframe');
+const modalCloseBtn = document.getElementById('ios-modal-closeBtn');
+
+document.querySelectorAll('.ios-app-card').forEach(card => {
+  card.addEventListener('click', function() {
+    const src = this.getAttribute('data-src');
+    const title = this.getAttribute('data-title');
+    
+    if (modalIframe && modalTitle && modalOverlay && modalSheet) {
+      modalIframe.src = src;
+      modalTitle.textContent = title;
+      modalOverlay.classList.add('active');
+      modalSheet.classList.add('active');
+    }
+  });
+});
+
+function closeModal() {
+  if (modalOverlay && modalSheet && modalIframe) {
+    modalOverlay.classList.remove('active');
+    modalSheet.classList.remove('active');
+    setTimeout(() => {
+      modalIframe.src = 'about:blank';
+    }, 450);
+  }
+}
+
+if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+
+// Cerrar sesión
+const logoutBtn = document.getElementById('ios-logoutBtn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.reload();
+  });
+}
+
+// theme logic modifications to support ios-themeBtn
+const themeBtnDash = document.getElementById('ios-themeBtn');
+if (themeBtnDash) {
+  themeBtnDash.addEventListener('click', function(e) {
+    e.preventDefault();
+    isLight = !isLight;
+    document.body.classList.toggle('light-mode', isLight);
+    document.documentElement.classList.toggle('light-mode', isLight);
+    localStorage.setItem('boncloud-theme', isLight ? 'light' : 'dark');
+    updateThemeBtn();
+  });
+}
+
+// Modify the existing theme update to apply to the dashboard button too
+const originalUpdateThemeBtn = updateThemeBtn;
+updateThemeBtn = function() {
+  isLight = document.body.classList.contains('light-mode');
+  document.documentElement.classList.toggle('light-mode', isLight);
+  const label = isLight ? 'Tema Oscuro' : 'Tema Claro';
+  
+  const loginBtn = document.getElementById('btnThemeLogin');
+  if (loginBtn) loginBtn.textContent = isLight ? 'Modo oscuro' : 'Modo claro';
+  
+  const dashBtn = document.getElementById('ios-themeBtn');
+  if (dashBtn) {
+    dashBtn.textContent = label;
+    if (isLight) {
+      dashBtn.style.background = 'rgba(0, 80, 120, 0.1)';
+      dashBtn.style.borderColor = 'rgba(0, 80, 120, 0.25)';
+      dashBtn.style.color = '#005080';
+    } else {
+      dashBtn.style.background = 'rgba(0, 195, 255, 0.15)';
+      dashBtn.style.borderColor = 'rgba(0, 195, 255, 0.4)';
+      dashBtn.style.color = 'var(--ios-text-secondary)';
+    }
+  }
+};
+</script>
+</body>
+</html>

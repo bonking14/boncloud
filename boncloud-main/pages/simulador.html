@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonCloud — Simulador Logístico</title>
+    <link rel="stylesheet" href="../css/styles.css?v=1.1">
+    <link rel="stylesheet" href="../css/theme.css?v=1.1">
+    <link rel="stylesheet" href="../css/formularios.css?v=1.1">
+    <!-- html2pdf, jsPDF y autoTable para exportar a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+        <a href="dashboard.html" class="nav-item">Inicio</a>
+        <a href="importacion.html" class="nav-item">Importación</a>
+        <a href="exportacion.html" class="nav-item">Exportación</a>
+        <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
+        <a href="incoterms.html" class="nav-item">Incoterms</a>
+        <a href="subpartidas.html" class="nav-item">Subpartidas</a>
+        <a href="formularios.html" class="nav-item">Formularios</a>
+        <a href="glosario.html" class="nav-item">Glosario</a>
+        <a href="simulador.html" class="nav-item active">Simulador Logístico</a>
+    </nav>
+    <div class="sidebar-footer">
+        <span id="nombre-usuario" style="padding: 0 14px;"></span>
+        <a href="#" id="btnLogout" class="nav-item">
+            <i class="ph ph-sign-out"></i> Cerrar sesión
+        </a>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+        <h1>Simulador Logístico</h1>
+        <p>Analiza operaciones de importación, tiempos y riesgos.</p>
+    </div>
+
+    <!-- Contenedor principal donde se renderizará el HTML del simulador -->
+    <div id="simulador-container"></div>
+</div>
+
+<!-- Scripts base y lógica del tema -->
+<script src="../js/dashboard.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/simulador.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Renderizar HTML del simulador en el contenedor
+        document.getElementById('simulador-container').innerHTML = getSimuladorHTML();
+        // Inicializar lógica (navegación, calculos, fetch, pdf)
+        setupSimuladorLogic();
+
+        // Recuperar usuario para la barra lateral
+        const token = localStorage.getItem('token');
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
+        if(!token || !usuario) {
+            window.location.href = '../index.html';
+        } else {
+            const spanNombre = document.getElementById('nombre-usuario');
+            if(spanNombre) spanNombre.textContent = usuario.nombre;
+        }
+
+        const btnLogout = document.getElementById('btnLogout');
+        if(btnLogout){
+            btnLogout.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('usuario');
+                window.location.href = '../index.html';
+            });
+        }
+    });
+</script>
+</body>
+</html>

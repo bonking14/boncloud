@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonCloud — Glosario Aduanero y Comercio Exterior</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Hojas de estilo del tema dinámico -->
+    <link rel="stylesheet" href="../css/theme.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="sidebar-brand"><h2>BonCloud</h2></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">Inicio</a>
+      <a href="importacion.html" class="nav-item">Importación</a>
+      <a href="exportacion.html" class="nav-item">Exportación</a>
+      <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
+      <a href="incoterms.html" class="nav-item">Incoterms</a>
+      <a href="subpartidas.html" class="nav-item">Subpartidas</a>
+      <a href="formularios.html" class="nav-item">Formularios</a>
+      <a href="glosario.html" class="nav-item active">Glosario</a>
+      <a href="simulador.html" class="nav-item">Simulador Logístico</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="nombre-usuario"></span>
+      <button id="btnLogout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <div class="dashboard-header">
+      <h1>📖 Glosario de Comercio Exterior y Aduanas</h1>
+      <p>Consulta términos clave, normativas DIAN, Incoterms y conceptos operativos portuarios</p>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="buscador-section">
+      <div class="buscador-box">
+        <span class="buscador-icon">🔍</span>
+        <input
+          type="text"
+          id="buscador"
+          placeholder="Busca un término, acrónimo o definición... Ej: CIF, DTA, Levante, IVA"
+          autocomplete="off"
+        >
+        <button id="btnLimpiar">✕</button>
+      </div>
+
+      <div class="filtros-seccion">
+        <span class="filtros-label">Categorías:</span>
+        <div class="filtros-wrap" id="filtros-categorias"></div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <span id="total-resultados">Cargando términos...</span>
+      <span class="stats-hint">Haz clic en una tarjeta para ver la definición técnica completa y ejemplos</span>
+    </div>
+
+    <!-- GRID -->
+    <div class="glosario-grid" id="glosario-grid"></div>
+
+    <!-- DETALLE MODAL -->
+    <div class="glosario-modal-overlay" id="glosario-modal-overlay" style="display:none">
+      <div class="glosario-modal">
+        <button class="glosario-modal-close" id="glosario-modal-close">✕</button>
+        <div id="glosario-modal-contenido"></div>
+      </div>
+    </div>
+
+    <div class="sin-resultados" id="sin-resultados" style="display:none">
+      <p>⚠️ No se encontraron términos para tu búsqueda.</p>
+      <p>Intenta con otra palabra clave o acrónimo aduanero.</p>
+    </div>
+
+  </div>
+
+  <!-- Scripts base, lógica de glosario y del tema -->
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/glosario.js"></script>
+  <script src="../js/theme.js"></script>
+</body>
+</html>
