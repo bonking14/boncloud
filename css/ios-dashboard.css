@@ -585,3 +585,10 @@ body.light-mode .port-badge {
   pointer-events: auto !important;
   transform: scale(1) !important;
 }
+
+
+/* La barra de arrastre es un gesto de móvil: en escritorio no hace nada, así que no se muestra */
+@media (min-width: 769px) {
+  .ios-sheet-grabber { display: none; }
+  .ios-sheet-header { padding-top: 16px; }
+}
