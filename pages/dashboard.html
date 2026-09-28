@@ -14,12 +14,14 @@
     <div class="sidebar-brand"><h2>BonCloud</h2></div>
     <nav>
         <a href="dashboard.html" class="nav-item active">Inicio</a>
+        <a href="curso.html" class="nav-item">Ruta Guiada</a>
         <a href="importacion.html" class="nav-item">Importación</a>
         <a href="exportacion.html" class="nav-item">Exportación</a>
         <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
         <a href="incoterms.html" class="nav-item">Incoterms</a>
         <a href="subpartidas.html" class="nav-item">Subpartidas</a>
         <a href="formularios.html" class="nav-item">Formularios</a>
+        <a href="glosario.html" class="nav-item">Glosario</a>
         <a href="simulador.html" class="nav-item">Simulador Logístico</a>
     </nav>
     <div class="sidebar-footer">
@@ -33,6 +35,20 @@
         <h1>Bienvenido, <span id="saludo"></span> 👋</h1>
         <p>Plataforma de Inteligencia Portuaria — Puerto de Cartagena</p>
     </div>
+
+    <section class="ruta-card" aria-labelledby="ruta-card-titulo">
+        <div class="ruta-card-texto">
+            <h3 id="ruta-card-titulo">Ruta de Aprendizaje</h3>
+            <p id="ruta-card-siguiente">Sigue un embarque real de Shanghái a Cartagena en 8 lecciones.</p>
+        </div>
+        <div class="ruta-card-progreso">
+            <div class="ruta-card-barra" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0" aria-label="Lecciones aprobadas">
+                <div class="ruta-card-relleno" id="ruta-card-relleno"></div>
+            </div>
+            <span id="ruta-card-conteo">0 de 8 lecciones</span>
+        </div>
+        <a class="btn-card ruta-card-boton" id="ruta-card-boton" href="curso.html">Empezar</a>
+    </section>
 
     <div class="cards">
         <div class="card">
@@ -60,11 +76,59 @@
             <p>Busca códigos arancelarios, aranceles y requisitos.</p>
             <button class="btn-card" onclick="window.location.href='subpartidas.html'">Buscar</button>
         </div>
+        <div class="card">
+            <h3>📋 Formularios DIAN</h3>
+            <p>Diligenciamiento interactivo de formularios oficiales.</p>
+            <button class="btn-card" onclick="window.location.href='formularios.html'">Diligenciar</button>
+        </div>
+        <div class="card">
+            <h3>📖 Glosario Aduanero</h3>
+            <p>Términos técnicos, normativas DIAN y acrónimos.</p>
+            <button class="btn-card" onclick="window.location.href='glosario.html'">Consultar</button>
+        </div>
+        <div class="card">
+            <h3>🤖 Simulador Logístico</h3>
+            <p>Simulación de costos, tiempos y riesgos de una importación.</p>
+            <button class="btn-card" onclick="window.location.href='simulador.html'">Simular</button>
+        </div>
     </div>
 </div>
 
 <!-- Scripts base y lógica global del tema -->
 <script src="../js/dashboard.js"></script>
+<script src="../js/cursos.js"></script>
 <script src="../js/theme.js"></script>
+<script>
+  // Tarjeta de la Ruta de Aprendizaje: muestra el progreso guardado y la siguiente lección
+  (function () {
+    const total = CURSO_LECCIONES.length;
+    let hechas = [];
+    try {
+      const data = JSON.parse(localStorage.getItem('boncloud_progreso_curso_v2'));
+      if (data && Array.isArray(data.leccionesCompletadas)) hechas = data.leccionesCompletadas;
+    } catch (e) { hechas = []; }
+
+    const siguiente = CURSO_LECCIONES.find(l => !hechas.includes(l.id));
+    const pct = Math.round((hechas.length / total) * 100);
+
+    document.getElementById('ruta-card-conteo').textContent = `${hechas.length} de ${total} lecciones`;
+    document.querySelector('.ruta-card-barra').setAttribute('aria-valuenow', String(hechas.length));
+    document.querySelector('.ruta-card-barra').setAttribute('aria-valuemax', String(total));
+
+    const texto = document.getElementById('ruta-card-siguiente');
+    const boton = document.getElementById('ruta-card-boton');
+    if (hechas.length === total) {
+      texto.textContent = 'Terminaste las 8 lecciones. Puedes repasarlas o descargar tu constancia.';
+      boton.textContent = 'Repasar';
+    } else if (hechas.length > 0) {
+      texto.textContent = `Sigue con la lección ${siguiente.orden}: ${siguiente.titulo}`;
+      boton.textContent = 'Continuar';
+      boton.href = `curso.html?leccion=${siguiente.id}`;
+    }
+
+    const relleno = document.getElementById('ruta-card-relleno');
+    requestAnimationFrame(() => requestAnimationFrame(() => { relleno.style.width = pct + '%'; }));
+  })();
+</script>
 </body>
 </html>

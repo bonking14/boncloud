@@ -840,6 +840,57 @@ table.dian-table input {
       window.print();
     }
   }
+
+  // ===== TOOLTIPS PEDAGÓGICOS RUT =====
+  const explicacionesRUT = {
+    "5": "Número de Identificación Tributaria (NIT) asignado por la DIAN.",
+    "6": "Dígito de Verificación (DV) generado automáticamente mediante algoritmo modular 11.",
+    "24": "Tipo de contribuyente (Persona Jurídica, Persona Natural, Gran Contribuyente).",
+    "35": "Razón Social o Nombre completo registrado legalmente en Cámara de Comercio.",
+    "53": "Código de Responsabilidad Aduanera (Ej: 10 - Usuario Aduanero, 22 - Exportador, 23 - Importador).",
+    "54": "Código de usuario aduanero según el régimen registrado ante la DIAN.",
+    "161": "Código de la actividad económica principal según la clasificación CIIU 4 A.C."
+  };
+
+  const tooltipPopupRUT = document.createElement('div');
+  tooltipPopupRUT.id = 'rut-tooltip-popup';
+  tooltipPopupRUT.style.cssText = 'position:absolute;z-index:9999;background:#0f172a;color:#f8fafc;border:1px solid #334155;border-radius:8px;padding:10px 14px;font-size:11px;max-width:280px;box-shadow:0 10px 25px rgba(0,0,0,0.5);display:none;line-height:1.4;pointer-events:none;';
+  document.body.appendChild(tooltipPopupRUT);
+
+  document.querySelectorAll('.cell-num, .cl-num').forEach(el => {
+    const text = el.textContent.replace(/\D/g, '');
+    if (explicacionesRUT[text]) {
+      el.style.cursor = 'help';
+      el.style.textDecoration = 'underline dotted #3b82f6';
+      
+      el.addEventListener('mouseenter', (e) => {
+        tooltipPopupRUT.innerHTML = `<h5 style="margin:0 0 4px 0;color:#60a5fa;font-size:12px;">Casilla ${text} RUT</h5>${explicacionesRUT[text]}`;
+        tooltipPopupRUT.style.display = 'block';
+        const rect = el.getBoundingClientRect();
+        tooltipPopupRUT.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+        tooltipPopupRUT.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 300) + 'px';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        tooltipPopupRUT.style.display = 'none';
+      });
+    }
+  });
+
+  function precargarRUT() {
+    const setV = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+    setV('nit_1', '900123456');
+    calcDV();
+    setV('tipo_contribuyente', 'Persona Jurídica');
+    setV('tipo_doc', 'NIT');
+    setV('num_id', '900123456');
+    setV('dir_principal', 'Zona Franca Parque Central, Bodega 4B, Cartagena');
+    setV('act_principal', '5229 - Actividades de las agencias de carga y transporte');
+    alert('✅ Datos reales de prueba precargados en el Formulario 001 RUT.');
+  }
 </script>
+<button onclick="precargarRUT()" style="position:fixed;bottom:20px;right:20px;z-index:999;background:#2563eb;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+  ⚡ Llenar Datos de Ejemplo (RUT)
+</button>
 </body>
 </html>

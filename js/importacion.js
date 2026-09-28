@@ -1,24 +1,28 @@
 // ========== IMPORTACIÓN - 3 MODALIDADES ==========
 
 function toNumber(value) {
+    // Acepta "60000", "60,000" (formato del campo), "60.000" (formato colombiano),
+    // "4,100.50" y "4.100,50". Antes "60,000" se leía como 60.
     if (value === null || value === undefined || value === '') return 0;
     if (typeof value === 'number') return value;
-    let str = String(value).trim();
-    if (str.includes(',') && str.includes('.')) {
-        const lastDot = str.lastIndexOf('.');
-        const lastComma = str.lastIndexOf(',');
-        if (lastComma > lastDot) {
-            str = str.replace(/\./g, '');
-            str = str.replace(',', '.');
+    let str = String(value).trim().replace(/[^0-9.,-]/g, '');
+    const tieneComa = str.includes(',');
+    const tienePunto = str.includes('.');
+    if (tieneComa && tienePunto) {
+        if (str.lastIndexOf(',') > str.lastIndexOf('.')) {
+            str = str.replace(/\./g, '').replace(',', '.');   // 4.100,50
         } else {
-            str = str.replace(/,/g, '');
+            str = str.replace(/,/g, '');                      // 4,100.50
         }
-    } else if (str.includes(',') && !str.includes('.')) {
-        str = str.replace(',', '.');
-    } else if (str.includes('.') && (str.match(/\./g) || []).length > 1) {
-        str = str.replace(/\./g, '');
+    } else if (tieneComa) {
+        str = /^-?\d{1,3}(,\d{3})+$/.test(str)
+            ? str.replace(/,/g, '')                           // 60,000
+            : str.replace(',', '.');                          // 0,5
+    } else if (tienePunto) {
+        if (/^-?\d{1,3}(\.\d{3})+$/.test(str) && !/^-?0\./.test(str)) {
+            str = str.replace(/\./g, '');                     // 60.000
+        }
     }
-    str = str.replace(/[^0-9.-]/g, '');
     const num = parseFloat(str);
     return isNaN(num) ? 0 : num;
 }
@@ -32,17 +36,23 @@ function formatCOP(valor) {
 }
 
 // ========== CÁLCULOS ==========
+// La DIAN aproxima cada tributo al múltiplo de mil más cercano
+function aMiles(valor) {
+    return Math.round(valor / 1000) * 1000;
+}
+
 function calcularOrdinaria(v) {
-    const seguro = v.seguro > 0 ? v.seguro : v.fob * 0.005;
+    const seguroSupuesto = !(v.seguro > 0);
+    const seguro = seguroSupuesto ? v.fob * 0.005 : v.seguro;
     const cifUSD = v.fob + v.flete + seguro;
     const baseArancelariaCOP = cifUSD * v.trm;
-    const totalArancel = baseArancelariaCOP * (v.arancel / 100);
+    const totalArancel = aMiles(baseArancelariaCOP * (v.arancel / 100));
     const baseIVA = baseArancelariaCOP + totalArancel;
-    const totalIVA = baseIVA * 0.19;
+    const totalIVA = aMiles(baseIVA * 0.19);
     const totalImpuestos = totalArancel + totalIVA;
     const gastosNac = (v.agencia || 0) + (v.bodegaje || 0) + (v.transporte || 0);
     const totalPagar = totalImpuestos + gastosNac;
-    return { fob: v.fob, flete: v.flete, seguro, cifUSD, arancelPorcentaje: v.arancel, trm: v.trm,
+    return { fob: v.fob, flete: v.flete, seguro, seguroSupuesto, cifUSD, arancelPorcentaje: v.arancel, trm: v.trm,
         baseArancelariaCOP: Math.round(baseArancelariaCOP), totalArancel: Math.round(totalArancel),
         baseIVA: Math.round(baseIVA), totalIVA: Math.round(totalIVA),
         totalImpuestos: Math.round(totalImpuestos), gastosNacionalizacion: Math.round(gastosNac),
@@ -81,19 +91,19 @@ const modalidades = {
         titulo: 'Importación Ordinaria',
         badge: 'C100',
         subtitulo: 'Mercancías para consumo definitivo en Colombia',
-        info: 'Importación Ordinaria — Declaración de mercancías para consumo definitivo en Colombia. Aplica arancel + IVA (19%) sobre base arancelaria CIF.',
+        info: 'Importación ordinaria: mercancías para consumo definitivo en Colombia. El arancel se liquida sobre el valor en aduana (CIF) y el IVA del 19% sobre el valor en aduana más el arancel. Cada tributo se aproxima al múltiplo de mil.',
         campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje', 'transporte'],
         calcular: (v) => {
             const r = calcularOrdinaria(v);
             return [
                 { label: '1. Valor FOB', valor: formatUSD(r.fob) },
                 { label: '2. + Flete', valor: formatUSD(r.flete) },
-                { label: '3. + Seguro', valor: formatUSD(r.seguro) },
-                { label: '4. = Valor CIF USD', valor: formatUSD(r.cifUSD), clase: 'destacado' },
-                { label: `5. Base Arancelaria (× TRM ${r.trm.toLocaleString('es-CO')})`, valor: formatCOP(r.baseArancelariaCOP) },
-                { label: `6. + Arancel (${r.arancelPorcentaje}%)`, valor: formatCOP(r.totalArancel) },
-                { label: '7. = Base IVA', valor: formatCOP(r.baseIVA), clase: 'destacado' },
-                { label: '8. + IVA (19%)', valor: formatCOP(r.totalIVA) },
+                { label: r.seguroSupuesto ? '3. + Seguro (supuesto: 0,5% del FOB, no se escribió la prima real)' : '3. + Seguro', valor: formatUSD(r.seguro) },
+                { label: '4. = Valor en aduana (CIF) USD', valor: formatUSD(r.cifUSD), clase: 'destacado' },
+                { label: `5. Valor en aduana en pesos (× TRM ${r.trm.toLocaleString('es-CO')})`, valor: formatCOP(r.baseArancelariaCOP) },
+                { label: `6. + Arancel (${r.arancelPorcentaje}%, aproximado a miles)`, valor: formatCOP(r.totalArancel) },
+                { label: '7. = Base del IVA', valor: formatCOP(r.baseIVA), clase: 'destacado' },
+                { label: '8. + IVA (19%, aproximado a miles)', valor: formatCOP(r.totalIVA) },
                 { label: '9. = Total Impuestos', valor: formatCOP(r.totalImpuestos), clase: 'destacado' },
                 { label: '10. + Gastos nacionalización', valor: formatCOP(r.gastosNacionalizacion) },
                 { label: 'TOTAL A PAGAR', valor: formatCOP(r.totalPagar), clase: 'total' }
@@ -103,8 +113,8 @@ const modalidades = {
     franquicia: {
         titulo: 'Importación con Franquicia',
         badge: 'C110',
-        subtitulo: 'Exención total de tributos (viajero: hasta USD 200)',
-        info: 'Franquicia — Exenta de arancel e IVA. Aplica a viajeros internacionales con cupo libre hasta USD 200 según Decreto 1165 de 2019.',
+        subtitulo: 'Exención de tributos concedida por una norma o tratado',
+        info: 'Importación con franquicia: modalidad para mercancías que, por una ley o un tratado, están exentas total o parcialmente de tributos. Antes de usarla verifica qué norma concede la franquicia y sus condiciones.',
         campos: ['fob', 'flete', 'seguro', 'trm', 'agencia', 'bodegaje'],
         calcular: (v) => {
             const r = calcularFranquicia(v);
@@ -148,10 +158,10 @@ const modalidades = {
 const camposHTML = {
     fob:       `<div class="form-field"><label>Valor FOB (USD)</label><input type="text" class="format-num" id="fob" placeholder="Ej: 125,000"></div>`,
     flete:     `<div class="form-field"><label>Flete internacional (USD) <i class="ph ph-info tooltip" title="Costo del transporte desde el país de origen al de destino"></i></label><input type="text" class="format-num" id="flete" placeholder="Ej: 7,500"></div>`,
-    seguro:    `<div class="form-field"><label>Seguro (USD) <i class="ph ph-info tooltip" title="Dejar en 0 = se calcula automático (0.5% del FOB)"></i></label><input type="text" class="format-num" id="seguro" placeholder="0"></div>`,
-    arancel:   `<div class="form-field"><label>Arancel (%) <i class="ph ph-info tooltip" title="Porcentaje aplicable según la subpartida arancelaria"></i></label><input type="text" class="format-num" id="arancel" placeholder="15" value="15"></div>`,
-    trm:       `<div class="form-field"><label>TRM (COP por USD) <i class="ph ph-info tooltip" title="Tasa de Cambio Representativa del Mercado"></i></label><input type="text" class="format-num" id="trm" placeholder="Cargando..."><span class="field-hint" id="trm-status"></span></div>`,
-    agencia:   `<div class="form-field"><label>Agencia aduanera (COP) <i class="ph ph-info tooltip" title="Honorarios cobrados por la SIA"></i></label><input type="text" class="format-num" id="agencia" placeholder="Ej: 500,000"></div>`,
+    seguro:    `<div class="form-field"><label>Seguro (USD) <i class="ph ph-info tooltip" title="Escribe la prima real de la póliza. Si lo dejas vacío se usa un supuesto del 0,5% del FOB"></i></label><input type="text" class="format-num" id="seguro" placeholder="0"></div>`,
+    arancel:   `<div class="form-field"><label>Arancel (%) <i class="ph ph-info tooltip" title="Porcentaje aplicable según la subpartida arancelaria"></i></label><input type="text" class="format-num" id="arancel" placeholder="Según la subpartida (ej: 5)"></div>`,
+    trm:       `<div class="form-field"><label>TRM (COP por USD) <i class="ph ph-info tooltip" title="Para declarar se usa la TRM vigente el último día hábil de la semana anterior a la presentación de la declaración"></i></label><input type="text" class="format-num" id="trm" placeholder="Cargando..."><span class="field-hint" id="trm-status"></span></div>`,
+    agencia:   `<div class="form-field"><label>Agencia aduanera (COP) <i class="ph ph-info tooltip" title="Honorarios de la agencia de aduanas, si la contratas"></i></label><input type="text" class="format-num" id="agencia" placeholder="Ej: 500,000"></div>`,
     bodegaje:  `<div class="form-field"><label>Bodegaje (COP)</label><input type="text" class="format-num" id="bodegaje" placeholder="Ej: 200,000"></div>`,
     transporte:`<div class="form-field"><label>Transporte interno (COP)</label><input type="text" class="format-num" id="transporte" placeholder="Ej: 300,000"></div>`
 };
@@ -162,14 +172,18 @@ async function cargarTRM() {
         const res = await fetch('https://api.frankfurter.dev/v1/latest?base=USD&symbols=COP');
         const data = await res.json();
         const el = document.getElementById('trm');
-        if (el) {
+        if (el && !el.value && data && data.rates && data.rates.COP) {
             el.value = data.rates.COP.toFixed(2);
             const st = document.getElementById('trm-status');
-            if (st) st.textContent = 'TRM cargada automáticamente';
+            if (st) st.textContent = 'Tasa de referencia de mercado (no es la TRM oficial). Para declarar usa la TRM del último día hábil de la semana anterior.';
+        } else if (el && !el.value) {
+            throw new Error('La respuesta no trae COP');
         }
     } catch {
         const el = document.getElementById('trm');
         if (el && !el.value) el.value = '4000.00';
+        const st = document.getElementById('trm-status');
+        if (st) st.textContent = 'No se pudo cargar una tasa de referencia: escribe la TRM oficial.';
     }
 }
 
@@ -218,6 +232,8 @@ function renderModal(key) {
         };
         if (v.fob === 0) { alert('Ingresa el valor FOB'); return; }
         if (v.trm === 0) { alert('Ingresa la TRM'); return; }
+        const campoArancel = document.getElementById('arancel');
+        if (campoArancel && campoArancel.value.trim() === '') { alert('Escribe el arancel de la subpartida (puede ser 0)'); return; }
 
         const filas = m.calcular(v);
         document.getElementById('resultados-contenido').innerHTML = filas.map(f =>
@@ -264,7 +280,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     initNavigation();
     renderModal('ordinaria');
+    precargarDesdeURL();
 });
+
+// ========== PRECARGA DESDE LA RUTA DE APRENDIZAJE ==========
+// El curso abre esta página con ?fob=...&flete=...&seguro=...&trm=...&arancel=...
+function precargarDesdeURL() {
+    const params = new URLSearchParams(window.location.search);
+    const campos = ['fob', 'flete', 'seguro', 'trm', 'arancel'];
+    let alguno = false;
+    campos.forEach(id => {
+        const valor = params.get(id);
+        const el = document.getElementById(id);
+        if (valor !== null && el && !isNaN(Number(valor))) {
+            el.value = Number(valor).toLocaleString('en-US', { maximumFractionDigits: 2 });
+            alguno = true;
+        }
+    });
+    if (alguno) {
+        const st = document.getElementById('trm-status');
+        if (st && params.get('trm')) st.textContent = 'Valor del caso de práctica de la Ruta de Aprendizaje';
+        const info = document.getElementById('modal-info-bar');
+        if (info) info.insertAdjacentHTML('beforeend', '<br><strong>Datos precargados desde la Ruta de Aprendizaje.</strong> Pulsa «Calcular declaración» para ver la liquidación del caso.');
+    }
+}
 
 // ========== FORMATO DE ENTRADA ==========
 document.addEventListener('input', e => {
@@ -290,3 +329,68 @@ document.addEventListener('blur', e => {
         }
     }
 }, true);
+
+// ========== COMPARADOR LADO A LADO ==========
+function ejecutarComparativaModalidades() {
+    const getV = (id, def = 0) => {
+        const el = document.getElementById(id);
+        return el ? toNumber(el.value) : def;
+    };
+
+    const v = {
+        fob: getV('fob', 15000),
+        flete: getV('flete', 2500),
+        seguro: getV('seguro', 0),
+        arancel: getV('arancel', 10),
+        trm: getV('trm', 4200),
+        agencia: getV('agencia', 1200000),
+        bodegaje: getV('bodegaje', 600000),
+        transporte: getV('transporte', 800000)
+    };
+
+    const resOrd = calcularOrdinaria(v);
+    const resFran = calcularFranquicia(v);
+    const resTemp = calcularTemporalCorto(v);
+
+    const tbody = document.getElementById('comparador-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = `
+        <tr>
+            <td style="padding:10px; font-weight:600;">1. Valor CIF (USD)</td>
+            <td style="padding:10px; text-align:right;">${formatUSD(resOrd.cifUSD)}</td>
+            <td style="padding:10px; text-align:right;">${formatUSD(resFran.cifUSD)}</td>
+            <td style="padding:10px; text-align:right;">${formatUSD(resTemp.cifUSD)}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">2. Base Gravable (COP)</td>
+            <td style="padding:10px; text-align:right;">${formatCOP(resOrd.baseArancelariaCOP)}</td>
+            <td style="padding:10px; text-align:right;">${formatCOP(resFran.baseArancelariaCOP)}</td>
+            <td style="padding:10px; text-align:right;">${formatCOP(resTemp.baseArancelariaCOP)}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">3. Arancel Ad-Valorem</td>
+            <td style="padding:10px; text-align:right; color:#f87171;">${formatCOP(resOrd.totalArancel)}</td>
+            <td style="padding:10px; text-align:right; color:#4ade80;">EXENTO (0%)</td>
+            <td style="padding:10px; text-align:right; color:#f59e0b;">SUSPENDIDO</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">4. IVA (19%)</td>
+            <td style="padding:10px; text-align:right; color:#f87171;">${formatCOP(resOrd.totalIVA)}</td>
+            <td style="padding:10px; text-align:right; color:#4ade80;">EXENTO (0%)</td>
+            <td style="padding:10px; text-align:right; color:#f59e0b;">SUSPENDIDO</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">5. Póliza / Garantía Aduanera</td>
+            <td style="padding:10px; text-align:right; color:var(--text-muted);">N/A</td>
+            <td style="padding:10px; text-align:right; color:var(--text-muted);">N/A</td>
+            <td style="padding:10px; text-align:right; color:#f59e0b;">${formatCOP(resTemp.poliza)}</td>
+        </tr>
+        <tr style="background:var(--bg-card); font-weight:bold; border-top:2px solid var(--border);">
+            <td style="padding:12px; font-size:1rem; color:var(--text-primary);">TOTAL A PAGAR (COP)</td>
+            <td style="padding:12px; text-align:right; color:#60a5fa; font-size:1rem;">${formatCOP(resOrd.totalPagar)}</td>
+            <td style="padding:12px; text-align:right; color:#4ade80; font-size:1rem;">${formatCOP(resFran.totalPagar)}</td>
+            <td style="padding:12px; text-align:right; color:#f59e0b; font-size:1rem;">${formatCOP(resTemp.totalPagar)}</td>
+        </tr>
+    `;
+}

@@ -1,35 +1,55 @@
-// Verificar sesión
-const token = localStorage.getItem('token');
-const usuario = JSON.parse(localStorage.getItem('usuario'));
+// BonCloud — sesión y elementos comunes del sidebar
+// Encapsulado en una IIFE para no crear variables globales (token, usuario)
+// que choquen con otros scripts de la página.
+(function () {
+    'use strict';
 
-if (!token || !usuario) {
-    window.location.href = '../index.html';
-}
+    function leerUsuario() {
+        try {
+            return JSON.parse(localStorage.getItem('usuario'));
+        } catch (e) {
+            return null;
+        }
+    }
 
-document.getElementById('saludo') && (document.getElementById('saludo').textContent = usuario.nombre);
-document.getElementById('nombre-usuario') && (document.getElementById('nombre-usuario').textContent = usuario.nombre);
+    const token = localStorage.getItem('token');
+    const usuario = leerUsuario();
 
-document.getElementById('btnLogout').addEventListener('click', () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
-    window.location.href = '../index.html';
-});
+    if (!token || !usuario) {
+        window.location.href = '../index.html';
+        return;
+    }
 
-// ========== DROPDOWN TOGGLE ==========
-function initDropdown(toggleId, submenuId) {
-    const toggle = document.getElementById(toggleId);
-    const submenu = document.getElementById(submenuId);
-    if (!toggle || !submenu) return;
+    const nombre = usuario.nombre || 'Usuario';
+    const saludo = document.getElementById('saludo');
+    const nombreUsuario = document.getElementById('nombre-usuario');
+    if (saludo) saludo.textContent = nombre;
+    if (nombreUsuario) nombreUsuario.textContent = nombre;
 
-    // Abrir por defecto si está en la página activa
-    toggle.classList.add('open');
-    submenu.classList.add('open');
+    const btnLogout = document.getElementById('btnLogout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            window.location.href = '../index.html';
+        });
+    }
 
-    toggle.addEventListener('click', () => {
-        toggle.classList.toggle('open');
-        submenu.classList.toggle('open');
-    });
-}
+    // ========== DROPDOWN TOGGLE ==========
+    function initDropdown(toggleId, submenuId) {
+        const toggle = document.getElementById(toggleId);
+        const submenu = document.getElementById(submenuId);
+        if (!toggle || !submenu) return;
 
-initDropdown('importacion-toggle', 'importacion-submenu');
-initDropdown('exportacion-toggle', 'exportacion-submenu');
+        toggle.classList.add('open');
+        submenu.classList.add('open');
+
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('open');
+            submenu.classList.toggle('open');
+        });
+    }
+
+    initDropdown('importacion-toggle', 'importacion-submenu');
+    initDropdown('exportacion-toggle', 'exportacion-submenu');
+})();

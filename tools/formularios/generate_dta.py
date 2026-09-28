@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+import os
+
+path = "/home/bon/boncloud/pages/formularios/form-dta-transito.html"
+
+html_head = """<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -12,10 +16,10 @@
   --border-color: #000000;
 }
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f0f0f0;
   margin: 0;
-  padding: 0;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -188,193 +192,35 @@ body {
   }
 }
 </style>
-
-<style>
-.nav-bar-container {
-  width: 794px;
-  margin-bottom: 20px;
-  font-family: Arial, sans-serif;
-}
-.dashboard-header h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #1a3a6b;
-  font-family: sans-serif;
-}
-.dashboard-header p {
-  margin: 5px 0 20px 0;
-  color: #666;
-  font-size: 14px;
-}
-.editor-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.editor-actions {
-  display: flex;
-  gap: 10px;
-}
-.btn-card {
-  padding: 8px 16px;
-  border: 1px solid #c7d2fe;
-  background: #eef2ff;
-  color: #3730a3;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-.btn-card:hover {
-  background: #e0e7ff;
-}
-@media print {
-  .nav-bar-container {
-    display: none;
-  }
-}
-</style>
-
-
-<style>
-.hdr-dian {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  border: 1px solid #1a3a6b;
-  background: #fff;
-  margin-bottom: 5px;
-}
-.dian-brand {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 6px 8px;
-  border-right: 1px solid #1a3a6b;
-  width: 80px;
-}
-.dian-logo-box {
-  font-size: 22px;
-  font-weight: 700;
-  color: #2db0d6;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  line-height: 1.1;
-  font-family: Arial, sans-serif;
-}
-.dian-logo-box span {
-  font-weight: 700;
-  color: #6bb96a;
-  font-size: 14px;
-}
-.dian-sub {
-  font-size: 5.5px;
-  color: #333;
-  line-height: 1.1;
-  letter-spacing: 0.3px;
-  margin-top: 1px;
-  font-weight: 600;
-  font-family: Arial, sans-serif;
-}
-.hdr-center {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.hdr-title {
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  color: #000;
-  padding: 6px 8px 4px;
-  font-family: Arial, sans-serif;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-.nota-lea {
-  font-size: 7px;
-  color: #000;
-  text-align: center;
-  padding: 3px;
-  font-weight: 600;
-  font-family: Arial, sans-serif;
-}
-.big-num {
-  font-size: 48px;
-  font-weight: 900;
-  color: #fff;
-  line-height: 0.9;
-  background: #5078b5;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid #1a3a6b;
-  font-family: Arial, sans-serif;
-}
-.cl {
-  font-size: 7.5px;
-  color: #1a3a6b;
-  line-height: 1.3;
-  display: block;
-  margin-bottom: 1px;
-  font-family: Arial, sans-serif;
-  font-weight: 500;
-}
-.cl-num {
-  font-size: 7px;
-  color: #1a3a6b;
-  font-style: normal;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-}
-.hdr-input {
-  border: none;
-  border-bottom: 1px solid transparent;
-  background: transparent;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  font-size: 9px;
-  color: #000;
-  padding: 1px 2px;
-  outline: none;
-}
-.hdr-input:focus {
-  background: #ffffcc;
-  border-bottom-color: #1a3a6b;
-}
-</style>
-
 </head>
 <body>
-  
+<div class="nav-bar">
+  <button class="nav-btn back-btn" onclick="window.history.back()">Volver</button>
+  <button class="nav-btn" style="background-color: #4CAF50;" onclick="validateAndPrint()">Validar y Exportar PDF</button>
+</div>
+"""
 
+body_content = """
 <div id="form-dta" class="form-container">
   
-  <div class="hdr-dian">
-        <div class="dian-brand">
-          <div class="dian-logo-box">DIAN<span>&reg;</span></div>
-          <div class="dian-sub">POR UNA COLOMBIA MÁS HONESTA</div>
-        </div>
-        <div class="hdr-center">
-          <div class="hdr-title">Declaración de Tránsito Aduanero</div>
-          <div style="display:flex; border-bottom: 1px solid #1a3a6b; border-top: 1px solid #1a3a6b;">
-             <div style="padding: 2px 4px; border-right: 1px solid #1a3a6b;">
-                <span class="cl"><span class="cl-num">1.</span> Año</span>
-                <input type="text" class="hdr-input" style="width:50px" placeholder="AAAA">
-             </div>
-             <div style="padding: 2px 4px; flex: 1;">
-                <span class="cl"><span class="cl-num">4.</span> Número de formulario</span>
-                <input type="text" class="hdr-input" style="width:100%" placeholder="N° único">
-             </div>
-          </div>
-          <div class="nota-lea">Lea cuidadosamente las instrucciones</div>
-        </div>
-        <div class="big-num">DTA</div>
-      </div>
+  <div class="header">
+    <div class="logo-dian">
+      <span>DIAN</span>
+      <span>POR UNA COLOMBIA MÁS HONESTA</span>
+    </div>
+    <div class="title-center">
+      <h1>Declaración de Tránsito Aduanero</h1>
+      <h2>DTA / Cabotaje</h2>
+    </div>
+    <div class="form-num">
+      <div style="border: 1px solid var(--color-primary); padding: 5px 15px;">DTA</div>
+    </div>
+  </div>
+  <div class="sub-header">
+    <div style="flex: 2;">Espacio reservado para la DIAN</div>
+    <div style="flex: 1; display:flex; align-items:center;">1. Año <input type="text" style="width:40px; margin-left:5px; border:none; border-bottom:1px solid #000; font-size:8px; outline:none;" placeholder="AAAA"></div>
+    <div style="flex: 2; display:flex; align-items:center;">4. Número de formulario <input type="text" style="width:100px; margin-left:5px; border:none; border-bottom:1px solid #000; font-size:8px; outline:none;"></div>
+  </div>
 
   <div class="section-title">DECLARANTE / AGENCIA DE ADUANAS</div>
   <div class="row">
@@ -494,7 +340,9 @@ body {
   </div>
 
 </div>
+"""
 
+scripts = """
 <script>
   function calculateDV(nit, dvId) {
     let dv = 0;
@@ -527,13 +375,13 @@ body {
       {id: 'aduana_destino', name: 'Aduana de Destino'}
     ];
     let hasError = false;
-    let errorMsg = "Faltan campos obligatorios:\n";
+    let errorMsg = "Faltan campos obligatorios:\\n";
     required.forEach(field => {
       const el = document.getElementById(field.id);
       if(!el.value.trim()) {
         el.classList.add('error');
         hasError = true;
-        errorMsg += "- " + field.name + "\n";
+        errorMsg += "- " + field.name + "\\n";
       } else {
         el.classList.remove('error');
       }
@@ -545,58 +393,14 @@ body {
       window.print();
     }
   }
-
-  // ===== TOOLTIPS PEDAGÓGICOS DTA =====
-  const explicacionesDTA = {
-    "1": "Año de inicio del trámite de tránsito aduanero.",
-    "4": "Número consecutivo de la Declaración de Tránsito Aduanero.",
-    "5": "NIT de la empresa declarante o agencia de aduanas.",
-    "24": "Aduana de partida por donde ingresa la carga (Ej: 07 Cartagena).",
-    "25": "Aduana de destino nacional (Ej: 01 Bogotá, 03 Medellín / Zona Franca).",
-    "35": "Empresa transportadora terrestre autorizada por la DIAN y el Ministerio de Transporte.",
-    "38": "Número de placa del vehículo tractocamión que efectúa el tránsito."
-  };
-
-  const tooltipPopupDTA = document.createElement('div');
-  tooltipPopupDTA.id = 'dta-tooltip-popup';
-  tooltipPopupDTA.style.cssText = 'position:absolute;z-index:9999;background:#0f172a;color:#f8fafc;border:1px solid #334155;border-radius:8px;padding:10px 14px;font-size:11px;max-width:280px;box-shadow:0 10px 25px rgba(0,0,0,0.5);display:none;line-height:1.4;pointer-events:none;';
-  document.body.appendChild(tooltipPopupDTA);
-
-  document.querySelectorAll('.cl-num, .cell-num').forEach(el => {
-    const text = el.textContent.replace(/\D/g, '');
-    if (explicacionesDTA[text]) {
-      el.style.cursor = 'help';
-      el.style.textDecoration = 'underline dotted #3b82f6';
-      
-      el.addEventListener('mouseenter', (e) => {
-        tooltipPopupDTA.innerHTML = `<h5 style="margin:0 0 4px 0;color:#60a5fa;font-size:12px;">Casilla ${text} DTA</h5>${explicacionesDTA[text]}`;
-        tooltipPopupDTA.style.display = 'block';
-        const rect = el.getBoundingClientRect();
-        tooltipPopupDTA.style.top = (rect.bottom + window.scrollY + 5) + 'px';
-        tooltipPopupDTA.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 300) + 'px';
-      });
-
-      el.addEventListener('mouseleave', () => {
-        tooltipPopupDTA.style.display = 'none';
-      });
-    }
-  });
-
-  function precargarDTA() {
-    const setV = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
-    setV('dec_nit', '900555123');
-    calcDV('dec_nit', 'dec_dv');
-    setV('dec_razon', 'Servicios de Logística Aduanera del Caribe S.A.S.');
-    setV('trans_nit', '800444987');
-    calcDV('trans_nit', 'trans_dv');
-    setV('trans_placa', 'TKO-892');
-    setV('aduana_partida', '07 - Cartagena');
-    setV('aduana_destino', '01 - Bogotá (Zona Franca Fontibón)');
-    alert('✅ Datos de tránsito aduanero precargados en el Formulario DTA.');
-  }
 </script>
-<button onclick="precargarDTA()" style="position:fixed;bottom:20px;right:20px;z-index:999;background:#2563eb;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-  ⚡ Llenar Datos de Ejemplo (DTA)
-</button>
 </body>
 </html>
+"""
+
+with open(path, "w") as f:
+    f.write(html_head)
+    f.write(body_content)
+    f.write(scripts)
+
+print("Formulario DTA generated successfully.")

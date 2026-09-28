@@ -353,6 +353,14 @@ table.liquid-table td input[readonly] {
   font-style: normal;
   font-weight: bold;
   font-family: Arial, sans-serif;
+  cursor: help;
+  text-decoration: underline dotted #3b82f6;
+  position: relative;
+}
+.cl-num:hover {
+  color: #2563eb;
+  background: rgba(59, 130, 246, 0.15);
+  border-radius: 2px;
 }
 .hdr-input {
   border: none;
@@ -369,7 +377,31 @@ table.liquid-table td input[readonly] {
   background: #ffffcc;
   border-bottom-color: #1a3a6b;
 }
+
+/* Tooltip Educativo */
+#dian-tooltip-popup {
+  position: absolute;
+  z-index: 9999;
+  background: #0f172a;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 11px;
+  max-width: 280px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  display: none;
+  line-height: 1.4;
+  pointer-events: none;
+}
+#dian-tooltip-popup h5 {
+  margin: 0 0 4px 0;
+  color: #60a5fa;
+  font-size: 12px;
+}
 </style>
+<div id="dian-tooltip-popup"></div>
+
 
 </head>
 <body>
@@ -824,7 +856,71 @@ table.liquid-table td input[readonly] {
     if (e.target.classList.contains('calc-trigger')) performCalculations();
   });
   performCalculations();
+
+  // ===== TOOLTIPS INTERACTIVOS PEDAGÓGICOS =====
+  const explicacionesDIAN = {
+    "1": "Año de presentación y pago de la declaración de importación ante la DIAN.",
+    "4": "Número único consecutivo impreso asignado al formulario aduanero.",
+    "5": "Número de Identificación Tributaria (NIT) del importador registrado en el RUT.",
+    "6": "Dígito de Verificación (DV) del NIT del importador asignado por la DIAN.",
+    "24": "Código de la administración aduanera por donde ingresa la carga (Ej: 07 para Cartagena, 01 para Bogotá).",
+    "25": "Tipo de declaración (Inicial, Legalización, Modificatoria o Corrección).",
+    "27": "Modalidad de importación (C-100 Importación Ordinaria, C-110 Con franquicia, C-130 Reimportación).",
+    "28": "Código de la subpartida arancelaria a 10 dígitos (NANDINA) según arancel de aduanas.",
+    "48": "Valor FOB total de las mercancías en Dólares Estadounidenses (USD).",
+    "49": "Valor del flete internacional pagado por el transporte hasta el puerto de Cartagena.",
+    "50": "Valor de la prima de seguro internacional que ampara el transporte de la mercancía.",
+    "52": "Valor en Aduana en USD (FOB + Fletes + Seguros + Otros gastos).",
+    "53": "Tasa Representativa del Mercado (TRM) oficial de la fecha de presentación de la declaración.",
+    "54": "Base Gravable Aduanera en Pesos Colombianos (COP) resultante de multiplicar el valor CIF en USD por la TRM.",
+    "55": "Tarifa o Porcentaje del Arancel Ad-Valorem aplicable a la subpartida arancelaria.",
+    "56": "Monto liquidado del impuesto de Arancel en COP (Base Gravable x Tarifa Arancel).",
+    "58": "Base Gravable del IVA en COP, calculada sobre (Base Gravable Aduanera en COP + Arancel liquidado).",
+    "59": "Tarifa del IVA (generalmente 19% o 0% si cuenta con beneficio legal/exención).",
+    "60": "Monto liquidado del Impuesto al Valor Agregado (IVA) en COP.",
+    "65": "Total a pagar en bancos autorizados o PSE por concepto de tributos aduaneros."
+  };
+
+  const tooltipPopup = document.getElementById('dian-tooltip-popup');
+
+  document.querySelectorAll('.cl-num').forEach(el => {
+    const text = el.textContent.replace(/\D/g, '');
+    if (explicacionesDIAN[text]) {
+      el.setAttribute('data-info', explicacionesDIAN[text]);
+      
+      el.addEventListener('mouseenter', (e) => {
+        if (!tooltipPopup) return;
+        tooltipPopup.innerHTML = `<h5>Casilla ${text} DIAN</h5>${explicacionesDIAN[text]}`;
+        tooltipPopup.style.display = 'block';
+        const rect = el.getBoundingClientRect();
+        tooltipPopup.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+        tooltipPopup.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 300) + 'px';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        if (tooltipPopup) tooltipPopup.style.display = 'none';
+      });
+    }
+  });
+
+  function precargarForm500() {
+    const setV = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+    setV('imp_nit', '900123456');
+    setV('imp_dv', '7');
+    setV('imp_razon', 'Importadora Industrial del Caribe S.A.S.');
+    setV('v_fob', '25000');
+    setV('v_fletes', '2200');
+    setV('v_seguros', '125');
+    setV('trm', '4200');
+    setV('tasa_arancel', '10');
+    setV('tasa_iva', '19');
+    performCalculations();
+    alert('✅ Datos de importación de prueba precargados y calculados en el Formulario 500.');
+  }
 </script>
 <script src="../../js/subpartidas.js"></script>
+<button onclick="precargarForm500()" style="position:fixed;bottom:20px;right:20px;z-index:999;background:#2563eb;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+  ⚡ Llenar Datos de Ejemplo (Form 500)
+</button>
 </body>
 </html>
