@@ -16,7 +16,7 @@
     <div class="sidebar-brand"><h2>BonCloud</h2></div>
     <nav>
       <a href="dashboard.html" class="nav-item">Inicio</a>
-      <a href="curso.html" class="nav-item active">🎓 Ruta Guiada</a>
+      <a href="curso.html" class="nav-item active">Ruta Guiada</a>
       <a href="importacion.html" class="nav-item">Importación</a>
       <a href="exportacion.html" class="nav-item">Exportación</a>
       <a href="vistos-buenos.html" class="nav-item">Vistos Buenos</a>
@@ -33,27 +33,23 @@
   </div>
 
   <!-- CONTENIDO PRINCIPAL -->
-  <div class="main-content">
+  <main class="main-content">
 
     <div class="dashboard-header" style="margin-bottom: 20px;">
-      <h1>🎓 Ruta de Aprendizaje de Comercio Internacional</h1>
-      <p>Aprende paso a paso guiando un embarque de 500 bombas hidráulicas desde Shanghái hasta el Puerto de Cartagena.</p>
+      <h1 class="curso-titulo-pagina">Ruta de Aprendizaje de Comercio Internacional</h1>
+      <p>Aprende paso a paso siguiendo un embarque de 500 bombas de engranajes desde Shanghái hasta el Puerto de Cartagena.</p>
     </div>
 
-    <!-- TARJETA SUPERIOR DE PROGRESO GENERAL -->
-    <div class="curso-progress-header-panel">
+    <!-- PROGRESO GENERAL -->
+    <section class="curso-progress-header-panel" aria-labelledby="titulo-progreso">
       <div class="curso-progress-top-info">
         <div class="curso-progress-title">
-          <h3>Tu Progreso en el Curso</h3>
-          <p>Completa las 8 lecciones y aprueba los quizzes con al menos 70% para obtener tu Certificado BonCloud.</p>
+          <h3 id="titulo-progreso">Tu progreso</h3>
+          <p>Aprueba las 8 lecciones para descargar tu constancia de práctica.</p>
         </div>
         <div class="curso-progress-actions">
-          <button id="btn-reiniciar-progreso" class="btn" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem;">
-            🔄 Reiniciar Progreso
-          </button>
-          <button id="btn-descargar-certificado" onclick="generarDiplomaPDF()" style="display: none; background: #22c55e; color: #ffffff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.88rem;">
-            🏆 Descargar Certificado (PDF)
-          </button>
+          <button type="button" id="btn-reiniciar-progreso" class="curso-btn-secundario" hidden>Reiniciar progreso</button>
+          <button type="button" id="btn-descargar-certificado" class="curso-btn-constancia" hidden>Descargar constancia (PDF)</button>
         </div>
       </div>
 
@@ -66,37 +62,27 @@
           <div id="curso-progreso-bar" class="curso-progress-fill" style="width: 0%;"></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- MAPA DE RUTA ANIMADO (Shanghái -> Buque -> Puerto -> DIAN -> Bodega) -->
-    <div class="mapa-ruta-wrapper">
-      <h3 style="color: var(--text-primary); font-size: 1.05rem; margin-bottom: 4px;">🗺️ Ruta Logística del Embarque de Práctica</h3>
-      <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 12px;">Haz clic en cualquiera de las etapas alcanzadas para saltar a sus lecciones.</p>
-      
-      <div id="mapa-ruta-container">
-        <!-- Renderizado dinámico desde curso.js -->
-      </div>
-    </div>
+    <!-- MAPA DEL EMBARQUE -->
+    <section class="mapa-ruta-wrapper" aria-labelledby="titulo-mapa">
+      <h3 id="titulo-mapa" style="color: var(--text-primary); font-size: 1.05rem; margin-bottom: 4px;">Ruta del embarque</h3>
+      <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 12px;">El contenedor avanza cada vez que apruebas una etapa. Toca una etapa desbloqueada para ir a sus lecciones.</p>
+      <div id="mapa-ruta-container"></div>
+    </section>
 
-    <!-- LAYOUT DE 2 COLUMNAS: TARJETAS DE LECCIÓN + DETALLE DE LECCIÓN Y QUIZ -->
+    <!-- LECCIONES + DETALLE -->
     <div class="curso-grid-layout">
-      <!-- Columna Izquierda: Tarjetas de Lecciones 1 a 8 -->
-      <div class="lecciones-sidebar-list" id="lecciones-cards-container">
-        <!-- Renderizado dinámico desde curso.js -->
-      </div>
-
-      <!-- Columna Derecha: Lector de Lección, Caso, Práctica y Quiz -->
-      <div id="leccion-detalle-container">
-        <!-- Renderizado dinámico desde curso.js -->
-      </div>
+      <nav class="lecciones-sidebar-list" id="lecciones-cards-container" aria-label="Lecciones del curso"></nav>
+      <div id="leccion-detalle-container"></div>
     </div>
 
-  </div>
+  </main>
 
-  <!-- MODAL DE GLOSARIO REUTILIZADO -->
-  <div id="glosario-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; max-width:550px; width:90%; padding:24px; position:relative;">
-      <button onclick="cerrarModalGlosario()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer;">✕</button>
+  <!-- MODAL DEL GLOSARIO -->
+  <div id="glosario-modal-overlay" role="dialog" aria-modal="true" aria-label="Término del glosario" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
+    <div style="background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; max-width:550px; width:90%; max-height:85vh; overflow:auto; padding:24px; position:relative;">
+      <button type="button" onclick="cerrarModalGlosario()" aria-label="Cerrar" style="position:absolute; top:16px; right:16px; background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer;">✕</button>
       <div id="glosario-modal-contenido"></div>
     </div>
   </div>
@@ -107,55 +93,45 @@
   <script src="../js/curso.js"></script>
   <script src="../js/theme.js"></script>
   <script>
-    function generarDiplomaPDF() {
-      const usuario = JSON.parse(localStorage.getItem('usuario')) || { nombre: 'Estudiante BonCloud' };
+    // Constancia de práctica: se genera en el navegador a partir del progreso local,
+    // por eso no es una certificación y así lo dice el documento.
+    function generarConstanciaPDF() {
+      let usuario = null;
+      try { usuario = JSON.parse(localStorage.getItem('usuario')); } catch (e) { usuario = null; }
+      const nombre = (usuario && usuario.nombre) ? String(usuario.nombre) : 'Estudiante BonCloud';
       const fecha = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
 
-      const element = document.createElement('div');
-      element.style.padding = '40px';
-      element.style.fontFamily = 'Arial, sans-serif';
-      element.style.textAlign = 'center';
-      element.style.border = '10px solid #1e3a6b';
-      element.style.background = '#ffffff';
-      element.style.color = '#0f172a';
-
-      element.innerHTML = `
-        <div style="font-size: 32px; font-weight: bold; color: #1e3a6b; margin-bottom: 8px;">BonCloud</div>
-        <div style="font-size: 14px; color: #64748b; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">Plataforma de Inteligencia Portuaria — Puerto de Cartagena</div>
-        
-        <div style="font-size: 18px; color: #475569; margin-bottom: 20px;">OTORGA EL PRESENTE</div>
-        <div style="font-size: 36px; font-weight: bold; color: #2563eb; margin-bottom: 20px;">CERTIFICADO DE APROBACIÓN</div>
-        
-        <div style="font-size: 16px; color: #334155; margin-bottom: 12px;">A favor de:</div>
-        <div style="font-size: 28px; font-weight: bold; color: #0f172a; border-bottom: 2px solid #3b82f6; display: inline-block; padding-bottom: 6px; margin-bottom: 24px;">
-          ${usuario.nombre}
-        </div>
-        
-        <p style="font-size: 15px; color: #475569; max-width: 620px; margin: 0 auto 30px; line-height: 1.6;">
-          Por haber completado con éxito la <strong>Ruta Guiada de Aprendizaje en Comercio Internacional (Modo Curso)</strong>, superando los 8 módulos teóricos y prácticos sobre el proceso de importación en el Puerto de Cartagena bajo el Decreto 1165 de 2019.
+      const el = document.createElement('div');
+      el.style.cssText = 'padding:40px;font-family:Arial,sans-serif;text-align:center;border:10px solid #1e3a6b;background:#ffffff;color:#0f172a;';
+      el.innerHTML = `
+        <div style="font-size:32px;font-weight:bold;color:#1e3a6b;margin-bottom:8px;">BonCloud</div>
+        <div style="font-size:14px;color:#64748b;margin-bottom:30px;">Plataforma de aprendizaje en comercio exterior — Puerto de Cartagena</div>
+        <div style="font-size:34px;font-weight:bold;color:#1d4ed8;margin-bottom:20px;">Constancia de práctica</div>
+        <div style="font-size:16px;color:#334155;margin-bottom:12px;">BonCloud deja constancia de que</div>
+        <div id="constancia-nombre" style="font-size:28px;font-weight:bold;color:#0f172a;border-bottom:2px solid #3b82f6;display:inline-block;padding-bottom:6px;margin-bottom:24px;"></div>
+        <p style="font-size:15px;color:#475569;max-width:620px;margin:0 auto 24px;line-height:1.6;">
+          completó las 8 lecciones de la Ruta de Aprendizaje de Comercio Internacional sobre el proceso de importación por el Puerto de Cartagena.
         </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; padding: 0 40px;">
-          <div>
-            <div style="border-top: 1px solid #94a3b8; width: 200px; padding-top: 6px; font-size: 12px; color: #64748b;">Comité Académico BonCloud</div>
-          </div>
-          <div>
-            <div style="font-size: 12px; color: #64748b;">Cartagena, Colombia</div>
-            <div style="font-size: 12px; font-weight: bold; color: #1e3a6b;">${fecha}</div>
-          </div>
-        </div>
+        <p style="font-size:11px;color:#64748b;max-width:620px;margin:0 auto 30px;line-height:1.5;">
+          Documento educativo generado automáticamente por BonCloud. No es una certificación oficial de la DIAN, del SENA ni de ninguna otra entidad.
+        </p>
+        <div style="font-size:12px;color:#64748b;">Cartagena, Colombia — ${fecha}</div>
       `;
+      el.querySelector('#constancia-nombre').textContent = nombre;
 
-      const opt = {
+      html2pdf().set({
         margin: 0.2,
-        filename: `Certificado_BonCloud_${usuario.nombre.replace(/\s+/g, '_')}.pdf`,
+        filename: `Constancia_BonCloud_${nombre.replace(/[^\wÁÉÍÓÚÑáéíóúñ]+/g, '_')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
-      };
-
-      html2pdf().set(opt).from(element).save();
+      }).from(el).save();
     }
+    window.generarConstanciaPDF = generarConstanciaPDF;
+    document.getElementById('btn-descargar-certificado').addEventListener('click', generarConstanciaPDF);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && typeof cerrarModalGlosario === 'function') cerrarModalGlosario();
+    });
   </script>
 </body>
 </html>

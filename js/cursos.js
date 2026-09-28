@@ -1,12 +1,22 @@
 /**
  * BonCloud — Ruta de Aprendizaje de Comercio Internacional
- * Archivo de datos de lecciones (cursos.js)
- * Caso único: Importación de 500 bombas hidráulicas desde Shanghái al Puerto de Cartagena.
- * Normativa: Decreto 1165 de 2019 (Régimen Aduanero Colombiano).
- * Marca TODO en cifras y datos sujetos a verificación humana.
+ * Datos de las lecciones (cursos.js)
+ *
+ * Caso único: importación de 500 bombas de engranajes (oleohidráulicas, sin motor)
+ * desde Shanghái hasta el Puerto de Cartagena.
+ *
+ * Marco normativo: Decreto 1165 de 2019 y sus modificaciones, Resolución DIAN 000046 de 2019,
+ * Decisión 571 CAN, Estatuto Tributario (art. 459), Incoterms® 2020 (ICC).
+ *
+ * Valores de práctica: el arancel (5%), el flete, el seguro, la TRM y los gastos de terminal
+ * son cifras de ejemplo del caso. Se presentan así en pantalla para que el estudiante sepa
+ * que en una operación real debe consultarlos.
+ *
+ * Cada pregunta: `correcta` es el índice de la opción correcta. El orden se baraja al mostrarse.
  */
 
 const CURSO_LECCIONES = [
+  // ───────────────────────────────── 1
   {
     id: 1,
     orden: 1,
@@ -14,65 +24,79 @@ const CURSO_LECCIONES = [
     nivel: "Fundamentos",
     duracionMin: 15,
     objetivos: [
-      "Comprender el flujo de una operación de importación en Colombia",
-      "Identificar los actores públicos y privados del comercio exterior",
-      "Conocer los requisitos iniciales según el Decreto 1165 de 2019"
+      "Entender el recorrido de una importación en Colombia",
+      "Identificar qué hace cada actor público y privado",
+      "Conocer el primer requisito del importador: el RUT"
     ],
     contenido: `
-      <p>El <strong>comercio internacional</strong> abarca la compraventa de bienes y servicios entre distintos países. En Colombia, el régimen aduanero está regulado principalmente por el <strong>Decreto 1165 de 2019</strong> y supervisado por la <span class="term-glosario" data-glosario="DIAN">DIAN</span>.</p>
-      
-      <h4>Actores principales de la cadena:</h4>
+      <p>El <strong>comercio internacional</strong> es el intercambio de bienes y servicios entre países. En Colombia, la entrada y salida de mercancías se rige por el <strong>Decreto 1165 de 2019</strong> (régimen de aduanas) y sus modificaciones, reglamentado por la Resolución 000046 de 2019. La autoridad aduanera es la <span class="term-glosario" data-glosario="DIAN">DIAN</span>.</p>
+
+      <h4>Quién hace qué en una importación</h4>
       <ul>
-        <li><strong>Importador (Comprador):</strong> Persona natural o jurídica que adquiere la mercancía en el exterior. Debe contar con el <span class="term-glosario" data-glosario="Formulario 001">RUT (Formulario 001)</span> habilitado en la casilla 54 como usuario aduanero.</li>
-        <li><strong>Exportador (Vendedor):</strong> Proveedor internacional responsable del despacho en origen.</li>
-        <li><strong>Agente de Carga Internacional (Freight Forwarder):</strong> Coordina el transporte internacional (marítimo, aéreo o terrestre).</li>
-        <li><strong>Agencia de Aduanas (SIA / OEA):</strong> Declarante autorizado que representa al importador ante las autoridades aduaneras.</li>
-        <li><strong>Sociedad Portuaria:</strong> Operador logístico portuario (ej. SPRC / CONTECAR en el Puerto de Cartagena).</li>
-        <li><strong>Autoridades de Control:</strong> DIAN, Policía Antinarcóticos, INVIMA, ICA, SIC, entre otras.</li>
+        <li><strong>Importador:</strong> persona natural o jurídica que trae la mercancía al país. Debe estar inscrito en el <span class="term-glosario" data-glosario="Formulario 001">RUT (formulario 001)</span> con la calidad de usuario aduanero de importador.</li>
+        <li><strong>Exportador o proveedor:</strong> vende y despacha la mercancía desde el país de origen.</li>
+        <li><strong>Naviera (transportador):</strong> opera el buque y emite el conocimiento de embarque (B/L), que prueba el contrato de transporte.</li>
+        <li><strong>Agente de carga internacional:</strong> contrata y coordina el transporte, consolida carga y puede emitir su propio documento de transporte (B/L hijo o <em>house</em>).</li>
+        <li><strong>Agencia de aduanas:</strong> empresa autorizada por la DIAN que, mediante un mandato aduanero, presenta las declaraciones a nombre del importador. No es obligatoria: el importador puede actuar directamente ante la DIAN, por cualquier cuantía (art. 33 del Decreto 1165 de 2019), y en ese caso responde como declarante.</li>
+        <li><strong>Sociedad portuaria:</strong> concesionaria que administra el terminal. En Cartagena, por ejemplo, la Sociedad Portuaria Regional de Cartagena (SPRC) y Contecar, del Grupo Puerto de Cartagena.</li>
+        <li><strong>Autoridades:</strong> la DIAN controla la entrada de mercancías y recauda los tributos; el MinCIT define la política de comercio exterior y administra la VUCE; según el producto intervienen además el INVIMA, el ICA, la SIC y otras entidades.</li>
       </ul>
     `,
-    etapaCaso: "Empresa HidroColombia S.A.S. planifica importar 500 bombas hidráulicas de alta presión desde el fabricante Zhejiang Hydraulic Co. en Shanghái. Primer paso: Verificar que el RUT (Formulario 001) tenga activa la responsabilidad de Importador en la DIAN.",
+    etapaCaso: "HidroColombia S.A.S., una empresa colombiana, quiere importar 500 bombas de engranajes para sistemas oleohidráulicos, sin motor, del fabricante Zhejiang Hydraulic Co. (Shanghái). Primer paso: confirmar que su RUT tenga registrada la calidad de usuario aduanero de importador y decidir si contratará una agencia de aduanas o actuará directamente ante la DIAN.",
     practica: {
-      texto: "Verifica requisitos del Formulario RUT (001)",
+      texto: "Revisa el formulario 001 (RUT) en el simulador de formularios",
       moduloUrl: "formularios.html",
       parametros: { form: "001" }
     },
     quiz: [
       {
-        pregunta: "¿Qué norma rige principalmente el régimen aduanero y de desaduanamiento en Colombia?",
+        pregunta: "¿Qué norma contiene el régimen de aduanas vigente en Colombia?",
         opciones: [
-          "Decreto 1165 de 2019",
-          "Ley 100 de 1993",
-          "Resolución 400 de 2010",
-          "Decreto 410 de 1971"
+          "El Decreto 1165 de 2019, con sus modificaciones",
+          "El Decreto 2685 de 1999",
+          "El Código de Comercio (Decreto 410 de 1971)",
+          "El Estatuto Tributario"
         ],
         correcta: 0,
-        explicacion: "El Decreto 1165 de 2019 dicta las disposiciones relativas al régimen de aduanas en el territorio aduanero nacional de Colombia."
+        explicacion: "El Decreto 1165 de 2019 reemplazó al Decreto 2685 de 1999 y es el régimen de aduanas vigente. El Código de Comercio regula los contratos y el Estatuto Tributario los impuestos, pero ninguno de los dos regula el procedimiento aduanero."
       },
       {
-        pregunta: "¿Cuál es el requisito indispensable en el RUT (Formulario 001) para poder operar como importador en Colombia?",
+        pregunta: "¿Quién opera el buque y emite el conocimiento de embarque (B/L)?",
         opciones: [
-          "Contar con la casilla 54 (Usuario Aduanero - Importador) habilitada ante la DIAN",
-          "Tener únicamente cuenta bancaria en el exterior",
-          "Pagar el 100% de tributos por anticipado antes de cotizar",
-          "No requiere ningún registro previo"
+          "La agencia de aduanas",
+          "La naviera",
+          "La sociedad portuaria",
+          "La DIAN"
         ],
-        correcta: 0,
-        explicacion: "Para actuar como declarante o importador ante la DIAN se requiere tener actualizada la responsabilidad como usuario aduanero en el RUT."
+        correcta: 1,
+        explicacion: "La naviera es el transportador marítimo: opera el buque y emite el B/L. El agente de carga puede emitir un B/L hijo cuando consolida carga, pero no opera el buque."
       },
       {
-        pregunta: "¿Qué función cumple el Agente de Carga Internacional (Freight Forwarder)?",
+        pregunta: "HidroColombia no quiere contratar agencia de aduanas. ¿Qué permite la norma?",
         opciones: [
-          "Coordinar y contratar el transporte internacional de la mercancía",
-          "Expedir la factura comercial de venta",
-          "Determinar el valor de los impuestos en la DIAN",
-          "Realizar la inspección sanitaria de la carga"
+          "Debe contratarla siempre: ninguna importación se puede declarar sin agencia",
+          "Solo puede actuar directamente si la mercancía vale menos de USD 1.000",
+          "Puede actuar directamente ante la DIAN por cualquier cuantía, y responde como declarante",
+          "Puede pedirle a la naviera que presente la declaración de importación"
+        ],
+        correcta: 2,
+        explicacion: "El artículo 33 del Decreto 1165 de 2019 permite al importador actuar directamente, por cualquier cuantía. Al hacerlo asume las obligaciones del declarante, como conservar los documentos soporte."
+      },
+      {
+        pregunta: "¿Qué entidad administra la VUCE, donde se tramitan los permisos de otras entidades?",
+        opciones: [
+          "El Ministerio de Comercio, Industria y Turismo",
+          "La DIAN",
+          "La Sociedad Portuaria Regional de Cartagena",
+          "El Banco de la República"
         ],
         correcta: 0,
-        explicacion: "El Agente de Carga consolida, gestiona y contrata los espacios de flete internacional marítimo o aéreo."
+        explicacion: "La VUCE (Ventanilla Única de Comercio Exterior) la administra el MinCIT. La DIAN usa sus propios servicios informáticos para las declaraciones."
       }
     ]
   },
+
+  // ───────────────────────────────── 2
   {
     id: 2,
     orden: 2,
@@ -80,63 +104,75 @@ const CURSO_LECCIONES = [
     nivel: "Fundamentos",
     duracionMin: 20,
     objetivos: [
-      "Distinguir las responsabilidades entre comprador y vendedor bajo Incoterms 2020",
-      "Evaluar las diferencias clave entre los términos FOB, CIF y EXW",
-      "Seleccionar el Incoterm más conveniente para la compra en Shanghái"
+      "Saber dónde pasa el riesgo y quién paga cada tramo en FOB, CIF, EXW y FCA",
+      "Distinguir las reglas marítimas de las multimodales",
+      "Elegir el Incoterm para la compra en Shanghái"
     ],
     contenido: `
-      <p>Los <strong>Incoterms 2020</strong> (International Commercial Terms) publicados por la Cámara de Comercio Internacional (ICC) definen las reglas para la distribución de costos, riesgos y trámites entre comprador y vendedor.</p>
-      
-      <p>En el transporte marítimo de mercancías desde Asia a Cartagena destacan:</p>
+      <p>Los <strong>Incoterms® 2020</strong> de la Cámara de Comercio Internacional (ICC) son 11 reglas que reparten costos, riesgos y trámites entre vendedor y comprador. Siete sirven para cualquier modo de transporte (EXW, FCA, CPT, CIP, DAP, DPU y DDP) y cuatro son solo para transporte marítimo o fluvial (FAS, FOB, CFR y CIF).</p>
+
       <ul>
-        <li><span class="term-glosario" data-glosario="FOB">FOB (Free On Board):</span> El vendedor entrega a bordo del buque en Shanghái. El comprador contrata el flete marítimo y el seguro internacional.</li>
-        <li><span class="term-glosario" data-glosario="CIF">CIF (Cost, Insurance & Freight):</span> El vendedor paga el flete y seguro hasta el Puerto de Cartagena, pero el riesgo se transmite a bordo en Shanghái.</li>
-        <li><span class="term-glosario" data-glosario="EXW">EXW (Ex Works):</span> Máxima responsabilidad para el comprador desde la fábrica en origen.</li>
+        <li><span class="term-glosario" data-glosario="FOB">FOB (Free On Board):</span> el vendedor hace el despacho de exportación y entrega la mercancía a bordo del buque que designa el comprador. El comprador contrata y paga el flete. El riesgo pasa al comprador cuando la mercancía queda a bordo. El seguro no es obligatorio para ninguno de los dos; normalmente lo toma el comprador porque el riesgo del viaje ya es suyo.</li>
+        <li><span class="term-glosario" data-glosario="CIF">CIF (Cost, Insurance and Freight):</span> el vendedor paga el flete y un seguro hasta el puerto de destino, pero el riesgo pasa al comprador cuando la mercancía queda a bordo en origen. El seguro exigido es de cobertura mínima (Cláusulas C del Instituto) por el 110% del valor.</li>
+        <li><span class="term-glosario" data-glosario="EXW">EXW (Ex Works):</span> el vendedor solo pone la mercancía a disposición en su fábrica. El comprador asume todo, incluido el despacho de exportación en el país de origen, algo difícil para un importador colombiano en China.</li>
+        <li><strong>FCA (Free Carrier):</strong> el vendedor entrega la mercancía despachada para exportación al transportador, por ejemplo en la terminal de contenedores. Para carga en contenedor la ICC recomienda FCA en lugar de FOB, porque el contenedor se entrega en la terminal antes de subir al buque.</li>
       </ul>
-      <!-- TODO: Verificar si la convención cambiaria o cláusulas adicionales afectan la transmisión del riesgo en la póliza -->
     `,
-    etapaCaso: "HidroColombia S.A.S. negocia la compra de las 500 bombas hidráulicas a un precio unitario de USD $120.00 bajo el término FOB Shanghái (FOB Total: USD $60,000.00 // TODO: verificar cotización comercial FOB). El riesgo pasa a HidroColombia al momento en que la carga cruza la borda del buque en Shanghái.",
+    etapaCaso: "HidroColombia negocia las 500 bombas a USD 120 cada una en términos FOB Shanghái: valor FOB total de USD 60.000. HidroColombia contrata el flete con su agente de carga y toma un seguro de transporte, porque el riesgo pasa a su cargo cuando el contenedor queda a bordo del buque en Shanghái. Como es carga en contenedor, FCA terminal de Shanghái sería la opción que recomienda la ICC; en este curso seguimos con FOB porque es el término más usado en compras a China.",
     practica: {
-      texto: "Simular y comparar Incoterms 2020 en la guía interactiva",
+      texto: "Compara FOB, CIF y FCA en la guía interactiva de Incoterms",
       moduloUrl: "incoterms.html",
       parametros: { term: "FOB" }
     },
     quiz: [
       {
-        pregunta: "En una compra bajo Incoterm FOB Shanghái, ¿quién es responsable de contratar y pagar el flete marítimo internacional hasta Cartagena?",
+        pregunta: "En una compra FOB Shanghái, ¿quién contrata y paga el flete marítimo hasta Cartagena?",
         opciones: [
-          "El comprador (Importador en Colombia)",
-          "El vendedor (Proveedor en China)",
-          "La DIAN",
-          "La Sociedad Portuaria de Cartagena"
+          "El vendedor en China",
+          "La sociedad portuaria de Cartagena",
+          "El comprador en Colombia",
+          "La agencia de aduanas en Colombia"
         ],
-        correcta: 0,
-        explicacion: "En FOB (Free On Board), el comprador asume la contratación del flete marítimo y seguro desde el puerto de embarque."
+        correcta: 2,
+        explicacion: "En FOB el vendedor entrega a bordo en el puerto de embarque; desde ahí, el flete principal lo contrata y paga el comprador."
       },
       {
-        pregunta: "¿En qué punto exacto se transfiere el riesgo de pérdida o daño en el Incoterm FOB?",
+        pregunta: "Según Incoterms 2020, ¿en qué momento pasa el riesgo al comprador en FOB?",
         opciones: [
-          "Cuando la mercancía reposa a bordo del buque en el puerto de salida",
-          "Cuando llega a la bodega del importador en Bogotá",
-          "Al momento de pagar los tributos aduaneros en la DIAN",
-          "Al firmar la orden de compra preliminar"
+          "Cuando la mercancía queda a bordo del buque en el puerto de embarque",
+          "Cuando la mercancía cruza la borda del buque",
+          "Cuando el buque llega al puerto de Cartagena",
+          "Cuando la mercancía se entrega en la terminal de contenedores de origen"
         ],
         correcta: 0,
-        explicacion: "El riesgo se transmite del vendedor al comprador una vez la carga es colocada a bordo del buque en Shanghái."
+        explicacion: "Desde Incoterms 2010 el riesgo en FOB pasa cuando la mercancía está a bordo. El criterio de 'cruzar la borda' pertenece a versiones anteriores. La entrega en la terminal de contenedores corresponde a FCA."
       },
       {
-        pregunta: "¿Qué diferencia principal existe entre el Incoterm FOB y el CIF?",
+        pregunta: "En CIF, ¿qué seguro debe contratar el vendedor como mínimo?",
         opciones: [
-          "En CIF el vendedor incluye el costo del flete marítimo y el seguro internacional hasta el puerto de destino",
-          "FOB solo aplica para transporte aéreo",
-          "En CIF el comprador paga todos los gastos en origen",
-          "En FOB el vendedor paga los tributos aduaneros en Colombia"
+          "Cobertura amplia (Cláusulas A) por el 100% del valor",
+          "Cobertura mínima (Cláusulas C del Instituto) por el 110% del valor",
+          "Ninguno: en CIF el seguro siempre lo contrata el comprador",
+          "Un seguro todo riesgo hasta la bodega del comprador"
         ],
-        correcta: 0,
-        explicacion: "CIF (Cost, Insurance and Freight) requiere que el vendedor contrate y pague el transporte y seguro hasta el puerto de destino."
+        correcta: 1,
+        explicacion: "En CIF el vendedor debe contratar al menos una cobertura mínima (Cláusulas C) por el 110% del valor. La cobertura amplia (Cláusulas A) es la exigida en CIP."
+      },
+      {
+        pregunta: "¿Qué regla recomienda la ICC para carga en contenedor que se entrega en una terminal?",
+        opciones: [
+          "FOB",
+          "FAS",
+          "CFR",
+          "FCA"
+        ],
+        correcta: 3,
+        explicacion: "FOB, FAS, CFR y CIF suponen entrega a bordo o al costado del buque. Cuando el contenedor se entrega en la terminal antes de embarcarse, la regla adecuada es FCA."
       }
     ]
   },
+
+  // ───────────────────────────────── 3
   {
     id: 3,
     orden: 3,
@@ -144,271 +180,333 @@ const CURSO_LECCIONES = [
     nivel: "Intermedio",
     duracionMin: 25,
     objetivos: [
-      "Comprender la estructura de la codificación arancelaria NANDINA a 10 dígitos",
-      "Determinar la subpartida arancelaria para bombas hidráulicas",
-      "Identificar los tributos asociados (Arancel Ad-Valorem e IVA)"
+      "Leer la estructura de 10 dígitos del Arancel de Aduanas colombiano",
+      "Aplicar las Reglas Generales Interpretativas en orden",
+      "Clasificar las bombas del caso y justificar la subpartida"
     ],
     contenido: `
-      <p>La <strong>clasificación arancelaria</strong> es la asignación de un código numérico estándar a cada mercancía para determinar sus impuestos y requerimientos legales. En Colombia y el bloque andino se utiliza el sistema NANDINA a <strong>10 dígitos</strong>.</p>
-      
-      <p>Estructura de la subpartida:</p>
+      <p>Clasificar es asignarle a la mercancía su <span class="term-glosario" data-glosario="Subpartida Arancelaria">subpartida</span> en el Arancel de Aduanas. De ella dependen el arancel, el IVA, los requisitos de otras entidades y las estadísticas.</p>
+
+      <h4>Estructura del código (10 dígitos)</h4>
       <ul>
-        <li><strong>Capítulo (2 dígitos):</strong> 84 — Reactores nucleares, calderas, máquinas, aparatos y artefactos mecánicos.</li>
-        <li><strong>Partida (4 dígitos):</strong> 84.13 — Bombas para líquidos, incluso con dispositivo medidor.</li>
-        <li><strong>Subpartida del Sistema Armonizado (6 dígitos):</strong> 8413.60 — Las demás bombas volumétricas rotativas.</li>
-        <li><strong>Subpartida NANDINA / Arancel Colombiano (10 dígitos):</strong> 8413.60.00.00 // TODO: verificar especificación técnica de pistones vs engranajes.</li>
+        <li><strong>6 dígitos del Sistema Armonizado</strong> de la Organización Mundial de Aduanas: capítulo (2), partida (4) y subpartida (6).</li>
+        <li><strong>2 dígitos de la NANDINA</strong>, la nomenclatura común de la Comunidad Andina, que tiene 8 dígitos.</li>
+        <li><strong>2 dígitos nacionales</strong> que agrega Colombia. Si no hay desdoblamiento nacional, son 00.</li>
       </ul>
-      <!-- TODO: Verificar si la mercancía goza de preferencia arancelaria bajo algún TLC o acuerdo comercial vigente -->
+
+      <h4>Cómo se clasifica</h4>
+      <p>Se aplican las Reglas Generales Interpretativas (RGI) en orden. La RGI 1 dice que los títulos de secciones y capítulos solo orientan: la clasificación la determinan los textos de las partidas y las notas. La RGI 6 aplica la misma lógica para escoger entre subpartidas. Si hay duda, se puede pedir a la DIAN una resolución de clasificación anticipada.</p>
+
+      <h4>Las bombas del caso</h4>
+      <ul>
+        <li>Capítulo 84: máquinas y aparatos mecánicos.</li>
+        <li>Partida 84.13: bombas para líquidos, incluso con dispositivo medidor incorporado; elevadores de líquidos.</li>
+        <li>Subpartida 8413.60: las demás bombas volumétricas rotativas, como las de engranajes, paletas o tornillo.</li>
+        <li>No confundir: las bombas de pistones (volumétricas alternativas) van en 8413.50, las centrífugas en 8413.70 y los motores hidráulicos en la partida 84.12.</li>
+      </ul>
+      <p>En este curso usamos la subpartida nacional <strong>8413.60.90.00</strong> y un arancel de ejemplo del 5%. Antes de una operación real confirma la subpartida y su gravamen en el Arancel de Aduanas vigente de la DIAN.</p>
     `,
-    etapaCaso: "Se clasifica el lote de 500 bombas hidráulicas en la subpartida arancelaria 8413.60.00.00. Esta subpartida registra un gravamen arancelario del 5% ad-valorem // TODO: verificar tarifa vigente en arancel de aduanas y está sujeta a la tarifa general de IVA del 19%.",
+    etapaCaso: "La ficha técnica confirma que son bombas de engranajes externos (volumétricas rotativas), sin motor, para aceite hidráulico. Con la RGI 1 y la RGI 6: capítulo 84, partida 84.13, subpartida 8413.60. Para la práctica usamos la subpartida nacional 8413.60.90.00 con un arancel de ejemplo del 5%. Colombia no tiene acuerdo comercial vigente con China, así que se aplica el arancel general y no se necesita certificado de origen para pedir preferencia.",
     practica: {
-      texto: "Consultar arancel y requisitos de la subpartida 8413.60.00.00",
+      texto: "Busca la partida 8413 en el buscador de subpartidas",
       moduloUrl: "subpartidas.html",
-      parametros: { buscar: "8413.60.00.00" }
+      parametros: { buscar: "8413" }
     },
     quiz: [
       {
-        pregunta: "¿Cuántos dígitos componen una subpartida arancelaria completa en el Arancel de Aduanas de Colombia (NANDINA)?",
+        pregunta: "¿Cómo se componen los 10 dígitos de una subpartida en el Arancel de Aduanas de Colombia?",
         opciones: [
-          "10 dígitos",
-          "6 dígitos",
-          "4 dígitos",
-          "12 dígitos"
+          "Los 10 los define la Comunidad Andina",
+          "6 del Sistema Armonizado, 2 de la NANDINA y 2 nacionales",
+          "8 del Sistema Armonizado y 2 nacionales",
+          "6 del Sistema Armonizado y 4 nacionales"
         ],
-        correcta: 0,
-        explicacion: "En Colombia y la Comunidad Andina la nomenclatura arancelaria nacional consta de 10 dígitos exactos."
+        correcta: 1,
+        explicacion: "El Sistema Armonizado llega a 6 dígitos, la NANDINA a 8 y Colombia agrega 2 dígitos nacionales para completar 10."
       },
       {
-        pregunta: "¿Para qué sirve clasificar correctamente una mercancía en la subpartida arancelaria?",
+        pregunta: "Si las bombas del caso fueran de pistones en lugar de engranajes, ¿qué subpartida del Sistema Armonizado correspondería?",
         opciones: [
-          "Para conocer el porcentaje exacto de arancel, IVA y los vistos buenos requeridos",
-          "Únicamente para calcular el peso del contenedor",
-          "Para determinar el color del empaque",
-          "Para cambiar el Incoterm pactado"
+          "8413.60, porque todas las bombas hidráulicas van ahí",
+          "8413.70, bombas centrífugas",
+          "8413.50, bombas volumétricas alternativas",
+          "8412.21, motores hidráulicos de movimiento rectilíneo"
         ],
-        correcta: 0,
-        explicacion: "La subpartida arancelaria es la llave de entrada aduanera que fija los impuestos y permisos legales exigibles."
+        correcta: 2,
+        explicacion: "Las bombas de pistones son volumétricas alternativas (8413.50); las de engranajes, paletas o tornillo son rotativas (8413.60). La partida 84.12 es de motores, no de bombas."
       },
       {
-        pregunta: "Si una subpartida tiene un acuerdo de TLC aplicable con Certificado de Origen válido, ¿qué ocurre con el arancel?",
+        pregunta: "¿Qué Regla General Interpretativa se aplica primero?",
         opciones: [
-          "Se aplica una desgravación parcial o preferencia del 0% de arancel",
-          "Se elimina automáticamente el IVA",
-          "No requiere transporte marítimo",
-          "Aumenta al doble la tarifa ad-valorem"
+          "La RGI 1: mandan los textos de las partidas y las notas de sección y capítulo",
+          "La RGI 6: se clasifica directamente por subpartida",
+          "La RGI 3: siempre se elige la partida más específica",
+          "Ninguna: los títulos de los capítulos son los que tienen valor legal"
         ],
         correcta: 0,
-        explicacion: "Los Acuerdos Comerciales (TLC) otorgan preferencias arancelarias que reducen o eliminan el arancel ad-valorem."
+        explicacion: "Las RGI se aplican en orden y la primera es la RGI 1. Los títulos de secciones y capítulos solo tienen valor indicativo."
+      },
+      {
+        pregunta: "Las bombas vienen de China y Colombia no tiene acuerdo comercial con ese país. ¿Qué arancel se aplica?",
+        opciones: [
+          "0%, porque China es miembro de la OMC",
+          "El arancel general de la subpartida en el Arancel de Aduanas",
+          "El arancel preferencial de la Comunidad Andina",
+          "Ninguno, si se presenta un certificado de origen chino"
+        ],
+        correcta: 1,
+        explicacion: "Sin acuerdo comercial no hay preferencia: se paga el arancel general de la subpartida. Ser miembro de la OMC no significa arancel cero."
       }
     ]
   },
+
+  // ───────────────────────────────── 4
   {
     id: 4,
     orden: 4,
-    titulo: "Valor en aduana: FOB, flete, seguro y CIF",
-    nivel: "Intermedio",
-    duracionMin: 20,
-    objetivos: [
-      "Determinar la estructura del Valor en Aduana de las mercancías",
-      "Calcular el Valor CIF (Cost, Insurance and Freight) en dólares USD",
-      "Convertir el Valor CIF a Pesos Colombianos (COP) utilizando la TRM oficial"
-    ],
-    contenido: `
-      <p>Según las normas de valoración de la OMC y la Comunidad Andina, la base para liquidar los impuestos aduaneros en Colombia es el <strong>Valor en Aduana</strong>, equivalente al <strong>Valor CIF</strong> (Costo + Flete + Seguro internacional) entregado en el puerto de ingreso (Cartagena).</p>
-      
-      <p>Fórmula de cálculo:</p>
-      <p style="background: var(--bg-panel); padding: 10px; border-radius: 6px; font-weight: 600; text-align: center;">
-        Valor CIF (USD) = Valor FOB + Flete Internacional + Seguro Internacional
-      </p>
-      <p>Posteriormente, el Valor CIF en USD se multiplica por la <strong>Tasa Representativa del Mercado (TRM)</strong> legalmente vigente en la fecha de presentación y aceptación de la declaración aduanera.</p>
-      <!-- TODO: Verificar si existen otros gastos complementarios en origen que deban adicionarse a la DAV (Formulario 560) -->
-    `,
-    etapaCaso: "Datos del embarque de las 500 bombas hidráulicas:<br>" +
-      "• Valor FOB: USD $60,000.00 (500 unidades × $120.00)<br>" +
-      "• Flete marítimo Shanghái → Cartagena: USD $3,500.00 // TODO: verificar flete de contenedor de 20 feet<br>" +
-      "• Seguro de transporte internacional (0.5% aprox): USD $300.00 // TODO: verificar prima póliza<br>" +
-      "• <strong>Valor CIF Total: USD $63,800.00</strong><br>" +
-      "• TRM oficial del día: $4,100.00 COP // TODO: verificar TRM vigente para la conversión.",
-    practica: {
-      texto: "Calcular la base CIF en la Calculadora de Importación",
-      moduloUrl: "importacion.html",
-      parametros: { fob: 60000, flete: 3500, seguro: 300, trm: 4100 }
-    },
-    quiz: [
-      {
-        pregunta: "¿Cuál es la fórmula para obtener el Valor CIF en USD antes de liquidar impuestos aduaneros en Colombia?",
-        opciones: [
-          "FOB + Flete Internacional + Seguro Internacional",
-          "FOB - Descuentos - Fletes",
-          "FOB × Tarifa del Arancel",
-          "Solo el costo de la factura de compra"
-        ],
-        correcta: 0,
-        explicacion: "El Valor CIF agrupa el valor de la mercancía en origen (FOB), el transporte internacional y la prima de seguro."
-      },
-      {
-        pregunta: "¿Qué tasa de cambio de divisa se debe aplicar para convertir el Valor CIF de USD a COP?",
-        opciones: [
-          "La Tasa Representativa del Mercado (TRM) oficial a la fecha de presentación y aceptación ante la DIAN",
-          "La TRM promedio del año anterior",
-          "Una tasa fija pactada con el proveedor",
-          "El valor del dólar en casas de cambio locales"
-        ],
-        correcta: 0,
-        explicacion: "La normativa aduanera exige usar la TRM legalmente informada por la Superintendencia Financiera para la fecha de la declaración."
-      },
-      {
-        pregunta: "Si el FOB es USD $60,000, el Flete USD $3,500 y el Seguro USD $300, ¿cuál es el Valor CIF en USD?",
-        opciones: [
-          "USD $63,800",
-          "USD $60,000",
-          "USD $63,500",
-          "USD $67,000"
-        ],
-        correcta: 0,
-        explicacion: "$60,000 + $3,500 + $300 = $63,800 USD en total."
-      }
-    ]
-  },
-  {
-    id: 5,
-    orden: 5,
-    titulo: "Tributos aduaneros: arancel e IVA",
-    nivel: "Intermedio",
-    duracionMin: 25,
-    objetivos: [
-      "Calcular el valor del Arancel Ad-Valorem en pesos COP",
-      "Determinar la Base Gravable del IVA de importación",
-      "Liquidar el monto total de tributos aduaneros a pagar a la DIAN"
-    ],
-    contenido: `
-      <p>Los <strong>Tributos Aduaneros</strong> en Colombia son los gravámenes cobrados al momento de nacionalizar mercancías de origen extranjero. Se componen de:</p>
-      
-      <ol>
-        <li><strong>Arancel (Ad-Valorem):</strong> Se liquida multiplicando el porcentaje de la subpartida por la base CIF expresada en pesos COP.
-          <br><code>Arancel (COP) = CIF (COP) × % Arancel</code>
-        </li>
-        <li><strong>IVA de Importación:</strong> Se calcula sobre la suma del CIF en COP más el Arancel previamente liquidado.
-          <br><code>Base IVA (COP) = CIF (COP) + Arancel (COP)</code>
-          <br><code>IVA (COP) = Base IVA (COP) × % IVA (Tarifa general 19%)</code>
-        </li>
-      </ol>
-      <p>La suma del <strong>Arancel + IVA</strong> representa la obligación tributaria aduanera a pagar en bancos autorizados antes del levante.</p>
-      <!-- TODO: Verificar si la empresa cuenta con saldos a favor de IVA o beneficios de Zona Franca -->
-    `,
-    etapaCaso: "Liquidación detallada en pesos para el embarque de 500 bombas hidráulicas (TRM $4,100 COP):<br>" +
-      "1. CIF en COP: USD $63,800 × $4,100 = <strong>$261,580,000 COP</strong><br>" +
-      "2. Arancel (5%): $261,580,000 × 5% = <strong>$13,079,000 COP</strong> // TODO: verificar tarifa arancelaria<br>" +
-      "3. Base IVA: $261,580,000 + $13,079,000 = $274,659,000 COP<br>" +
-      "4. IVA (19%): $274,659,000 × 19% = <strong>$52,185,210 COP</strong> // TODO: verificar tarifa de IVA<br>" +
-      "5. <strong>Total Tributos Aduaneros: $65,264,210 COP</strong>.",
-    practica: {
-      texto: "Liquidar Arancel e IVA en la Calculadora",
-      moduloUrl: "importacion.html",
-      parametros: { cifCop: 261580000, arancelPct: 5, ivaPct: 19 }
-    },
-    quiz: [
-      {
-        pregunta: "¿Sobre qué base de cálculo se determina el monto del Arancel Ad-Valorem en Colombia?",
-        opciones: [
-          "Sobre el Valor CIF de la mercancía convertido a pesos (COP)",
-          "Sobre el precio de venta en almacenes de Colombia",
-          "Únicamente sobre el valor del flete internacional",
-          "Sobre el margen de ganancia del importador"
-        ],
-        correcta: 0,
-        explicacion: "El Arancel Ad-Valorem se liquida directamente sobre la base gravable CIF expresada en pesos colombianos."
-      },
-      {
-        pregunta: "¿Cómo se constituye la base gravable para calcular el IVA de importación?",
-        opciones: [
-          "Sumando el Valor CIF en COP más el monto del Arancel liquidado",
-          "Tomando solo el valor FOB en dólares",
-          "Restando el flete al valor de la factura",
-          "Multiplicando la TRM por el peso bruto"
-        ],
-        correcta: 0,
-        explicacion: "La base gravable del IVA incluye tanto el costo CIF en COP como el gravamen arancelario resultante."
-      },
-      {
-        pregunta: "Si el CIF en COP es $261,580,000 y el Arancel (5%) es $13,079,000, ¿cuál es la base gravable para el IVA?",
-        opciones: [
-          "$274,659,000 COP",
-          "$261,580,000 COP",
-          "$13,079,000 COP",
-          "$300,000,000 COP"
-        ],
-        correcta: 0,
-        explicacion: "$261,580,000 + $13,079,000 = $274,659,000 COP."
-      }
-    ]
-  },
-  {
-    id: 6,
-    orden: 6,
     titulo: "Vistos buenos y requisitos previos",
-    nivel: "Avanzado",
+    nivel: "Intermedio",
     duracionMin: 20,
     objetivos: [
-      "Identificar las autoridades de control técnico y sanitario en Colombia",
-      "Entender el funcionamiento de la VUCE (Ventanilla Única de Comercio Exterior)",
-      "Gestionar Registros o Licencias de Importación previas a la llegada de la carga"
+      "Saber cuándo una mercancía necesita permisos de otras entidades",
+      "Usar la VUCE para verificar requisitos antes de embarcar",
+      "Diferenciar libre importación, registro y licencia"
     ],
     contenido: `
-      <p>Ciertas mercancías requieren <strong>Vistos Buenos o Licencias Previas</strong> de entidades especializadas antes de ser embarcadas o nacionalizadas en Colombia, tramitados a través de la <strong>VUCE (Ventanilla Única de Comercio Exterior)</strong> administrada por el Ministerio de Comercio, Industria y Turismo (MinCit).</p>
-      
-      <p>Principales entidades emisoras de vistos buenos:</p>
+      <p>Algunas mercancías necesitan <span class="term-glosario" data-glosario="Vistos Buenos">vistos buenos</span>, permisos o certificaciones de otras entidades además de la DIAN. Se tramitan en la <strong>VUCE</strong> (Ventanilla Única de Comercio Exterior) y deben estar aprobados antes de presentar la declaración de importación; algunas entidades los exigen desde antes del embarque. Por eso se revisan justo después de clasificar.</p>
+
+      <p>Con el Decreto 925 de 2013, la mayoría de mercancías son de <strong>libre importación</strong>. El registro de importación se exige cuando la subpartida tiene requisitos o vistos buenos, y la licencia previa en casos restringidos.</p>
+
+      <h4>Entidades que aparecen con más frecuencia</h4>
       <ul>
-        <li><strong>SIC (Superintendencia de Industria y Comercio):</strong> Reglamentos técnicos de etiquetado, seguridad y metrología.</li>
-        <li><strong>INVIMA:</strong> Alimentos, medicamentos, cosméticos y equipos médicos.</li>
-        <li><strong>ICA:</strong> Productos agrícolas, pecuarios y semillas.</li>
-        <li><strong>ANLA:</strong> Licencias ambientales y sustancias químicas.</li>
-        <li><strong>Indumil / Fondo Nacional de Estupefacientes:</strong> Armas, explosivos y precursores químicos.</li>
+        <li><strong>INVIMA:</strong> alimentos, medicamentos, cosméticos y dispositivos médicos.</li>
+        <li><strong>ICA:</strong> animales, plantas, semillas e insumos agropecuarios.</li>
+        <li><strong>SIC:</strong> verifica que los productos sujetos a reglamentos técnicos (por ejemplo, el RETIE para productos eléctricos) tengan su certificado de conformidad, expedido por un organismo acreditado.</li>
+        <li><strong>Ministerio de Justicia:</strong> sustancias químicas controladas.</li>
+        <li><strong>Fondo Nacional de Estupefacientes:</strong> medicamentos y materias primas de control especial.</li>
+        <li><strong>Indumil y Ministerio de Defensa:</strong> armas, municiones y explosivos.</li>
       </ul>
-      <!-- TODO: Verificar si el modelo específico de bomba hidráulica requiere certificado RETIE ante la SIC -->
     `,
-    etapaCaso: "Antes de despachar el contenedor desde Shanghái, la agencia de aduanas consulta la subpartida 8413.60.00.00 en la VUCE. Se verifica que las bombas hidráulicas requieren registro de reglamento técnico ante la SIC (Superintendencia de Industria y Comercio) // TODO: verificar si exige visto bueno o declaración de conformidad. Se aprueba la solicitud de Registro de Importación electrónico.",
+    etapaCaso: "Antes de confirmar la orden de compra, HidroColombia consulta la subpartida en la VUCE. En este caso de práctica, las bombas de engranajes sin motor son de libre importación: no requieren vistos buenos ni registro de importación. Si hubieran sido electrobombas, el motor eléctrico podría tener que demostrar conformidad con el RETIE, y la SIC lo verificaría antes de declarar. En una operación real, el resultado depende de la subpartida y de la norma vigente ese día.",
     practica: {
-      texto: "Consultar entidades y permisos en la Guía de Vistos Buenos",
+      texto: "Consulta las entidades y sus requisitos en la guía de vistos buenos",
       moduloUrl: "vistos-buenos.html",
       parametros: { entidad: "SIC" }
     },
     quiz: [
       {
-        pregunta: "¿A través de qué plataforma oficial se tramitan las licencias y registros de importación con vistos buenos en Colombia?",
+        pregunta: "¿Dónde se tramitan los vistos buenos y registros de importación de otras entidades?",
         opciones: [
-          "VUCE (Ventanilla Única de Comercio Exterior)",
-          "Página web del Puerto de Cartagena",
-          "Correo electrónico directo a la DIAN",
-          "Plataforma SWIFT bancaria"
+          "En los servicios informáticos de la DIAN (MUISCA)",
+          "En el portal de la sociedad portuaria",
+          "En la VUCE",
+          "En el sistema de la naviera"
         ],
-        correcta: 0,
-        explicacion: "La VUCE canaliza los trámites de registro y licencias de importación ante las diferentes entidades de control."
+        correcta: 2,
+        explicacion: "La VUCE centraliza los trámites ante las entidades de control. La DIAN usa sus servicios informáticos para las declaraciones, no para los vistos buenos."
       },
       {
-        pregunta: "¿Qué entidad colombiana evalúa el cumplimiento de reglamentos técnicos para maquinaria y aparatos industriales?",
+        pregunta: "¿Cuándo deben estar aprobados los vistos buenos que exija la mercancía?",
         opciones: [
-          "SIC (Superintendencia de Industria y Comercio)",
-          "INVIMA",
-          "ICA",
-          "Banco de la República"
+          "Antes de presentar la declaración de importación; algunas entidades los piden desde antes del embarque",
+          "Después del levante, para poder vender la mercancía",
+          "Solo si la DIAN ordena inspección física",
+          "Dentro del mes siguiente a la llegada del buque"
         ],
         correcta: 0,
-        explicacion: "La SIC vigila el cumplimiento de los reglamentos técnicos de seguridad, calidad y metrología legal."
+        explicacion: "Sin los vistos buenos aprobados la mercancía no puede declararse correctamente. Por eso se revisan justo después de clasificar, antes de comprar y embarcar."
       },
       {
-        pregunta: "¿En qué momento debe obtenerse un visto bueno de importación cuando es obligatorio?",
+        pregunta: "Si importaras electrobombas, ¿quién verificaría el certificado de conformidad del reglamento técnico?",
         opciones: [
-          "Previo al embarque o a la presentación de la declaración de importación",
-          "Después de 30 días de vendida la mercancía en Colombia",
-          "Únicamente si la DIAN realiza inspección física",
-          "No requiere obtenerse en ningún momento"
+          "El INVIMA",
+          "La SIC, a través de la VUCE",
+          "El ICA",
+          "La sociedad portuaria"
         ],
-        correcta: 0,
-        explicacion: "Los vistos buenos y registros de importación deben estar vigentes y aprobados con anterioridad al trámite de desaduanamiento."
+        correcta: 1,
+        explicacion: "La SIC verifica el cumplimiento de reglamentos técnicos como el RETIE. El certificado lo expide un organismo de certificación acreditado."
+      },
+      {
+        pregunta: "Con el Decreto 925 de 2013, ¿cuál es la situación de la mayoría de mercancías?",
+        opciones: [
+          "Necesitan licencia previa",
+          "Necesitan registro de importación, sin importar la subpartida",
+          "Necesitan autorización del INVIMA",
+          "Son de libre importación, salvo que la subpartida tenga requisitos"
+        ],
+        correcta: 3,
+        explicacion: "La regla general es la libre importación. El registro y la licencia se exigen solo cuando la subpartida o la operación lo requieren."
       }
     ]
   },
+
+  // ───────────────────────────────── 5
+  {
+    id: 5,
+    orden: 5,
+    titulo: "Valor en aduana: FOB, flete, seguro y CIF",
+    nivel: "Intermedio",
+    duracionMin: 20,
+    objetivos: [
+      "Construir el valor en aduana a partir del precio FOB",
+      "Convertirlo a pesos con la TRM correcta",
+      "Evitar el error de sumar dos veces el flete y el seguro"
+    ],
+    contenido: `
+      <p>Los tributos se liquidan sobre el <strong>valor en aduana</strong>, que se determina con las normas de valoración de la OMC y la Comunidad Andina (Decisión 571 y su reglamento). El método principal es el valor de transacción: el precio realmente pagado o por pagar, con los ajustes que exija la norma. En Colombia se incluyen el transporte y el seguro hasta el puerto de importación, por eso en la práctica el valor en aduana es un valor <span class="term-glosario" data-glosario="CIF">CIF</span>.</p>
+
+      <p class="formula-destacada">Valor en aduana (USD) = FOB + flete internacional + seguro (+ otros ajustes, si los hay)</p>
+
+      <ul>
+        <li><strong>Seguro:</strong> se declara el costo real de la póliza contratada.</li>
+        <li><strong>Si compras en CIF:</strong> el precio ya incluye flete y seguro; no se vuelven a sumar.</li>
+        <li><strong>Conversión a pesos:</strong> se usa la <span class="term-glosario" data-glosario="TRM">TRM</span> vigente el último día hábil de la semana anterior a la presentación y aceptación de la declaración (arts. 14 a 16 del Decreto 1165 de 2019). No es la del día de presentación ni la del día de llegada del buque.</li>
+      </ul>
+    `,
+    etapaCaso: "Datos del embarque (valores de práctica):<br>" +
+      "• Valor FOB: USD 60.000 (500 bombas × USD 120)<br>" +
+      "• Flete Shanghái–Cartagena, contenedor de 20 pies: USD 3.500 (cotización de ejemplo)<br>" +
+      "• Seguro de transporte: USD 300 (prima de ejemplo)<br>" +
+      "• <strong>Valor en aduana: USD 63.800</strong><br>" +
+      "• TRM del último día hábil de la semana anterior (ejemplo): $4.100<br>" +
+      "• <strong>Valor en aduana en pesos: $261.580.000</strong>",
+    practica: {
+      texto: "Calcula el valor en aduana en la calculadora de importación",
+      moduloUrl: "importacion.html",
+      parametros: { fob: 60000, flete: 3500, seguro: 300, trm: 4100, arancel: 5 }
+    },
+    quiz: [
+      {
+        pregunta: "¿Cómo se calcula el valor en aduana en el caso de las bombas compradas FOB?",
+        opciones: [
+          "FOB + flete, sin el seguro",
+          "Solo el FOB, porque es el precio pactado",
+          "FOB + flete + seguro + IVA",
+          "FOB + flete internacional + seguro"
+        ],
+        correcta: 3,
+        explicacion: "El valor en aduana incluye el precio de la mercancía más el transporte y el seguro hasta el puerto de importación. El IVA se calcula después, sobre esa base."
+      },
+      {
+        pregunta: "¿Qué TRM se usa para convertir el valor en aduana a pesos?",
+        opciones: [
+          "La del día en que se presenta la declaración",
+          "La vigente el último día hábil de la semana anterior a la presentación y aceptación de la declaración",
+          "La del día en que llega el buque a Cartagena",
+          "La de la fecha de la factura comercial"
+        ],
+        correcta: 1,
+        explicacion: "La DIAN aplica la TRM del último día hábil de la semana anterior a la presentación y aceptación de la declaración. Usar la del mismo día es el error más frecuente."
+      },
+      {
+        pregunta: "FOB USD 60.000, flete USD 3.500 y seguro USD 300. ¿Cuál es el valor en aduana?",
+        opciones: [
+          "USD 63.500",
+          "USD 60.300",
+          "USD 63.800",
+          "USD 67.300"
+        ],
+        correcta: 2,
+        explicacion: "60.000 + 3.500 + 300 = USD 63.800."
+      },
+      {
+        pregunta: "Si hubieras comprado CIF Cartagena por USD 63.800, ¿qué sumas para llegar al valor en aduana?",
+        opciones: [
+          "Nada por flete ni seguro: el precio CIF ya los incluye",
+          "Otra vez el flete y el seguro",
+          "El arancel",
+          "El IVA"
+        ],
+        correcta: 0,
+        explicacion: "El precio CIF ya trae el flete y el seguro. Sumarlos de nuevo inflaría la base y los tributos. Solo se agregarían otros ajustes de valoración, si existieran."
+      }
+    ]
+  },
+
+  // ───────────────────────────────── 6
+  {
+    id: 6,
+    orden: 6,
+    titulo: "Tributos aduaneros: arancel e IVA",
+    nivel: "Avanzado",
+    duracionMin: 25,
+    objetivos: [
+      "Liquidar el arancel sobre el valor en aduana",
+      "Construir la base del IVA de importación",
+      "Aproximar cada tributo como lo hace la DIAN"
+    ],
+    contenido: `
+      <p>Al importar para consumo en Colombia se pagan los tributos aduaneros. En la mayoría de los casos son dos:</p>
+      <ol>
+        <li><strong>Arancel:</strong> <code>Arancel = valor en aduana (pesos) × tarifa de la subpartida</code></li>
+        <li><strong><span class="term-glosario" data-glosario="IVA de Importación">IVA</span>:</strong> su base es el valor en aduana más el arancel (art. 459 del Estatuto Tributario). La tarifa general es del 19%.<br>
+          <code>Base IVA = valor en aduana + arancel</code><br>
+          <code>IVA = base IVA × 19%</code>
+        </li>
+      </ol>
+      <p>Cada tributo se aproxima al múltiplo de mil más cercano. Se pagan en bancos autorizados antes del levante. Según el producto pueden aparecer otros tributos, como derechos antidumping o salvaguardias.</p>
+    `,
+    etapaCaso: "Liquidación del embarque (TRM de ejemplo $4.100, arancel de ejemplo 5%):<br>" +
+      "1. Valor en aduana: USD 63.800 × $4.100 = <strong>$261.580.000</strong><br>" +
+      "2. Arancel (5%): $261.580.000 × 5% = <strong>$13.079.000</strong><br>" +
+      "3. Base del IVA: $261.580.000 + $13.079.000 = $274.659.000<br>" +
+      "4. IVA (19%): $274.659.000 × 19% = $52.185.210 → se aproxima a <strong>$52.185.000</strong><br>" +
+      "5. <strong>Total de tributos: $65.264.000</strong>",
+    practica: {
+      texto: "Liquida el arancel y el IVA en la calculadora de importación",
+      moduloUrl: "importacion.html",
+      parametros: { fob: 60000, flete: 3500, seguro: 300, trm: 4100, arancel: 5 }
+    },
+    quiz: [
+      {
+        pregunta: "¿Sobre qué base se liquida el arancel?",
+        opciones: [
+          "Sobre el valor FOB en dólares",
+          "Sobre el valor en aduana convertido a pesos",
+          "Sobre el valor en aduana más el IVA",
+          "Sobre el precio de venta en Colombia"
+        ],
+        correcta: 1,
+        explicacion: "El arancel se aplica al valor en aduana (CIF) en pesos. El IVA se calcula después."
+      },
+      {
+        pregunta: "¿Cuál es la base del IVA de importación?",
+        opciones: [
+          "Solo el valor en aduana",
+          "El valor FOB más el arancel",
+          "El valor en aduana más el arancel",
+          "El valor en aduana más el arancel y los gastos del puerto"
+        ],
+        correcta: 2,
+        explicacion: "El artículo 459 del Estatuto Tributario define la base del IVA en la importación como el valor en aduana más el arancel y los demás tributos de la importación. Los gastos del puerto no hacen parte."
+      },
+      {
+        pregunta: "La base del IVA es $274.659.000 y el 19% da $52.185.210. ¿Qué valor se declara?",
+        opciones: [
+          "$52.185.210",
+          "$52.186.000",
+          "$52.190.000",
+          "$52.185.000"
+        ],
+        correcta: 3,
+        explicacion: "Cada tributo se aproxima al múltiplo de mil más cercano: 52.185.210 queda en 52.185.000."
+      },
+      {
+        pregunta: "Arancel $13.079.000 e IVA $52.185.000. ¿Cuál es el total de tributos?",
+        opciones: [
+          "$65.264.000",
+          "$65.264.210",
+          "$274.659.000",
+          "$52.185.000"
+        ],
+        correcta: 0,
+        explicacion: "13.079.000 + 52.185.000 = $65.264.000."
+      }
+    ]
+  },
+
+  // ───────────────────────────────── 7
   {
     id: 7,
     orden: 7,
@@ -416,62 +514,78 @@ const CURSO_LECCIONES = [
     nivel: "Avanzado",
     duracionMin: 30,
     objetivos: [
-      "Conocer los formularios aduaneros oficiales de la DIAN",
-      "Estructurar el Formulario 500 (Declaración de Importación)",
-      "Comprender la Declaración Andina del Valor (DAV - Formulario 560)"
+      "Reunir los documentos soporte de la importación",
+      "Saber cuándo es obligatoria la Declaración Andina del Valor",
+      "Conocer qué contiene la declaración de importación"
     ],
     contenido: `
-      <p>El desaduanamiento formal ante la DIAN exige la elaboración y transmisión electrónica de documentos oficiales bajo el régimen de importación ordinaria:</p>
-      
+      <p>Las bombas se importan en la <strong>modalidad de importación ordinaria</strong>: quedan en libre disposición en Colombia después de pagar los tributos y obtener el levante.</p>
+
+      <h4>Documentos soporte</h4>
+      <p>Factura comercial, documento de transporte (B/L), lista de empaque, póliza o certificado de seguro, mandato aduanero si actúa una agencia, y los vistos buenos o certificados de origen cuando apliquen. El declarante debe conservarlos durante 5 años.</p>
+
+      <h4>Formularios</h4>
       <ul>
-        <li><span class="term-glosario" data-glosario="Formulario 560">Formulario 560 (DAV - Declaración Andina del Valor):</span> Soporta detalladamente los elementos de la transacción comercial (factura, fletes, comisiones, vinculación). Obligatorio para importaciones de valor FOB igual o superior a USD $5,000.</li>
-        <li><span class="term-glosario" data-glosario="Formulario 500">Formulario 500 (Declaración de Importación):</span> Documento principal donde se consignan los datos del declarante, la subpartida, la descripción comercial, las bases gravables y la autoliquidación del arancel e IVA.</li>
+        <li><span class="term-glosario" data-glosario="Formulario 560">Formulario 560 (Declaración Andina del Valor):</span> detalla los elementos de la transacción (precio, fletes, seguros, comisiones, vinculación entre las partes). Es obligatoria cuando el valor FOB es igual o superior a USD 5.000.</li>
+        <li><span class="term-glosario" data-glosario="Formulario 500">Formulario 500 (declaración de importación):</span> identifica al importador y al declarante, la subpartida, la descripción, el valor en aduana y los tributos liquidados.</li>
       </ul>
-      <p>Ambos formularios son firmados digitalmente y transmitidos al sistema informático aduanero de la DIAN.</p>
-      <!-- TODO: Verificar vigencia de requisitos de firma electrónica e interoperabilidad MUISCA / SYGA -->
+      <p>Las declaraciones se presentan de forma electrónica, con firma digital, en los servicios informáticos de la DIAN. Los formularios de BonCloud son simuladores para practicar y no tienen validez ante la DIAN.</p>
     `,
-    etapaCaso: "Dado que el valor FOB de las 500 bombas hidráulicas es de USD $60,000 (superior al umbral de USD $5,000), la Agencia de Aduanas diligencia primeramente el Formulario 560 (DAV). Acto seguido, elabora y firma electrónicamente el Formulario 500 con los $65,264,210 COP de tributos autoliquidados.",
+    etapaCaso: "El valor FOB de las bombas es USD 60.000, por encima de USD 5.000, así que se presenta la Declaración Andina del Valor (formulario 560). Luego se elabora y firma la declaración de importación (formulario 500) con $65.264.000 de tributos liquidados, y se archivan los documentos soporte.",
     practica: {
-      texto: "Diligenciar de prueba el Formulario 500 DIAN",
+      texto: "Practica el diligenciamiento del formulario 500",
       moduloUrl: "formularios.html",
       parametros: { form: "500" }
     },
     quiz: [
       {
-        pregunta: "¿Qué formulario aduanero oficial se utiliza para declarar la importación y autoliquidar tributos aduaneros en Colombia?",
+        pregunta: "¿Qué formulario se usa para declarar la importación y liquidar los tributos?",
         opciones: [
-          "Formulario 500 (Declaración de Importación)",
-          "Formulario 600 (DEX)",
-          "Formulario 001 (RUT)",
-          "Formulario DTA"
+          "El formulario 560 (Declaración Andina del Valor)",
+          "El formulario 500 (declaración de importación)",
+          "El formulario 600 (exportación)",
+          "El formulario 001 (RUT)"
         ],
-        correcta: 0,
-        explicacion: "El Formulario 500 es la declaración de importación oficial emitida por la DIAN."
+        correcta: 1,
+        explicacion: "El formulario 500 es la declaración de importación. El 560 soporta el valor, pero no liquida los tributos."
       },
       {
-        pregunta: "¿A partir de qué valor FOB en dólares es obligatorio diligenciar la Declaración Andina del Valor (DAV - Formulario 560)?",
+        pregunta: "¿Cuándo es obligatoria la Declaración Andina del Valor?",
         opciones: [
-          "USD $5,000 FOB",
-          "USD $1,000 FOB",
-          "USD $10,000 FOB",
-          "Para cualquier valor sin mínimo"
+          "Cuando el valor FOB es igual o superior a USD 5.000",
+          "Cuando el valor FOB supera USD 1.000",
+          "Solo cuando comprador y vendedor están vinculados",
+          "En todas las importaciones, sin excepción"
         ],
         correcta: 0,
-        explicacion: "Las normas andinas establecen la obligación de la DAV para operaciones de importación de USD $5,000 FOB o superior."
+        explicacion: "La DAV se exige desde USD 5.000 FOB. La vinculación entre las partes es una de las preguntas del formulario, no la condición para presentarlo."
       },
       {
-        pregunta: "¿Qué información fundamental contiene el Formulario 500 de la DIAN?",
+        pregunta: "¿Cuánto tiempo debe conservar el declarante los documentos soporte?",
         opciones: [
-          "Datos del importador, subpartida, descripción de mercancía, autoliquidación de arancel e IVA",
-          "Solamente el número de pasaporte del conductor del camión",
-          "La cotización inicial del proveedor sin precios",
-          "El menú del comedor del buque marítimo"
+          "Hasta obtener el levante",
+          "1 año",
+          "5 años desde la presentación y aceptación de la declaración",
+          "10 años"
         ],
-        correcta: 0,
-        explicacion: "El Formulario 500 consolida la identificación del usuario, la subpartida, valores CIF, gravámenes e impuestos autoliquidados."
+        correcta: 2,
+        explicacion: "El declarante debe conservar los documentos soporte durante 5 años, porque la DIAN puede pedirlos en un control posterior."
+      },
+      {
+        pregunta: "¿Qué documento prueba el contrato de transporte marítimo?",
+        opciones: [
+          "La factura comercial",
+          "La lista de empaque",
+          "El certificado de origen",
+          "El conocimiento de embarque (B/L)"
+        ],
+        correcta: 3,
+        explicacion: "El B/L lo emite la naviera (o el agente de carga, en el caso de un B/L hijo) y prueba el contrato de transporte."
       }
     ]
   },
+
+  // ───────────────────────────────── 8
   {
     id: 8,
     orden: 8,
@@ -479,67 +593,80 @@ const CURSO_LECCIONES = [
     nivel: "Avanzado",
     duracionMin: 25,
     objetivos: [
-      "Comprender la operativa de recepción en la Sociedad Portuaria de Cartagena (CONTECAR / SPRC)",
-      "Distinguir entre Inspección Física, Documental y Levante Automático",
-      "Coordinar el retiro de la carga y el transporte hacia la bodega de destino"
+      "Seguir la carga desde el arribo hasta la bodega",
+      "Distinguir levante automático, inspección documental e inspección física",
+      "Cerrar la operación: retiro y devolución del contenedor"
     ],
     contenido: `
-      <p>Una vez arribado el buque a las instalaciones de la <strong>Sociedad Portuaria de Cartagena (SPRC o CONTECAR)</strong>, la mercancía ingresa al depósito habilitado para su nacionalización.</p>
-      
-      <h4>Pasos finales del proceso:</h4>
+      <h4>De la llegada a la bodega</h4>
       <ol>
-        <li><strong>Pago de tributos:</strong> Cancelación de la declaración (Formulario 500) en entidad bancaria autorizada.</li>
-        <li><strong>Determinación de Inspección / Selectividad DIAN:</strong>
+        <li><strong>Antes del arribo:</strong> el transportador transmite a la DIAN el manifiesto de carga y los documentos de transporte.</li>
+        <li><strong>Arribo y descargue:</strong> el buque llega al terminal (por ejemplo, Contecar o la SPRC) y se reportan las diferencias entre lo manifestado y lo descargado.</li>
+        <li><strong>Almacenamiento:</strong> la carga queda en un depósito habilitado bajo control aduanero. Como regla general puede permanecer 1 mes, prorrogable 1 mes más; si no se declara a tiempo, queda en abandono legal.</li>
+        <li><strong>Declaración y pago:</strong> se presenta la declaración y se pagan los tributos en bancos autorizados.</li>
+        <li><strong>Gestión de riesgo de la DIAN:</strong>
           <ul>
-            <li><em>Levante Automático:</em> Autorización inmediata de retiro.</li>
-            <li><em>Inspección Documental:</em> Revisión de facturas, B/L, registros VUCE por un inspector DIAN.</li>
-            <li><em>Inspección Física:</em> Verificación presencial del contenedor en el puerto.</li>
+            <li><em>Levante automático:</em> se autoriza sin inspección.</li>
+            <li><em>Inspección documental:</em> un funcionario revisa los documentos soporte.</li>
+            <li><em>Inspección física:</em> se revisa la mercancía; puede ser no intrusiva, con escáner.</li>
           </ul>
         </li>
-        <li><strong>Pago de servicios portuarios:</strong> Muellaje, bodegajes y manipulación en puerto.</li>
-        <li><strong>Retiro e Ingreso a Bodega:</strong> Generación del pase de salida y despacho terrestre.</li>
+        <li><strong><span class="term-glosario" data-glosario="Levante de Mercancía">Levante</span>:</strong> la DIAN autoriza disponer de la mercancía.</li>
+        <li><strong>Pago al terminal y retiro:</strong> se pagan los servicios a la carga (uso de instalaciones, almacenamiento, manejo del contenedor) y el camión sale del puerto.</li>
+        <li><strong>Devolución del contenedor:</strong> después de descargarlo en la bodega, se devuelve vacío a la naviera dentro de los días libres; si se pasan, hay cobros por demora.</li>
       </ol>
-      <!-- TODO: Verificar tarifas de bodegaje libre (días de franquicia) según terminal portuario -->
+      <p><strong>Reforma en camino:</strong> el Decreto 659 de 2024 prevé volver obligatoria la declaración anticipada. Esas disposiciones empiezan a regir cuando la DIAN certifique sus sistemas informáticos; verifica su estado antes de aplicarlas.</p>
     `,
-    etapaCaso: "El contenedor con las 500 bombas hidráulicas desembarca en el terminal CONTECAR de Cartagena. Tras el pago de $65,264,210 COP en tributos, el sistema de la DIAN asigna Levante Automático. Se cancela la factura de bodegajes portuarios por $450,000 COP // TODO: verificar tarifa de almacenaje. El camión retira el contenedor puerto afuera rumbo a la bodega en Colombia.",
+    etapaCaso: "El buque llega al terminal de Contecar y el contenedor pasa al depósito. Se presenta la declaración, se pagan $65.264.000 de tributos y la DIAN otorga levante automático. HidroColombia paga los servicios del terminal (valor de ejemplo: $450.000), el camión lleva el contenedor a la bodega y, una vez descargado, lo devuelve vacío al patio de la naviera dentro de los días libres.",
     practica: {
-      texto: "Simular tiempos, bodegajes y riesgos en el Puerto de Cartagena",
+      texto: "Simula tiempos, costos y riesgos de la operación",
       moduloUrl: "simulador.html",
       parametros: { puerto: "Cartagena", operacion: "Importacion" }
     },
     quiz: [
       {
-        pregunta: "¿Qué tipo de selectividad aduanera otorga autorización inmediata para retirar la mercancía del puerto sin revisión previa?",
+        pregunta: "¿Qué significa que la DIAN otorgue levante automático?",
         opciones: [
-          "Levante Automático",
-          "Inspección Física Presencial",
-          "Inspección Documental",
-          "Aprehensión Cautelar"
+          "Que inspeccionó la carga y luego la autorizó",
+          "Que el puerto entrega la carga sin cobrar",
+          "Que la mercancía quedó en abandono legal",
+          "Que autoriza disponer de la mercancía sin inspección"
         ],
-        correcta: 0,
-        explicacion: "El Levante Automático es la conformidad otorgada por el sistema aduanero permitiendo la disposición inmediata de la carga."
+        correcta: 3,
+        explicacion: "El levante automático lo otorga el sistema de gestión de riesgo sin inspección. Si hay inspección documental o física, el levante llega después de ella."
       },
       {
-        pregunta: "En el Puerto de Cartagena (SPRC/CONTECAR), ¿qué trámite es indispensable para retirar físicamente el contenedor?",
+        pregunta: "¿Qué pasa si la mercancía no se declara dentro del término de almacenamiento?",
         opciones: [
-          "Obtener el levante de la DIAN y cancelar los servicios de bodegaje y manipulación portuaria",
-          "Volver a embarcar la mercancía hacia otro buque",
-          "No requiere pago de bodegaje en ningún caso",
-          "Solicitar un nuevo RUT"
+          "Queda en abandono legal",
+          "Se nacionaliza automáticamente",
+          "Se devuelve al exportador sin costo",
+          "El plazo se prorroga indefinidamente"
         ],
         correcta: 0,
-        explicacion: "Para la salida del terminal portuario se exige el acto administrativo de levante DIAN y la cancelación de gastos de puerto."
+        explicacion: "Vencido el término de almacenamiento (y su prórroga, si se pidió) sin declarar, la mercancía queda en abandono legal."
       },
       {
-        pregunta: "Si la DIAN determina Inspección Física en puerto, ¿qué se verifica?",
+        pregunta: "El contenedor ya se descargó en la bodega de HidroColombia. ¿Qué falta?",
         opciones: [
-          "La correspondencia exacta entre la mercancía física del contenedor y los documentos declarados",
-          "El color del buque marítimo únicamente",
-          "El estado de salud del Capitán del buque",
-          "La cotización del dólar del próximo año"
+          "Presentar otra declaración de importación",
+          "Devolver el contenedor vacío a la naviera dentro de los días libres",
+          "Pedir el visto bueno de la SIC",
+          "Nada: el contenedor pasa a ser del importador"
         ],
-        correcta: 0,
-        explicacion: "La inspección física consiste en el reconocimiento de la naturaleza, cantidad, peso y subpartida de las mercancías en puerto."
+        correcta: 1,
+        explicacion: "El contenedor es de la naviera. Si no se devuelve dentro de los días libres, genera cobros por demora."
+      },
+      {
+        pregunta: "Si la DIAN ordena inspección física, ¿qué verifica?",
+        opciones: [
+          "Solo el peso del contenedor",
+          "Solo los documentos, sin revisar la mercancía",
+          "Que la mercancía coincida con lo declarado: naturaleza, cantidad, estado y subpartida",
+          "Que se hayan pagado los servicios del puerto"
+        ],
+        correcta: 2,
+        explicacion: "La inspección física compara la mercancía con lo declarado. Revisar solo los documentos es la inspección documental."
       }
     ]
   }

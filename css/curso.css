@@ -96,7 +96,8 @@
 .mapa-ruta-track {
   position: relative;
   height: 36px;
-  margin: 16px 0 28px;
+  /* La línea va del centro del primer nodo al centro del último (5 columnas) */
+  margin: 16px 10% 28px;
   display: flex;
   align-items: center;
 }
@@ -143,6 +144,8 @@
   gap: 6px;
 }
 
+.contenedor-icono { font-size: 1rem; line-height: 1; }
+
 .mapa-nodos-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -152,6 +155,8 @@
 }
 
 @media (max-width: 768px) {
+  /* En móvil los nodos pasan a 2 columnas: la línea ya no coincide, se oculta */
+  .mapa-ruta-track { display: none; }
   .mapa-nodos-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -159,19 +164,23 @@
 }
 
 .mapa-nodo {
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: inherit;
   background: var(--bg-panel);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 12px 10px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: border-color 0.2s ease;
 }
 
-.mapa-nodo:hover {
-  border-color: var(--text-accent);
-  transform: translateY(-2px);
-}
+.mapa-nodo:hover { border-color: var(--text-accent); }
+.mapa-nodo.nodo-seleccionado { border-color: var(--text-accent); background: var(--bg-active); }
+.mapa-nodo[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+.mapa-nodo[aria-disabled="true"]:hover { border-color: var(--border); }
 
 .nodo-icono-wrapper {
   position: relative;
@@ -189,6 +198,7 @@
 }
 
 .nodo-check {
+  display: none !important;
   position: absolute;
   bottom: -2px;
   right: -2px;
@@ -218,6 +228,8 @@
   margin-top: 2px;
 }
 
+.mapa-nodo.nodo-completado .nodo-check { display: flex !important; }
+
 .mapa-nodo.nodo-completado .nodo-icono-wrapper {
   border-color: #10b981;
   background: rgba(16, 185, 129, 0.15);
@@ -236,6 +248,11 @@
 }
 
 .leccion-card {
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -289,6 +306,7 @@
 .nivel-avanzado { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
 .leccion-card-titulo {
+  display: block;
   font-size: 0.95rem;
   color: var(--text-primary);
   font-weight: 700;
@@ -533,13 +551,14 @@
   margin-top: 32px;
 }
 
-.quiz-instrucción {
+.quiz-instruccion {
   color: var(--text-muted);
   font-size: 0.88rem;
   margin-bottom: 20px;
 }
 
 .quiz-pregunta-card {
+  min-width: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -548,12 +567,18 @@
 }
 
 .pregunta-titulo {
+  float: left;
+  width: 100%;
+  padding: 0;
+  font-weight: 600;
+  line-height: 1.45;
   color: var(--text-primary);
   font-size: 1.02rem;
   margin-bottom: 14px;
 }
 
 .quiz-opciones-list {
+  clear: both;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -624,6 +649,9 @@
   color: #ffffff;
   border-color: #ef4444;
 }
+
+.quiz-explicacion-box:empty,
+.quiz-resultado-panel:empty { display: none; }
 
 /* CAJA DE EXPLICACIÓN */
 .quiz-explicacion-box {
@@ -744,3 +772,58 @@
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ========== Ajustes de la revisión (septiembre 2026) ========== */
+[hidden] { display: none !important; }
+
+.curso-btn-secundario {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+}
+.curso-btn-secundario:hover { color: var(--text-primary); border-color: var(--text-accent); }
+
+.curso-btn-constancia {
+  background: #15803d;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.formula-destacada {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.leccion-main-titulo:focus { outline: none; }
+.leccion-main-titulo:focus-visible { outline: 2px solid var(--text-accent); outline-offset: 4px; }
+
+/* Dentro del modal del inicio el título ya lo muestra la hoja: se oculta el de la página */
+.in-iframe .curso-titulo-pagina { display: none; }
+
+/* Modo claro: los azules y amarillos claros no tienen contraste sobre blanco */
+.light-mode .term-glosario { color: #1d4ed8; border-bottom-color: #1d4ed8; }
+.light-mode .term-glosario:hover { color: #1e40af; background: rgba(29, 78, 216, 0.08); }
+.light-mode .caso-header h4 { color: #1d4ed8; }
+.light-mode .block-caso { background: rgba(37, 99, 235, 0.06); border-color: rgba(37, 99, 235, 0.3); }
+.light-mode .nivel-fundamentos { color: #1d4ed8; }
+.light-mode .nivel-intermedio { color: #92400e; }
+.light-mode .nivel-avanzado { color: #6b21a8; }
+.light-mode .quiz-opcion-btn.opcion-correcta { color: #047857 !important; }
+.light-mode .quiz-opcion-btn.opcion-incorrecta { color: #b91c1c !important; }
