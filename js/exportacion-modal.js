@@ -1,24 +1,28 @@
 // ========== EXPORTACIÓN MODAL - SOLO 3 MODALIDADES ==========
 
 function toNumber(value) {
+    // Acepta "60000", "60,000" (formato del campo), "60.000" (formato colombiano),
+    // "4,100.50" y "4.100,50". Antes "60,000" se leía como 60.
     if (value === null || value === undefined || value === '') return 0;
     if (typeof value === 'number') return value;
-    let str = String(value).trim();
-    if (str.includes(',') && str.includes('.')) {
-        const lastDot = str.lastIndexOf('.');
-        const lastComma = str.lastIndexOf(',');
-        if (lastComma > lastDot) {
-            str = str.replace(/\./g, '');
-            str = str.replace(',', '.');
+    let str = String(value).trim().replace(/[^0-9.,-]/g, '');
+    const tieneComa = str.includes(',');
+    const tienePunto = str.includes('.');
+    if (tieneComa && tienePunto) {
+        if (str.lastIndexOf(',') > str.lastIndexOf('.')) {
+            str = str.replace(/\./g, '').replace(',', '.');   // 4.100,50
         } else {
-            str = str.replace(/,/g, '');
+            str = str.replace(/,/g, '');                      // 4,100.50
         }
-    } else if (str.includes(',') && !str.includes('.')) {
-        str = str.replace(',', '.');
-    } else if (str.includes('.') && (str.match(/\./g) || []).length > 1) {
-        str = str.replace(/\./g, '');
+    } else if (tieneComa) {
+        str = /^-?\d{1,3}(,\d{3})+$/.test(str)
+            ? str.replace(/,/g, '')                           // 60,000
+            : str.replace(',', '.');                          // 0,5
+    } else if (tienePunto) {
+        if (/^-?\d{1,3}(\.\d{3})+$/.test(str) && !/^-?0\./.test(str)) {
+            str = str.replace(/\./g, '');                     // 60.000
+        }
     }
-    str = str.replace(/[^0-9.-]/g, '');
     const num = parseFloat(str);
     return isNaN(num) ? 0 : num;
 }
@@ -165,14 +169,18 @@ async function cargarTRM() {
         const res = await fetch('https://api.frankfurter.dev/v1/latest?base=USD&symbols=COP');
         const data = await res.json();
         const el = document.getElementById('trm');
-        if (el) {
+        if (el && !el.value && data && data.rates && data.rates.COP) {
             el.value = data.rates.COP.toFixed(2);
             const st = document.getElementById('trm-status');
-            if (st) st.textContent = `TRM cargada`;
+            if (st) st.textContent = 'Tasa de referencia de mercado (no es la TRM oficial). Para declarar usa la TRM del último día hábil de la semana anterior.';
+        } else if (el && !el.value) {
+            throw new Error('La respuesta no trae COP');
         }
     } catch (error) {
         const el = document.getElementById('trm');
         if (el && !el.value) el.value = '4000.00';
+        const st = document.getElementById('trm-status');
+        if (st) st.textContent = 'No se pudo cargar una tasa de referencia: escribe la TRM oficial.';
     }
 }
 

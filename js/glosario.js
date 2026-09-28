@@ -1,10 +1,19 @@
 const glosario = [
   {
+    termino: "DIAN",
+    nombreCompleto: "Dirección de Impuestos y Aduanas Nacionales",
+    categoria: "Entidades",
+    definicion: "Autoridad tributaria y aduanera de Colombia. Controla la entrada y salida de mercancías, recauda los tributos aduaneros, aplica la gestión de riesgo (levante automático o inspección) y sanciona las infracciones.",
+    ejemplo: "En la importación de las bombas, la DIAN recibe la declaración de importación, verifica el pago del arancel y el IVA, y otorga el levante.",
+    relacionado: ["Formulario 500", "Levante de Mercancía", "Nacionalización"],
+    moduloBonCloud: "formularios.html"
+  },
+  {
     termino: "CIF",
     nombreCompleto: "Cost, Insurance and Freight",
     categoria: "Incoterms",
-    definicion: "El vendedor paga flete y seguro hasta el puerto de destino. Es la base de cálculo para los tributos aduaneros en Colombia.",
-    ejemplo: "Si compras mercancía CIF Cartagena por USD $10,000, esa cifra más fletes y seguros servirá para calcular el arancel e IVA.",
+    definicion: "El vendedor paga el flete y un seguro de cobertura mínima hasta el puerto de destino, pero el riesgo pasa al comprador cuando la mercancía queda a bordo en origen. En Colombia el valor en aduana, base de los tributos, equivale en la práctica a un valor CIF.",
+    ejemplo: "Si compras CIF Cartagena por USD 10.000, ese precio ya incluye flete y seguro: no se vuelven a sumar para calcular el arancel y el IVA.",
     relacionado: ["FOB", "CFR", "Base Arancelaria", "Valor en Aduana"],
     moduloBonCloud: "incoterms.html"
   },
@@ -12,7 +21,7 @@ const glosario = [
     termino: "FOB",
     nombreCompleto: "Free On Board",
     categoria: "Incoterms",
-    definicion: "El vendedor entrega la mercancía a bordo del buque designado por el comprador en el puerto de embarque. El comprador asume los riesgos y fletes internacionales.",
+    definicion: "El vendedor entrega la mercancía, despachada para exportación, a bordo del buque designado por el comprador en el puerto de embarque. Desde que está a bordo, el riesgo y el flete internacional son del comprador. Es una regla solo para transporte marítimo o fluvial; para contenedores la ICC recomienda FCA.",
     ejemplo: "Al comprar FOB Shanghai, tú como importador en Colombia contratas y pagas el flete marítimo hasta Cartagena.",
     relacionado: ["CIF", "CFR", "EXW"],
     moduloBonCloud: "incoterms.html"
@@ -48,8 +57,8 @@ const glosario = [
     termino: "DTA",
     nombreCompleto: "Declaración de Tránsito Aduanero",
     categoria: "Formularios DIAN",
-    definicion: "Documento oficial que ampara el transporte de mercancías bajo control aduanero entre dos lugares dentro del territorio nacional sin pagar tributos provisionalmente.",
-    ejemplo: "Una carga que ingresa por el Puerto de Cartagena pero se nacionalizará en una Zona Franca de Medellín se transporta con un DTA.",
+    definicion: "Declaración con la que la mercancía se traslada bajo control aduanero de una aduana a otra dentro del país, con los tributos suspendidos mientras dura el tránsito.",
+    ejemplo: "Un contenedor que llega al Puerto de Cartagena pero se declarará en la aduana de Medellín viaja en tránsito aduanero, amparado por la DTA.",
     relacionado: ["Nacionalización", "Zona Franca", "Formulario 500"],
     moduloBonCloud: "formularios.html"
   },
@@ -76,7 +85,7 @@ const glosario = [
     nombreCompleto: "Declaración Andina del Valor (DAV)",
     categoria: "Formularios DIAN",
     definicion: "Documento obligatorio que soporta la determinación del valor en aduana de las mercancías importadas conforme a las normas de la CAN y la OMC.",
-    ejemplo: "Si la importación supera los USD $5,000 debe diligenciarse la DAV especificando descuentos, comisiones y condiciones de venta.",
+    ejemplo: "Si el valor FOB de la importación es igual o superior a USD 5.000, se presenta la DAV detallando precio, fletes, seguros, comisiones, descuentos y la posible vinculación entre comprador y vendedor.",
     relacionado: ["Formulario 500", "Base Arancelaria", "CIF"],
     moduloBonCloud: "formularios/form-560-dav.html"
   },
@@ -85,7 +94,7 @@ const glosario = [
     nombreCompleto: "Registro Único Tributario (RUT)",
     categoria: "Formularios DIAN",
     definicion: "Mecanismo administrado por la DIAN para identificar, ubicar y clasificar a las personas y entidades sujetas a obligaciones tributarias y aduaneras.",
-    ejemplo: "Para operar como importador o exportador en Colombia se debe contar con la casilla de usuario aduanero activa en el RUT.",
+    ejemplo: "Para importar, el RUT debe tener registrada la calidad de usuario aduanero de importador.",
     relacionado: ["NIT", "DV"],
     moduloBonCloud: "formularios/form-001-rut.html"
   },
@@ -147,8 +156,8 @@ const glosario = [
     termino: "TRM",
     nombreCompleto: "Tasa Representativa del Mercado",
     categoria: "Financiero y Aduanero",
-    definicion: "Tasa oficial diaria de cambio del peso colombiano respecto al dólar estadounidense (USD), utilizada por la DIAN para liquidar impuestos aduaneros.",
-    ejemplo: "Para la semana del trámite aduanero se toma la TRM publicada por la Superintendencia Financiera para la fecha de presentación de la declaración.",
+    definicion: "Tasa de cambio peso–dólar que certifica diariamente la Superintendencia Financiera. Para liquidar tributos aduaneros se usa la TRM vigente el último día hábil de la semana anterior a la presentación y aceptación de la declaración.",
+    ejemplo: "Si la declaración se presenta un miércoles, se usa la TRM vigente el viernes hábil de la semana anterior, no la del miércoles.",
     relacionado: ["Base Arancelaria", "CIF"],
     moduloBonCloud: "importacion.html"
   },
@@ -210,8 +219,8 @@ const glosario = [
     termino: "Levante de Mercancía",
     nombreCompleto: "Autorización de Retiro Aduanero DIAN",
     categoria: "Operativa Aduanera",
-    definicion: "Acto por el cual la DIAN autoriza a los interesados a retirar las mercancías que han sido objeto de un despacho de importación.",
-    ejemplo: "Una vez inspeccionado el contenedor en bodega y verificado el pago, el sistema de la DIAN otorga el levante automático o físico.",
+    definicion: "Acto por el cual la DIAN autoriza disponer de la mercancía declarada. Puede ser automático (sin inspección) o darse después de una inspección documental o física.",
+    ejemplo: "Si el sistema de gestión de riesgo no selecciona la declaración para inspección, se otorga levante automático; si ordena inspección física, el levante llega cuando el inspector confirma que la mercancía coincide con lo declarado.",
     relacionado: ["Nacionalización", "Inspección Física (Aduanera)"],
     moduloBonCloud: "formularios/form-500-importacion.html"
   },
@@ -220,7 +229,7 @@ const glosario = [
     nombreCompleto: "Aforo y Verificación Física de Mercancías",
     categoria: "Control Aduanero",
     definicion: "Diligencia mediante la cual el inspector de aduanas examina físicamente la mercancía para verificar peso, cantidad, descripción y subpartida.",
-    ejemplo: "Si la DIAN determina selectividad física en el puerto de Cartagena, se programa la apertura del contenedor para aforo.",
+    ejemplo: "Si la DIAN ordena inspección física en el puerto de Cartagena, se programa la revisión del contenedor; también puede hacerse de forma no intrusiva, con escáner.",
     relacionado: ["Levante de Mercancía", "Formulario 500"],
     moduloBonCloud: "formularios/form-500-importacion.html"
   },
@@ -367,11 +376,11 @@ function setupListeners() {
 
 function abrirModalGlosario(terminoNombre) {
   const item = glosario.find(g => g.termino.toLowerCase() === terminoNombre.toLowerCase());
-  if (!item) return;
+  if (!item) return false;
 
   const modalOverlay = document.getElementById('glosario-modal-overlay');
   const contenido = document.getElementById('glosario-modal-contenido');
-  if (!modalOverlay || !contenido) return;
+  if (!modalOverlay || !contenido) return false;
 
   const relacionadosHTML = item.relacionado.map(rel => `
     <span class="relacionado-tag" onclick="filtrarPorRelacionado('${rel.replace(/'/g, "\\'")}')">${rel}</span>
@@ -380,25 +389,25 @@ function abrirModalGlosario(terminoNombre) {
   contenido.innerHTML = `
     <div class="glosario-detail">
       <span class="glosario-badge">${item.categoria}</span>
-      <h2 style="margin: 0.5rem 0 0.25rem; font-size: 1.8rem; color: var(--primary-color, #1e293b);">${item.termino}</h2>
-      <h4 style="margin-bottom: 1rem; color: #64748b; font-weight: 500;">${item.nombreCompleto}</h4>
+      <h2 style="margin: 0.5rem 0 0.25rem; font-size: 1.8rem; color: var(--text-primary);">${item.termino}</h2>
+      <h4 style="margin-bottom: 1rem; color: var(--text-muted); font-weight: 500;">${item.nombreCompleto}</h4>
 
       <div class="detail-section" style="margin-bottom: 1.25rem;">
-        <h5 style="margin-bottom: 0.4rem; font-size: 0.95rem; color: #475569;">📖 Definición Técnica</h5>
-        <p style="line-height: 1.6; color: #334155; font-size: 1rem;">${item.definicion}</p>
+        <h5 style="margin-bottom: 0.4rem; font-size: 0.95rem; color: var(--text-muted);">📖 Definición Técnica</h5>
+        <p style="line-height: 1.6; color: var(--text-secondary); font-size: 1rem;">${item.definicion}</p>
       </div>
 
-      <div class="detail-section" style="margin-bottom: 1.25rem; background: #f8fafc; padding: 0.85rem 1rem; border-left: 4px solid #3b82f6; border-radius: 4px;">
-        <h5 style="margin-bottom: 0.3rem; font-size: 0.95rem; color: #1e40af;">💡 Ejemplo en la Práctica</h5>
-        <p style="line-height: 1.5; color: #1e3a8a; font-size: 0.95rem; margin: 0;">${item.ejemplo}</p>
+      <div class="detail-section" style="margin-bottom: 1.25rem; background: var(--bg-card); padding: 0.85rem 1rem; border-left: 4px solid #3b82f6; border-radius: 4px;">
+        <h5 style="margin-bottom: 0.3rem; font-size: 0.95rem; color: var(--text-accent);">💡 Ejemplo en la Práctica</h5>
+        <p style="line-height: 1.5; color: var(--text-primary); font-size: 0.95rem; margin: 0;">${item.ejemplo}</p>
       </div>
 
       <div class="detail-section" style="margin-bottom: 1.5rem;">
-        <h5 style="margin-bottom: 0.5rem; font-size: 0.95rem; color: #475569;">🔗 Términos Relacionados</h5>
+        <h5 style="margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--text-muted);">🔗 Términos Relacionados</h5>
         <div>${relacionadosHTML}</div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
         <a href="${item.moduloBonCloud}" class="btn-modulo-link" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #2563eb; color: #ffffff; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.95rem;">
           🧮 Abrir en el Módulo Real
         </a>
@@ -407,6 +416,7 @@ function abrirModalGlosario(terminoNombre) {
   `;
 
   modalOverlay.style.display = 'flex';
+  return true;
 }
 
 function cerrarModalGlosario() {

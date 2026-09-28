@@ -19,6 +19,9 @@ body {
 h1, h2 {
     font-family: 'Archivo Black', sans-serif;
     font-weight: 400;
+    /* Archivo Black solo existe en peso 400: sin esto el navegador fabrica una
+       negrita artificial y el punto de la "i" se funde con el trazo */
+    font-synthesis: none;
 }
 
 /* ========== SIDEBAR ========== */
@@ -184,7 +187,7 @@ nav {
 
 .dashboard-header h1 {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 400;
     color: #e2e8f0;
     margin-bottom: 4px;
 }

@@ -12,7 +12,7 @@ function getSimuladorHTML() {
     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
       <button class="filtro-btn" onclick="precargarEscenario('china_maquinaria')">🇨🇳 Maquinaria desde China (Shanghai)</button>
       <button class="filtro-btn" onclick="precargarEscenario('usa_electronica')">🇺🇸 Electrónica desde EE.UU. (Miami)</button>
-      <button class="filtro-btn" onclick="precargarEscenario('alemania_repuestos')">🇩🇪 Autopartes desde Alemania (Hamburgo)</button>
+      <button class="filtro-btn" onclick="precargarEscenario('alemania_repuestos')">🇩🇪 Partes de carrocería desde Alemania (Hamburgo)</button>
     </div>
   </div>
 
@@ -499,6 +499,8 @@ function setupSimuladorLogic() {
       if (g) g.classList.remove('has-error');
     });
   });
+
+  updateWizard();
 }
 
 function precargarEscenario(tipo) {
@@ -528,7 +530,7 @@ function precargarEscenario(tipo) {
       nit: "800987654"
     },
     alemania_repuestos: {
-      desc: "Repuestos y sensores automotrices de precisión",
+      desc: "Partes de carrocería para vehículos (paneles, bisagras y soportes)",
       subpartida: "8708.29.90.00",
       valor: 15500,
       carga: "Carga suelta",
@@ -563,7 +565,4 @@ function precargarEscenario(tipo) {
   // Auto-calc DV for NIT
   const nitInput = document.getElementById('sim-nit');
   if (nitInput) nitInput.dispatchEvent(new Event('input'));
-}
-
-  updateWizard();
 }
