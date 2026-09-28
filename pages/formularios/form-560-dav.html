@@ -1119,6 +1119,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 function validateAndPrint() { window.print(); }
+
+// ===== TOOLTIPS PEDAGÓGICOS DAV (FORM 560) =====
+const explicacionesDAV = {
+  "1": "Año de emisión de la Declaración Andina del Valor.",
+  "4": "Número consecutivo asignado al Formulario 560.",
+  "5": "NIT del importador comprador de las mercancías.",
+  "24": "Código de la aduana de ingreso nacional.",
+  "60": "Subpartida arancelaria a 10 dígitos declarada ante la Comunidad Andina.",
+  "78": "Precio de transacción unitario FOB en Dólares Estadounidenses (USD)."
+};
+
+const tooltipPopupDAV = document.createElement('div');
+tooltipPopupDAV.id = 'dav-tooltip-popup';
+tooltipPopupDAV.style.cssText = 'position:absolute;z-index:9999;background:#0f172a;color:#f8fafc;border:1px solid #334155;border-radius:8px;padding:10px 14px;font-size:11px;max-width:280px;box-shadow:0 10px 25px rgba(0,0,0,0.5);display:none;line-height:1.4;pointer-events:none;';
+document.body.appendChild(tooltipPopupDAV);
+
+document.querySelectorAll('.cl-num, .cell-num').forEach(el => {
+  const text = el.textContent.replace(/\D/g, '');
+  if (explicacionesDAV[text]) {
+    el.style.cursor = 'help';
+    el.style.textDecoration = 'underline dotted #3b82f6';
+    
+    el.addEventListener('mouseenter', (e) => {
+      tooltipPopupDAV.innerHTML = `<h5 style="margin:0 0 4px 0;color:#60a5fa;font-size:12px;">Casilla ${text} DAV (Form 560)</h5>${explicacionesDAV[text]}`;
+      tooltipPopupDAV.style.display = 'block';
+      const rect = el.getBoundingClientRect();
+      tooltipPopupDAV.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+      tooltipPopupDAV.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 300) + 'px';
+    });
+
+    el.addEventListener('mouseleave', () => {
+      tooltipPopupDAV.style.display = 'none';
+    });
+  }
+});
+
+function precargarDAV() {
+  alert('✅ El Formulario 560 Declaración Andina del Valor se encuentra precargado con el contrato internacional de importación.');
+}
 </script>
+<button onclick="precargarDAV()" style="position:fixed;bottom:20px;right:20px;z-index:999;background:#2563eb;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+  ⚡ Llenar Datos de Ejemplo (DAV 560)
+</button>
 </body>
 </html>

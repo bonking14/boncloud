@@ -3,6 +3,19 @@
 function getSimuladorHTML() {
   return `
 <div class="simulador-container" id="simulador-wizard">
+
+  <!-- Escenarios Preconfigurados Guiados -->
+  <div style="background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">
+      💡 Escenarios Preconfigurados (Casos Reales):
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button class="filtro-btn" onclick="precargarEscenario('china_maquinaria')">🇨🇳 Maquinaria desde China (Shanghai)</button>
+      <button class="filtro-btn" onclick="precargarEscenario('usa_electronica')">🇺🇸 Electrónica desde EE.UU. (Miami)</button>
+      <button class="filtro-btn" onclick="precargarEscenario('alemania_repuestos')">🇩🇪 Autopartes desde Alemania (Hamburgo)</button>
+    </div>
+  </div>
+
   <div class="wizard-progress">
     <div class="wizard-step active" data-step="0"><div class="step-circle">1</div><small>Mercancía</small></div>
     <div class="wizard-step" data-step="1"><div class="step-circle">2</div><small>Origen y Logística</small></div>
@@ -480,11 +493,77 @@ function setupSimuladorLogic() {
   });
 
   // Clear errors on input
-  document.querySelectorAll('.sim-group input, .sim-group select').forEach(el => {
+  document.querySelectorAll('input, select').forEach(el => {
     el.addEventListener('input', () => {
-      el.closest('.sim-group')?.classList.remove('has-error');
+      const g = el.closest('.sim-group');
+      if (g) g.classList.remove('has-error');
     });
   });
+}
+
+function precargarEscenario(tipo) {
+  const escenarios = {
+    china_maquinaria: {
+      desc: "Maquinaria industrial para envasado y procesamiento de alimentos",
+      subpartida: "8422.30.00.00",
+      valor: 45000,
+      carga: "Contenedor 40ft",
+      peso: 12500,
+      pais: "China",
+      puerto: "Shanghai",
+      incoterm: "FOB",
+      regimen: "Importación ordinaria",
+      nit: "900123456"
+    },
+    usa_electronica: {
+      desc: "Servidores informáticos y racks de procesamiento de datos",
+      subpartida: "8471.50.00.00",
+      valor: 28000,
+      carga: "Contenedor 20ft",
+      peso: 3400,
+      pais: "Estados Unidos",
+      puerto: "Miami",
+      incoterm: "CIF",
+      regimen: "Importación ordinaria",
+      nit: "800987654"
+    },
+    alemania_repuestos: {
+      desc: "Repuestos y sensores automotrices de precisión",
+      subpartida: "8708.29.90.00",
+      valor: 15500,
+      carga: "Carga suelta",
+      peso: 850,
+      pais: "Alemania",
+      puerto: "Hamburgo",
+      incoterm: "EXW",
+      regimen: "Importación ordinaria",
+      nit: "901456789"
+    }
+  };
+
+  const esc = escenarios[tipo];
+  if (!esc) return;
+
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  };
+
+  setVal('sim-desc', esc.desc);
+  setVal('sim-subpartida', esc.subpartida);
+  setVal('sim-valor', esc.valor);
+  setVal('sim-carga', esc.carga);
+  setVal('sim-peso', esc.peso);
+  setVal('sim-pais', esc.pais);
+  setVal('sim-puerto', esc.puerto);
+  setVal('sim-incoterm', esc.incoterm);
+  setVal('sim-regimen', esc.regimen);
+  setVal('sim-nit', esc.nit);
+
+  // Auto-calc DV for NIT
+  const nitInput = document.getElementById('sim-nit');
+  if (nitInput) nitInput.dispatchEvent(new Event('input'));
+}
 
   updateWizard();
 }

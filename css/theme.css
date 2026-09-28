@@ -34,34 +34,34 @@
 }
 
 /* ── MODO CLARO ────────────────────────────────────────────── */
-:root.light-mode {
-  --bg-base:       #F1E3F3; /* Lavender Veil */
-  --bg-panel:      #C2BBF0; /* Periwinkle */
-  --bg-hover:      #8FB8ED; /* Baby Blue Ice */
-  --bg-active:     #62BFED; /* Deep Sky Blue */
-  --bg-input:      #F1E3F3;
+:root.light-mode, body.light-mode {
+  --bg-base:       #f8fafc;
+  --bg-panel:      #ffffff;
+  --bg-hover:      #f1f5f9;
+  --bg-active:     #e2e8f0;
+  --bg-input:      #ffffff;
   --bg-card:       #ffffff;
-  --bg-table-row:  rgba(255, 255, 255, 0.4);
+  --bg-table-row:  rgba(15, 23, 42, 0.04);
 
-  --border:        #8FB8ED;
-  --border-accent: #1E65CC; /* Darker Dodger Blue for contrast */
+  --border:        #cbd5e1;
+  --border-accent: #1d4ed8;
 
   --text-primary:   #0f172a;
-  --text-secondary: #334155;
-  --text-muted:     #475569;
-  --text-hint:      #64748b;
-  --text-accent:    #1E65CC;
-  --text-accent2:   #ffffff;
+  --text-secondary: #1e293b;
+  --text-muted:     #334155;
+  --text-hint:      #475569;
+  --text-accent:    #1d4ed8;
+  --text-accent2:   #0f172a;
 
-  --vendedor-bg:   #166534;
-  --comprador-bg:  #991b1b;
+  --vendedor-bg:   #15803d;
+  --comprador-bg:  #b91c1c;
 
   --btn-danger-bg:   #fee2e2;
-  --btn-danger-text: #991b1b;
-  --btn-danger-hover:#fecaca;
+  --btn-danger-text: #b91c1c;
+  --btn-danger-hover:#fca5a5;
 
-  --scrollbar-thumb: #8FB8ED;
-  --scrollbar-hover: #62BFED;
+  --scrollbar-thumb: #94a3b8;
+  --scrollbar-hover: #64748b;
 }
 
 /* ── APLICAR VARIABLES A LOS SELECTORES EXISTENTES ─────────── */
@@ -297,6 +297,35 @@ body {
 .vb-chip { background: var(--bg-table-row); border-color: var(--border); color: var(--text-muted); }
 .vb-subpartidas-title, .vb-requisitos-title { color: var(--text-hint); }
 .vb-req-item { color: var(--text-muted); border-bottom-color: var(--bg-table-row); }
+
+/* Glosario */
+.glosario-card {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+.glosario-card:hover { border-color: var(--border-accent); }
+.glosario-card-title { color: var(--text-primary); }
+.glosario-card-sub { color: var(--text-muted); }
+.glosario-card-desc { color: var(--text-secondary); }
+.glosario-badge { background: var(--bg-active); color: var(--text-accent); border-color: var(--border-accent); }
+.glosario-card-footer { color: var(--text-accent); }
+
+.glosario-modal {
+  background: var(--bg-card);
+  border-color: var(--border-accent);
+}
+.glosario-modal-close { color: var(--text-muted); }
+.glosario-modal-close:hover { color: var(--text-primary); background: var(--bg-hover); }
+.relacionado-tag { background: var(--bg-panel); color: var(--text-accent); border-color: var(--border); }
+.relacionado-tag:hover { background: var(--text-accent); color: #ffffff; }
+
+.btn-filtro {
+  background: var(--bg-panel);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.btn-filtro:hover { border-color: var(--border-accent); color: var(--text-secondary); }
+.btn-filtro.active { background: var(--bg-active); border-color: var(--border-accent); color: var(--text-accent); }
 
 /* Scrollbar */
 ::-webkit-scrollbar-track { background: var(--bg-base); }

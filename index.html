@@ -23,40 +23,41 @@ canvas { position:absolute; top:0; left:0; width:100%; height:100%; display:bloc
 }
 #btnThemeLogin:hover { background:rgba(0,80,120,0.5); border-color:rgba(0,210,255,0.5); color:#d4f0ff; }
 
-body.light-mode #btnThemeLogin {
-  background:rgba(255,255,255,0.55); border-color:rgba(30,100,200,0.3);
-  color:#1e4a7a;
+.light-mode #btnThemeLogin, body.light-mode #btnThemeLogin {
+  background:rgba(255,255,255,0.85); border-color:rgba(30,80,160,0.35);
+  color:#0f172a; font-weight:600;
 }
-body.light-mode #btnThemeLogin:hover { background:rgba(255,255,255,0.8); }
+.light-mode #btnThemeLogin:hover, body.light-mode #btnThemeLogin:hover { background:rgba(255,255,255,0.98); }
 
 /* Card adaptada */
-body.light-mode .glass-card {
-  background:rgba(255,255,255,0.65);
-  border-color:rgba(30,120,200,0.35);
-  box-shadow:0 40px 80px rgba(0,60,120,0.2), 0 0 0 0.5px rgba(30,100,200,0.15) inset;
+.light-mode .glass-card, body.light-mode .glass-card {
+  background:rgba(255,255,255,0.88);
+  border-color:rgba(30,80,160,0.3);
+  box-shadow:0 40px 80px rgba(15,23,42,0.15), 0 0 0 0.5px rgba(30,80,160,0.15) inset;
 }
-body.light-mode .logo h1 {
-  background:linear-gradient(130deg,#0a3060 0%,#1a6ab0 55%,#0088cc 100%);
+.light-mode .logo h1, body.light-mode .logo h1 {
+  background:linear-gradient(130deg,#0f172a 0%,#1e40af 55%,#0284c7 100%);
   -webkit-background-clip:text; background-clip:text;
 }
-body.light-mode .logo p { color:#2a6a9a; }
-body.light-mode .input-field label { color:#1a5a8a; }
-body.light-mode .input-field input {
-  background:rgba(240,248,255,0.85);
-  border-color:rgba(30,100,160,0.4);
-  color:#0a2a4a;
+.light-mode .logo p, body.light-mode .logo p { color:#1e293b; font-weight:600; }
+.light-mode .input-field label, body.light-mode .input-field label { color:#0f172a; font-weight:700; }
+.light-mode .input-field input, body.light-mode .input-field input {
+  background:rgba(255,255,255,0.95);
+  border-color:rgba(30,80,160,0.35);
+  color:#0f172a; font-weight:500;
 }
-body.light-mode .input-field input::placeholder { color:#5a90b8; }
-body.light-mode .input-field input:focus { border-color:#0077cc; box-shadow:0 0 0 3px rgba(0,100,200,0.15); }
-body.light-mode .btn-login {
-  background:linear-gradient(105deg,#1a6aaa 0%,#0d5090 55%,#0a3d70 100%);
-  color:#e8f4ff;
+.light-mode .input-field input::placeholder, body.light-mode .input-field input::placeholder { color:#64748b; }
+.light-mode .input-field input:focus, body.light-mode .input-field input:focus { border-color:#1d4ed8; box-shadow:0 0 0 3px rgba(29,78,216,0.18); }
+.light-mode .btn-login, body.light-mode .btn-login {
+  background:linear-gradient(105deg,#2563eb 0%,#1d4ed8 55%,#1e40af 100%);
+  color:#ffffff; font-weight:700;
 }
-body.light-mode .btn-login:hover {
-  background:linear-gradient(105deg,#2880cc 0%,#1a68a8 55%,#0d4e80 100%);
+.light-mode .btn-login:hover, body.light-mode .btn-login:hover {
+  background:linear-gradient(105deg,#3b82f6 0%,#2563eb 55%,#1d4ed8 100%);
 }
-body.light-mode .register { color:#2a6a9a; }
-body.light-mode .credit { color:#2a6a9a; background:rgba(255,255,255,0.5); }
+.light-mode .register, body.light-mode .register { color:#334155; }
+.light-mode .register a, body.light-mode .register a { color:#1d4ed8; font-weight:600; }
+.light-mode .credit, body.light-mode .credit { color:#334155; background:rgba(255,255,255,0.8); }
 
 .login-container {
   position:absolute; top:50%; right:5%;
@@ -190,6 +191,15 @@ body.light-mode .credit { color:#2a6a9a; background:rgba(255,255,255,0.5); }
       </div>
     </div>
 
+    <!-- App 0: Ruta Guiada -->
+    <div class="ios-app-card app-curso" data-src="pages/curso.html" data-title="Ruta de Aprendizaje Guiada">
+      <div class="ios-app-icon icon-grad-blue" style="background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3L1 9l11 6l9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      </div>
+      <div class="ios-app-title">Ruta Guiada</div>
+      <div class="ios-app-desc">Aprende comercio exterior paso a paso con quizzes y badges.</div>
+    </div>
+
     <!-- App 1: Importación -->
     <div class="ios-app-card app-importacion" data-src="pages/importacion.html" data-title="Importación Logística">
       <div class="ios-app-icon icon-grad-blue">
@@ -244,7 +254,16 @@ body.light-mode .credit { color:#2a6a9a; background:rgba(255,255,255,0.5); }
       <div class="ios-app-desc">Relleno interactivo y descarga de PDFs oficiales DIAN.</div>
     </div>
 
-    <!-- App 7: Simulador Logístico -->
+    <!-- App 7: Glosario -->
+    <div class="ios-app-card app-glosario" data-src="pages/glosario.html" data-title="Glosario Aduanero y Comercio Exterior">
+      <div class="ios-app-icon icon-grad-teal" style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+      </div>
+      <div class="ios-app-title">Glosario</div>
+      <div class="ios-app-desc">Términos clave, normativas DIAN, Incoterms y acrónimos.</div>
+    </div>
+
+    <!-- App 8: Simulador Logístico -->
     <div class="ios-app-card app-simulador" data-src="pages/simulador.html" data-title="Simulador Logístico Portuario">
       <div class="ios-app-icon icon-grad-indigo">
         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2zM9 17H7v-2h2v2zm0-4H7v-2h2v2zm0-4H7V7h2v2z"/></svg>

@@ -545,6 +545,58 @@ body {
       window.print();
     }
   }
+
+  // ===== TOOLTIPS PEDAGÓGICOS DTA =====
+  const explicacionesDTA = {
+    "1": "Año de inicio del trámite de tránsito aduanero.",
+    "4": "Número consecutivo de la Declaración de Tránsito Aduanero.",
+    "5": "NIT de la empresa declarante o agencia de aduanas.",
+    "24": "Aduana de partida por donde ingresa la carga (Ej: 07 Cartagena).",
+    "25": "Aduana de destino nacional (Ej: 01 Bogotá, 03 Medellín / Zona Franca).",
+    "35": "Empresa transportadora terrestre autorizada por la DIAN y el Ministerio de Transporte.",
+    "38": "Número de placa del vehículo tractocamión que efectúa el tránsito."
+  };
+
+  const tooltipPopupDTA = document.createElement('div');
+  tooltipPopupDTA.id = 'dta-tooltip-popup';
+  tooltipPopupDTA.style.cssText = 'position:absolute;z-index:9999;background:#0f172a;color:#f8fafc;border:1px solid #334155;border-radius:8px;padding:10px 14px;font-size:11px;max-width:280px;box-shadow:0 10px 25px rgba(0,0,0,0.5);display:none;line-height:1.4;pointer-events:none;';
+  document.body.appendChild(tooltipPopupDTA);
+
+  document.querySelectorAll('.cl-num, .cell-num').forEach(el => {
+    const text = el.textContent.replace(/\D/g, '');
+    if (explicacionesDTA[text]) {
+      el.style.cursor = 'help';
+      el.style.textDecoration = 'underline dotted #3b82f6';
+      
+      el.addEventListener('mouseenter', (e) => {
+        tooltipPopupDTA.innerHTML = `<h5 style="margin:0 0 4px 0;color:#60a5fa;font-size:12px;">Casilla ${text} DTA</h5>${explicacionesDTA[text]}`;
+        tooltipPopupDTA.style.display = 'block';
+        const rect = el.getBoundingClientRect();
+        tooltipPopupDTA.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+        tooltipPopupDTA.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 300) + 'px';
+      });
+
+      el.addEventListener('mouseleave', () => {
+        tooltipPopupDTA.style.display = 'none';
+      });
+    }
+  });
+
+  function precargarDTA() {
+    const setV = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+    setV('dec_nit', '900555123');
+    calcDV('dec_nit', 'dec_dv');
+    setV('dec_razon', 'Servicios de Logística Aduanera del Caribe S.A.S.');
+    setV('trans_nit', '800444987');
+    calcDV('trans_nit', 'trans_dv');
+    setV('trans_placa', 'TKO-892');
+    setV('aduana_partida', '07 - Cartagena');
+    setV('aduana_destino', '01 - Bogotá (Zona Franca Fontibón)');
+    alert('✅ Datos de tránsito aduanero precargados en el Formulario DTA.');
+  }
 </script>
+<button onclick="precargarDTA()" style="position:fixed;bottom:20px;right:20px;z-index:999;background:#2563eb;color:#fff;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+  ⚡ Llenar Datos de Ejemplo (DTA)
+</button>
 </body>
 </html>

@@ -16,6 +16,7 @@
     <div class="sidebar-brand"><h2>BonCloud</h2></div>
     <nav>
         <a href="dashboard.html" class="nav-item">Inicio</a>
+        <a href="curso.html" class="nav-item">🎓 Ruta Guiada</a>
         
         <div class="nav-group">
             <div class="nav-group-title nav-item active" id="importacion-toggle">
@@ -33,6 +34,7 @@
         <a href="incoterms.html" class="nav-item">Incoterms</a>
         <a href="subpartidas.html" class="nav-item">Subpartidas</a>
         <a href="formularios.html" class="nav-item">Formularios</a>
+        <a href="glosario.html" class="nav-item">Glosario</a>
         <a href="simulador.html" class="nav-item">Simulador Logístico</a>
     </nav>
     <div class="sidebar-footer">
@@ -61,6 +63,39 @@
         <div class="calc-resultados" id="resultados" style="display:none">
             <h3>📊 Desglose de costos</h3>
             <div id="resultados-contenido"></div>
+        </div>
+    </div>
+
+    <!-- COMPARADOR DE MODALIDADES LADO A LADO -->
+    <div style="margin-top: 32px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+                <h3 style="color: var(--text-primary); font-size: 1.1rem; margin-bottom: 4px;">⚖️ Comparador de Modalidades de Importación</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Analiza de un vistazo las diferencias en arancel, IVA y total a pagar entre los 3 regímenes principales.</p>
+            </div>
+            <button class="btn-calcular" onclick="ejecutarComparativaModalidades()" style="padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                Comparar Valores 🔄
+            </button>
+        </div>
+
+        <div class="tabla-scroll" style="border: 1px solid var(--border); border-radius: 8px; overflow-x: auto;">
+            <table class="tabla-incoterms" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: var(--bg-card); color: var(--text-muted);">
+                        <th style="padding: 10px; text-align: left;">Concepto</th>
+                        <th style="padding: 10px; text-align: right; color: #60a5fa;">Ordinaria (C100)</th>
+                        <th style="padding: 10px; text-align: right; color: #4ade80;">Con Franquicia (C110)</th>
+                        <th style="padding: 10px; text-align: right; color: #f59e0b;">Temporal Corto (C130)</th>
+                    </tr>
+                </thead>
+                <tbody id="comparador-body">
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 16px;">
+                            Ingresa los valores en la calculadora o haz clic en "Comparar Valores".
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

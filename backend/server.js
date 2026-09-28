@@ -129,6 +129,21 @@ app.post('/api/simulador', async (req, res) => {
   }
 });
 
+// Endpoint de Persistencia de Progreso del Curso
+let dbProgresoMemoria = {};
+
+app.get('/api/progreso/:userId', (req, res) => {
+  const { userId } = req.params;
+  res.json({ ok: true, progreso: dbProgresoMemoria[userId] || {} });
+});
+
+app.post('/api/progreso/:userId', (req, res) => {
+  const { userId } = req.params;
+  const { progreso } = req.body;
+  dbProgresoMemoria[userId] = progreso;
+  res.json({ ok: true, mensaje: 'Progreso guardado correctamente', progreso });
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`✅ Servidor corriendo en puerto ${PORT}`);

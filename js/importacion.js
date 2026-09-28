@@ -290,3 +290,68 @@ document.addEventListener('blur', e => {
         }
     }
 }, true);
+
+// ========== COMPARADOR LADO A LADO ==========
+function ejecutarComparativaModalidades() {
+    const getV = (id, def = 0) => {
+        const el = document.getElementById(id);
+        return el ? toNumber(el.value) : def;
+    };
+
+    const v = {
+        fob: getV('fob', 15000),
+        flete: getV('flete', 2500),
+        seguro: getV('seguro', 0),
+        arancel: getV('arancel', 10),
+        trm: getV('trm', 4200),
+        agencia: getV('agencia', 1200000),
+        bodegaje: getV('bodegaje', 600000),
+        transporte: getV('transporte', 800000)
+    };
+
+    const resOrd = calcularOrdinaria(v);
+    const resFran = calcularFranquicia(v);
+    const resTemp = calcularTemporalCorto(v);
+
+    const tbody = document.getElementById('comparador-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = `
+        <tr>
+            <td style="padding:10px; font-weight:600;">1. Valor CIF (USD)</td>
+            <td style="padding:10px; text-align:right;">${formatUSD(resOrd.cifUSD)}</td>
+            <td style="padding:10px; text-align:right;">${formatUSD(resFran.cifUSD)}</td>
+            <td style="padding:10px; text-align:right;">${formatUSD(resTemp.cifUSD)}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">2. Base Gravable (COP)</td>
+            <td style="padding:10px; text-align:right;">${formatCOP(resOrd.baseArancelariaCOP)}</td>
+            <td style="padding:10px; text-align:right;">${formatCOP(resFran.baseArancelariaCOP)}</td>
+            <td style="padding:10px; text-align:right;">${formatCOP(resTemp.baseArancelariaCOP)}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">3. Arancel Ad-Valorem</td>
+            <td style="padding:10px; text-align:right; color:#f87171;">${formatCOP(resOrd.totalArancel)}</td>
+            <td style="padding:10px; text-align:right; color:#4ade80;">EXENTO (0%)</td>
+            <td style="padding:10px; text-align:right; color:#f59e0b;">SUSPENDIDO</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">4. IVA (19%)</td>
+            <td style="padding:10px; text-align:right; color:#f87171;">${formatCOP(resOrd.totalIVA)}</td>
+            <td style="padding:10px; text-align:right; color:#4ade80;">EXENTO (0%)</td>
+            <td style="padding:10px; text-align:right; color:#f59e0b;">SUSPENDIDO</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:600;">5. Póliza / Garantía Aduanera</td>
+            <td style="padding:10px; text-align:right; color:var(--text-muted);">N/A</td>
+            <td style="padding:10px; text-align:right; color:var(--text-muted);">N/A</td>
+            <td style="padding:10px; text-align:right; color:#f59e0b;">${formatCOP(resTemp.poliza)}</td>
+        </tr>
+        <tr style="background:var(--bg-card); font-weight:bold; border-top:2px solid var(--border);">
+            <td style="padding:12px; font-size:1rem; color:var(--text-primary);">TOTAL A PAGAR (COP)</td>
+            <td style="padding:12px; text-align:right; color:#60a5fa; font-size:1rem;">${formatCOP(resOrd.totalPagar)}</td>
+            <td style="padding:12px; text-align:right; color:#4ade80; font-size:1rem;">${formatCOP(resFran.totalPagar)}</td>
+            <td style="padding:12px; text-align:right; color:#f59e0b; font-size:1rem;">${formatCOP(resTemp.totalPagar)}</td>
+        </tr>
+    `;
+}
