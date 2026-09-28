@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonCloud — Ruta de Aprendizaje Guiada</title>
+    <title>BonCloud — Ruta de Aprendizaje (Modo Curso)</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/curso.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
+  <!-- BARRA NAVEGACIÓN LATERAL -->
   <div class="sidebar">
     <div class="sidebar-brand"><h2>BonCloud</h2></div>
     <nav>
@@ -26,225 +28,85 @@
     </nav>
     <div class="sidebar-footer">
       <span id="nombre-usuario"></span>
-      <button id="btnLogout">Cerrar sesión</button>
+      <button id="btnLogout" class="nav-item">Cerrar sesión</button>
     </div>
   </div>
 
+  <!-- CONTENIDO PRINCIPAL -->
   <div class="main-content">
 
-    <div class="dashboard-header">
-      <h1>🎓 Ruta de Aprendizaje de Comercio Exterior</h1>
-      <p>Secuencia estructurada desde negociación internacional hasta nacionalización en Cartagena</p>
+    <div class="dashboard-header" style="margin-bottom: 20px;">
+      <h1>🎓 Ruta de Aprendizaje de Comercio Internacional</h1>
+      <p>Aprende paso a paso guiando un embarque de 500 bombas hidráulicas desde Shanghái hasta el Puerto de Cartagena.</p>
     </div>
 
-    <!-- TARJETA DE PROGRESO GENERAL -->
-    <div style="background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-      <div>
-        <h3 style="color: var(--text-primary); margin-bottom: 4px; font-size: 1.1rem;">Tu Progreso General</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Completa los 5 módulos y aprueba los quizzes para certificar tus conocimientos en BonCloud.</p>
-      </div>
-      <div style="min-width: 280px; text-align: right;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; font-weight: 600;">
-          <span>Avance del Curso</span>
-          <span id="progreso-texto">0%</span>
+    <!-- TARJETA SUPERIOR DE PROGRESO GENERAL -->
+    <div class="curso-progress-header-panel">
+      <div class="curso-progress-top-info">
+        <div class="curso-progress-title">
+          <h3>Tu Progreso en el Curso</h3>
+          <p>Completa las 8 lecciones y aprueba los quizzes con al menos 70% para obtener tu Certificado BonCloud.</p>
         </div>
-        <div style="width: 100%; height: 10px; background: var(--bg-base); border-radius: 5px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 10px;">
-          <div id="progreso-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); transition: width 0.4s ease;"></div>
-        </div>
-        <button id="btn-descargar-certificado" onclick="generarDiplomaPDF()" style="display: none; width: 100%; background: #22c55e; color: #ffffff; border: none; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer;">
-          🏆 Descargar Certificado (PDF)
-        </button>
-      </div>
-    </div>
-
-    <!-- SECUENCIA DE MÓDULOS -->
-    <div style="display: flex; flex-direction: column; gap: 16px;" id="curso-modulos-list">
-
-      <!-- Módulo 1 -->
-      <div class="curso-modulo-card" data-key="incoterms" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.2s;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div class="estado-icon" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-            1
-          </div>
-          <div>
-            <span class="glosario-badge" style="margin-bottom: 4px; display: inline-block;">Paso 1 · Negociación</span>
-            <h3 style="color: var(--text-primary); font-size: 1.1rem; margin: 2px 0;">Incoterms 2020 & Términos Internacionales</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Domina la asignación de fletes, seguros y riesgos entre comprador y vendedor (FOB, CIF, EXW, DDP).</p>
-          </div>
-        </div>
-        <div style="display: flex; gap: 8px; flex-shrink: 0;">
-          <a href="incoterms.html" class="filtro-btn" style="text-decoration: none; padding: 8px 14px; font-weight: 500;">Estudiar 📖</a>
-          <button class="btn-calcular" onclick="iniciarQuizModal('incoterms')" style="padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">Rendir Quiz 📝</button>
+        <div class="curso-progress-actions">
+          <button id="btn-reiniciar-progreso" class="btn" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82rem;">
+            🔄 Reiniciar Progreso
+          </button>
+          <button id="btn-descargar-certificado" onclick="generarDiplomaPDF()" style="display: none; background: #22c55e; color: #ffffff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.88rem;">
+            🏆 Descargar Certificado (PDF)
+          </button>
         </div>
       </div>
 
-      <!-- Módulo 2 -->
-      <div class="curso-modulo-card" data-key="subpartidas" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.2s;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div class="estado-icon" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-            2
-          </div>
-          <div>
-            <span class="glosario-badge" style="margin-bottom: 4px; display: inline-block;">Paso 2 · Clasificación</span>
-            <h3 style="color: var(--text-primary); font-size: 1.1rem; margin: 2px 0;">Subpartidas Arancelarias & Nomenclatura</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Aprende a buscar códigos a 10 dígitos (NANDINA) y liquidar el Arancel (Ad-Valorem) e IVA.</p>
-          </div>
+      <div class="curso-progress-bar-wrapper">
+        <div class="curso-progress-bar-labels">
+          <span id="curso-conteo-texto">0 de 8 lecciones completadas</span>
+          <span id="curso-porcentaje-texto">0%</span>
         </div>
-        <div style="display: flex; gap: 8px; flex-shrink: 0;">
-          <a href="subpartidas.html" class="filtro-btn" style="text-decoration: none; padding: 8px 14px; font-weight: 500;">Estudiar 📖</a>
-          <button class="btn-calcular" onclick="iniciarQuizModal('subpartidas')" style="padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">Rendir Quiz 📝</button>
+        <div class="curso-progress-track">
+          <div id="curso-progreso-bar" class="curso-progress-fill" style="width: 0%;"></div>
         </div>
-      </div>
-
-      <!-- Módulo 3 -->
-      <div class="curso-modulo-card" data-key="vistos_buenos" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.2s;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div class="estado-icon" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-            3
-          </div>
-          <div>
-            <span class="glosario-badge" style="margin-bottom: 4px; display: inline-block;">Paso 3 · Regulaciones</span>
-            <h3 style="color: var(--text-primary); font-size: 1.1rem; margin: 2px 0;">Vistos Buenos & Permisos Previos (VUCE)</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Conoce las entidades reguladoras (INVIMA, ICA, SIC) y la obtención de registros sanitarios y licencias.</p>
-          </div>
-        </div>
-        <div style="display: flex; gap: 8px; flex-shrink: 0;">
-          <a href="vistos-buenos.html" class="filtro-btn" style="text-decoration: none; padding: 8px 14px; font-weight: 500;">Estudiar 📖</a>
-          <button class="btn-calcular" onclick="iniciarQuizModal('vistos_buenos')" style="padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">Rendir Quiz 📝</button>
-        </div>
-      </div>
-
-      <!-- Módulo 4 -->
-      <div class="curso-modulo-card" data-key="simulador" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.2s;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div class="estado-icon" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-            4
-          </div>
-          <div>
-            <span class="glosario-badge" style="margin-bottom: 4px; display: inline-block;">Paso 4 · Costeo & Operación</span>
-            <h3 style="color: var(--text-primary); font-size: 1.1rem; margin: 2px 0;">Simulador Logístico del Puerto de Cartagena</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Calcula liquidaciones completas, bodegajes, agenciamiento aduanero y evaluación de riesgos con IA.</p>
-          </div>
-        </div>
-        <div style="display: flex; gap: 8px; flex-shrink: 0;">
-          <a href="simulador.html" class="filtro-btn" style="text-decoration: none; padding: 8px 14px; font-weight: 500;">Estudiar 📖</a>
-          <button class="btn-calcular" onclick="iniciarQuizModal('simulador')" style="padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">Rendir Quiz 📝</button>
-        </div>
-      </div>
-
-      <!-- Módulo 5 -->
-      <div class="curso-modulo-card" data-key="formularios" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.2s;">
-        <div style="display: flex; align-items: center; gap: 16px;">
-          <div class="estado-icon" style="width: 44px; height: 44px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-            5
-          </div>
-          <div>
-            <span class="glosario-badge" style="margin-bottom: 4px; display: inline-block;">Paso 5 · Desaduanamiento</span>
-            <h3 style="color: var(--text-primary); font-size: 1.1rem; margin: 2px 0;">Formularios Oficiales DIAN (500, 560, 600, RUT)</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Diligencia casillas oficiales, comprende el soporte documental y genera las declaraciones aduaneras.</p>
-          </div>
-        </div>
-        <div style="display: flex; gap: 8px; flex-shrink: 0;">
-          <a href="formularios.html" class="filtro-btn" style="text-decoration: none; padding: 8px 14px; font-weight: 500;">Estudiar 📖</a>
-          <button class="btn-calcular" onclick="iniciarQuizModal('formularios')" style="padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">Rendir Quiz 📝</button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- LÍNEA DE TIEMPO INTERACTIVA NARRATIVA -->
-    <div style="margin-top: 32px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-      <h3 style="color: var(--text-primary); font-size: 1.1rem; margin-bottom: 4px;">🗺️ Línea de Tiempo Interactiva de una Importación Completa</h3>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Sigue el flujo completo de una operación real desde la compra en origen hasta la entrega en bodega en Colombia.</p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; position: relative;">
-        
-        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; position: relative;">
-          <span style="font-size: 0.75rem; color: #60a5fa; font-weight: 700;">ETAPA 1</span>
-          <h4 style="color: var(--text-primary); font-size: 0.95rem; margin: 4px 0 6px;">Negociación & Incoterm</h4>
-          <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 10px;">Firma de contrato de compraventa y selección de Incoterms (CIF / FOB).</p>
-          <a href="incoterms.html" style="color: #60a5fa; text-decoration: none; font-size: 0.75rem; font-weight: 600;">Ver Incoterms ➔</a>
-        </div>
-
-        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; position: relative;">
-          <span style="font-size: 0.75rem; color: #60a5fa; font-weight: 700;">ETAPA 2</span>
-          <h4 style="color: var(--text-primary); font-size: 0.95rem; margin: 4px 0 6px;">Clasificación & Vistos Buenos</h4>
-          <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 10px;">Verificación de subpartida 10 dígitos y consulta de visto bueno INVIMA/ICA.</p>
-          <a href="vistos-buenos.html" style="color: #60a5fa; text-decoration: none; font-size: 0.75rem; font-weight: 600;">Ver Vistos Buenos ➔</a>
-        </div>
-
-        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; position: relative;">
-          <span style="font-size: 0.75rem; color: #60a5fa; font-weight: 700;">ETAPA 3</span>
-          <h4 style="color: var(--text-primary); font-size: 0.95rem; margin: 4px 0 6px;">Tránsito & Arribo Portuario</h4>
-          <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 10px;">Embarque marítimo y llegada a la Sociedad Portuaria de Cartagena.</p>
-          <a href="simulador.html" style="color: #60a5fa; text-decoration: none; font-size: 0.75rem; font-weight: 600;">Simular Tiempos ➔</a>
-        </div>
-
-        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; position: relative;">
-          <span style="font-size: 0.75rem; color: #60a5fa; font-weight: 700;">ETAPA 4</span>
-          <h4 style="color: var(--text-primary); font-size: 0.95rem; margin: 4px 0 6px;">Nacionalización & Levante</h4>
-          <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 10px;">Diligenciamiento de Formulario 500/560 DIAN, pago de tributos y retiro.</p>
-          <a href="formularios.html" style="color: #60a5fa; text-decoration: none; font-size: 0.75rem; font-weight: 600;">Formulario 500 DIAN ➔</a>
-        </div>
-
       </div>
     </div>
 
+    <!-- MAPA DE RUTA ANIMADO (Shanghái -> Buque -> Puerto -> DIAN -> Bodega) -->
+    <div class="mapa-ruta-wrapper">
+      <h3 style="color: var(--text-primary); font-size: 1.05rem; margin-bottom: 4px;">🗺️ Ruta Logística del Embarque de Práctica</h3>
+      <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 12px;">Haz clic en cualquiera de las etapas alcanzadas para saltar a sus lecciones.</p>
+      
+      <div id="mapa-ruta-container">
+        <!-- Renderizado dinámico desde curso.js -->
+      </div>
+    </div>
+
+    <!-- LAYOUT DE 2 COLUMNAS: TARJETAS DE LECCIÓN + DETALLE DE LECCIÓN Y QUIZ -->
+    <div class="curso-grid-layout">
+      <!-- Columna Izquierda: Tarjetas de Lecciones 1 a 8 -->
+      <div class="lecciones-sidebar-list" id="lecciones-cards-container">
+        <!-- Renderizado dinámico desde curso.js -->
+      </div>
+
+      <!-- Columna Derecha: Lector de Lección, Caso, Práctica y Quiz -->
+      <div id="leccion-detalle-container">
+        <!-- Renderizado dinámico desde curso.js -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL DE GLOSARIO REUTILIZADO -->
+  <div id="glosario-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
+    <div style="background:var(--bg-panel); border:1px solid var(--border); border-radius:12px; max-width:550px; width:90%; padding:24px; position:relative;">
+      <button onclick="cerrarModalGlosario()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer;">✕</button>
+      <div id="glosario-modal-contenido"></div>
+    </div>
   </div>
 
   <script src="../js/dashboard.js"></script>
-  <script src="../js/quiz.js"></script>
+  <script src="../js/glosario.js"></script>
+  <script src="../js/cursos.js"></script>
+  <script src="../js/curso.js"></script>
   <script src="../js/theme.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      actualizarProgresoUI();
-    });
-
-    window.actualizarProgresoUI = function() {
-      const progreso = JSON.parse(localStorage.getItem('boncloud_progreso_curso') || '{}');
-      const modulosKeys = ['incoterms', 'subpartidas', 'vistos_buenos', 'simulador', 'formularios'];
-      let aprobados = 0;
-
-      modulosKeys.forEach(key => {
-        const card = document.querySelector(`.curso-modulo-card[data-key="${key}"]`);
-        if (!card) return;
-
-        const isApproved = !!progreso[key];
-        const icon = card.querySelector('.estado-icon');
-        
-        if (isApproved) {
-          aprobados++;
-          card.style.borderColor = '#22c55e';
-          card.style.background = 'rgba(34, 197, 94, 0.05)';
-          if (icon) {
-            icon.style.background = '#22c55e';
-            icon.style.borderColor = '#22c55e';
-            icon.style.color = '#ffffff';
-            icon.innerHTML = '✓';
-          }
-        }
-      });
-
-      const pct = Math.round((aprobados / modulosKeys.length) * 100);
-      const txt = document.getElementById('progreso-texto');
-      const bar = document.getElementById('progreso-bar');
-      const btnCert = document.getElementById('btn-descargar-certificado');
-
-      if (txt) txt.textContent = `${pct}% (${aprobados} de 5 Módulos)`;
-      if (bar) bar.style.width = `${pct}%`;
-      if (btnCert) btnCert.style.display = pct === 100 ? 'block' : 'none';
-
-      // Sincronizar backend opcionalmente
-      const usuario = JSON.parse(localStorage.getItem('usuario'));
-      if (usuario && usuario.id) {
-        fetch(`https://boncloud-api.onrender.com/api/progreso/${usuario.id}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ progreso })
-        }).catch(err => console.log('Sync offline'));
-      }
-    };
-
     function generarDiplomaPDF() {
       const usuario = JSON.parse(localStorage.getItem('usuario')) || { nombre: 'Estudiante BonCloud' };
       const fecha = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -269,13 +131,13 @@
           ${usuario.nombre}
         </div>
         
-        <p style="font-size: 15px; color: #475569; max-width: 600px; margin: 0 auto 30px; line-height: 1.6;">
-          Por haber completado con éxito la <strong>Ruta Guiada de Aprendizaje en Comercio Exterior y Operaciones Portuarias</strong>, demostrando solvencia técnica en Incoterms 2020, Subpartidas Arancelarias, Vistos Buenos, Simulación Logística y Formularios DIAN.
+        <p style="font-size: 15px; color: #475569; max-width: 620px; margin: 0 auto 30px; line-height: 1.6;">
+          Por haber completado con éxito la <strong>Ruta Guiada de Aprendizaje en Comercio Internacional (Modo Curso)</strong>, superando los 8 módulos teóricos y prácticos sobre el proceso de importación en el Puerto de Cartagena bajo el Decreto 1165 de 2019.
         </p>
 
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; padding: 0 40px;">
           <div>
-            <div style="border-top: 1px solid #94a3b8; width: 180px; padding-top: 6px; font-size: 12px; color: #64748b;">Comité Académico BonCloud</div>
+            <div style="border-top: 1px solid #94a3b8; width: 200px; padding-top: 6px; font-size: 12px; color: #64748b;">Comité Académico BonCloud</div>
           </div>
           <div>
             <div style="font-size: 12px; color: #64748b;">Cartagena, Colombia</div>
