@@ -1,215 +1,96 @@
+// ============================================================
+//  BonCloud — Centro de formularios DIAN (simuladores de práctica)
+//  Cada formulario vive en pages/formularios/ y se abre en un iframe.
+//  No tienen validez ante la DIAN: las declaraciones reales se presentan
+//  con firma digital en los servicios informáticos de la DIAN.
+// ============================================================
+
 const formularios = [
-  { id: "001", nombre: "Formulario 001 - Registro Único Tributario (RUT)", tipo: "Requisito" },
-  { id: "500", nombre: "Formulario 500 - Declaración de Importación", tipo: "Importación" },
-  { id: "560", nombre: "Formulario 560 - Declaración Andina del Valor (DAV)", tipo: "Importación" },
-  { id: "600", nombre: "Formulario 600 - Declaración de Exportación (DEX)", tipo: "Exportación" },
-  { id: "DTA", nombre: "Formulario de Tránsito Aduanero (DTA)", tipo: "Tránsito" }
+  { id: '001', archivo: 'form-001-rut.html', nombre: 'Formulario 001 - Registro Único Tributario (RUT)', tipo: 'Requisito',
+    desc: 'Inscripción del importador o exportador, con su calidad de usuario aduanero.' },
+  { id: '560', archivo: 'form-560-dav.html', nombre: 'Formulario 560 - Declaración Andina del Valor (DAV)', tipo: 'Importación',
+    desc: 'Soporta el valor en aduana. Obligatoria desde USD 5.000 FOB.' },
+  { id: '500', archivo: 'form-500-importacion.html', nombre: 'Formulario 500 - Declaración de Importación', tipo: 'Importación',
+    desc: 'Identifica la mercancía, declara el valor en aduana y liquida arancel e IVA.' },
+  { id: 'DTA', archivo: 'form-dta-transito.html', nombre: 'Declaración de Tránsito Aduanero (DTA)', tipo: 'Tránsito',
+    desc: 'Traslado bajo control aduanero entre aduanas, con tributos suspendidos.' },
+  { id: '600', archivo: 'form-600-exportacion.html', nombre: 'Formulario 600 - Declaración de Exportación (DEX)', tipo: 'Exportación',
+    desc: 'Ampara la salida de mercancías; va precedida de la solicitud de autorización de embarque.' }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Render initial grid
-    renderGrid(formularios);
+  renderGrid(formularios);
 
-    // Búsqueda inteligente
-    const buscador = document.getElementById('buscador-forms');
-    buscador.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        const filtrados = formularios.filter(f => 
-            f.nombre.toLowerCase().includes(query) || 
-            f.tipo.toLowerCase().includes(query) || 
-            f.id.toLowerCase().includes(query)
-        );
-        renderGrid(filtrados);
-    });
+  const buscador = document.getElementById('buscador-forms');
+  buscador.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    renderGrid(formularios.filter(f =>
+      f.nombre.toLowerCase().includes(query) ||
+      f.tipo.toLowerCase().includes(query) ||
+      f.id.toLowerCase().includes(query)
+    ));
+  });
 
-    // Botones de editor
-    document.getElementById('btn-volver').addEventListener('click', () => {
-        document.getElementById('vista-editor').style.display = 'none';
-        document.getElementById('vista-dashboard').style.display = 'block';
-    });
+  document.getElementById('btn-volver').addEventListener('click', () => {
+    document.getElementById('vista-editor').style.display = 'none';
+    document.getElementById('vista-dashboard').style.display = 'block';
+    document.getElementById('form-render-area').innerHTML = '';
+  });
 
-    // Botón de Limpieza Rápida
-    document.getElementById('btn-limpiar').addEventListener('click', () => {
-        const iframe = document.getElementById('form-iframe');
-        if (iframe) {
-            iframe.contentWindow.location.reload();
-            return;
-        }
-        const inputs = document.querySelectorAll('#form-render-area input:not([readonly])');
-        inputs.forEach(input => input.value = '');
-        // Disparar cálculos automáticos para resetear a 0
-        document.querySelectorAll('.calc-trigger').forEach(el => {
-            el.dispatchEvent(new Event('input'));
-        });
-    });
+  document.getElementById('btn-limpiar').addEventListener('click', () => {
+    const iframe = document.getElementById('form-iframe');
+    if (iframe && iframe.contentWindow) iframe.contentWindow.location.reload();
+  });
 
-    // Exportar PDF
-    document.getElementById('btn-descargar').addEventListener('click', () => {
-        const iframe = document.getElementById('form-iframe');
-        if (iframe) {
-            if (iframe.contentWindow && iframe.contentWindow.validateAndPrint) {
-                iframe.contentWindow.validateAndPrint();
-            } else {
-                iframe.contentWindow.print();
-            }
-            return;
-        }
-        const element = document.getElementById('form-render-area');
-        const opt = {
-            margin:       0.5,
-            filename:     'formulario_dian.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
-        html2pdf().set(opt).from(element).save();
-    });
+  document.getElementById('btn-descargar').addEventListener('click', () => {
+    const iframe = document.getElementById('form-iframe');
+    if (!iframe || !iframe.contentWindow) return;
+    if (typeof iframe.contentWindow.validateAndPrint === 'function') {
+      iframe.contentWindow.validateAndPrint();
+    } else {
+      iframe.contentWindow.print();
+    }
+  });
+
+  // La Ruta de Aprendizaje abre esta página con ?form=500
+  const inicial = new URLSearchParams(window.location.search).get('form');
+  if (inicial && formularios.some(f => f.id === inicial.toUpperCase())) {
+    openFormEditor(inicial.toUpperCase());
+  }
 });
 
 function renderGrid(lista) {
-    const grid = document.getElementById('grid-formularios');
-    grid.innerHTML = '';
-    
-    if (lista.length === 0) {
-        grid.innerHTML = '<p style="color: var(--text-muted);">No se encontraron formularios.</p>';
-        return;
-    }
+  const grid = document.getElementById('grid-formularios');
+  grid.innerHTML = '';
 
-    lista.forEach(form => {
-        const div = document.createElement('div');
-        div.className = 'form-card';
-        div.innerHTML = `
-            <h3>${form.nombre}</h3>
-            <span class="tag-tipo">${form.tipo}</span>
-        `;
-        div.addEventListener('click', () => openFormEditor(form.id));
-        grid.appendChild(div);
+  if (lista.length === 0) {
+    grid.innerHTML = '<p style="color: var(--text-muted);">No se encontraron formularios.</p>';
+    return;
+  }
+
+  lista.forEach(form => {
+    const div = document.createElement('div');
+    div.className = 'form-card';
+    div.setAttribute('role', 'button');
+    div.tabIndex = 0;
+    div.innerHTML = `
+      <h3>${form.nombre}</h3>
+      <p style="font-size:0.8rem;opacity:.75;margin:6px 0 10px;line-height:1.4">${form.desc}</p>
+      <span class="tag-tipo">${form.tipo}</span>
+    `;
+    div.addEventListener('click', () => openFormEditor(form.id));
+    div.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openFormEditor(form.id); }
     });
+    grid.appendChild(div);
+  });
 }
 
 function openFormEditor(id) {
-    document.getElementById('vista-dashboard').style.display = 'none';
-    document.getElementById('vista-editor').style.display = 'block';
-    const renderArea = document.getElementById('form-render-area');
-    
-    if (["001", "500", "560", "600", "DTA"].includes(id)) {
-        let file = "";
-        if (id === "001") file = "form-001-rut.html";
-        if (id === "500") file = "form-500-importacion.html";
-        if (id === "560") file = "form-560-dav.html";
-        if (id === "600") file = "form-600-exportacion.html";
-        if (id === "DTA") file = "form-dta-transito.html";
-        
-        renderArea.innerHTML = `<iframe id="form-iframe" src="formularios/${file}" style="width:100%; height:1200px; border:none; background:transparent; overflow:hidden;"></iframe>`;
-        return;
-    }
-
-    
-    if (id === "500") {
-        renderArea.innerHTML = getForm500HTML();
-        setupForm500Logic();
-    } else if (id === "SIM") {
-        renderArea.innerHTML = getSimuladorHTML();
-        setupSimuladorLogic();
-    } else {
-        renderArea.innerHTML = `
-            <div style="padding:40px; text-align:center;">
-                <h3>Formulario ${id}</h3>
-                <p>Este formulario estará disponible próximamente.</p>
-            </div>
-        `;
-    }
-}
-
-function getForm500HTML() {
-    return `
-    <div id="form-500-doc">
-      <div class="dian-header">
-        <div class="dian-logo-sec">DIAN</div>
-        <div class="dian-title-sec">
-          <p>República de Colombia</p>
-          <h2>Declaración de Importación</h2>
-        </div>
-        <div class="dian-num-sec">
-          <p>Privada</p>
-          <span>500</span>
-        </div>
-      </div>
-
-      <div class="seccion-dian">
-        <div class="seccion-titulo">1. Datos del Importador</div>
-        <div class="seccion-body">
-          <div class="casilla-dian size-20">
-            <label class="numero-casilla">27</label>
-            <span class="titulo-casilla">NIT</span>
-            <input type="number" id="f500-nit" placeholder="Ej. 901234567" class="input-dian-libre">
-          </div>
-          <div class="casilla-dian size-10">
-            <label class="numero-casilla">28</label>
-            <span class="titulo-casilla">DV</span>
-            <input type="number" id="f500-dv" max="9" class="input-dian-libre text-center">
-          </div>
-          <div class="casilla-dian size-70 no-border-right">
-            <label class="numero-casilla">29</label>
-            <span class="titulo-casilla">Primer apellido o Razón Social</span>
-            <input type="text" id="f500-razon" placeholder="EMPRESA S.A.S." class="input-dian-libre">
-          </div>
-        </div>
-      </div>
-
-      <div class="seccion-dian">
-        <div class="seccion-titulo">2. Liquidación (Cálculo Automático)</div>
-        <div class="seccion-body">
-          <div class="casilla-dian size-50">
-            <label class="numero-casilla">69</label>
-            <span class="titulo-casilla">Base Gravable Arancel (USD)</span>
-            <input type="number" id="f500-base-arancel" placeholder="0" class="input-dian-libre calc-trigger">
-          </div>
-          <div class="casilla-dian size-50 no-border-right">
-            <label class="numero-casilla">70</label>
-            <span class="titulo-casilla">% Arancel</span>
-            <input type="number" id="f500-tasa-arancel" placeholder="0" class="input-dian-libre calc-trigger">
-          </div>
-          <div class="casilla-dian size-100 no-border-right">
-            <label class="numero-casilla">83</label>
-            <span class="titulo-casilla">Total Arancel a Pagar (USD)</span>
-            <input type="number" id="f500-total-arancel" class="input-dian-libre" readonly>
-          </div>
-          
-          <div class="casilla-dian size-50 no-border-bottom">
-            <label class="numero-casilla">84</label>
-            <span class="titulo-casilla">Base Gravable IVA (USD)</span>
-            <input type="number" id="f500-base-iva" placeholder="0" class="input-dian-libre calc-trigger">
-          </div>
-          <div class="casilla-dian size-50 no-border-right no-border-bottom">
-            <label class="numero-casilla">85</label>
-            <span class="titulo-casilla">% IVA</span>
-            <input type="number" id="f500-tasa-iva" placeholder="0" class="input-dian-libre calc-trigger">
-          </div>
-          <div class="casilla-dian size-100 no-border-right no-border-bottom">
-            <label class="numero-casilla">86</label>
-            <span class="titulo-casilla">Total IVA a Pagar (USD)</span>
-            <input type="number" id="f500-total-iva" class="input-dian-libre" readonly>
-          </div>
-        </div>
-      </div>
-    </div>
-    `;
-}
-
-function setupForm500Logic() {
-    const triggers = document.querySelectorAll('.calc-trigger');
-    triggers.forEach(t => t.addEventListener('input', () => {
-        // Cálculo Arancel
-        const baseArancel = parseFloat(document.getElementById('f500-base-arancel').value) || 0;
-        const tasaArancel = parseFloat(document.getElementById('f500-tasa-arancel').value) || 0;
-        const totalArancel = (baseArancel * tasaArancel) / 100;
-        document.getElementById('f500-total-arancel').value = totalArancel ? totalArancel.toFixed(2) : '';
-
-        // Cálculo IVA
-        const baseIva = parseFloat(document.getElementById('f500-base-iva').value) || 0;
-        const tasaIva = parseFloat(document.getElementById('f500-tasa-iva').value) || 0;
-        const totalIva = (baseIva * tasaIva) / 100;
-        document.getElementById('f500-total-iva').value = totalIva ? totalIva.toFixed(2) : '';
-    }));
+  const form = formularios.find(f => f.id === id);
+  if (!form) return;
+  document.getElementById('vista-dashboard').style.display = 'none';
+  document.getElementById('vista-editor').style.display = 'block';
+  document.getElementById('form-render-area').innerHTML =
+    `<iframe id="form-iframe" src="formularios/${form.archivo}" title="${form.nombre}" style="width:100%; height:1200px; border:none; background:transparent;"></iframe>`;
 }

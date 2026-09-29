@@ -13,7 +13,7 @@ const glosario = [
     nombreCompleto: "Cost, Insurance and Freight",
     categoria: "Incoterms",
     definicion: "El vendedor paga el flete y un seguro de cobertura mínima hasta el puerto de destino, pero el riesgo pasa al comprador cuando la mercancía queda a bordo en origen. En Colombia el valor en aduana, base de los tributos, equivale en la práctica a un valor CIF.",
-    ejemplo: "Si compras CIF Cartagena por USD 10.000, ese precio ya incluye flete y seguro: no se vuelven a sumar para calcular el arancel y el IVA.",
+    ejemplo: "Si compras CIF Cartagena por USD 10.000, ese precio ya incluye flete y seguro: no se vuelven a sumar para calcular el valor en aduana.",
     relacionado: ["FOB", "CFR", "Base Arancelaria", "Valor en Aduana"],
     moduloBonCloud: "incoterms.html"
   },
@@ -23,7 +23,7 @@ const glosario = [
     categoria: "Incoterms",
     definicion: "El vendedor entrega la mercancía, despachada para exportación, a bordo del buque designado por el comprador en el puerto de embarque. Desde que está a bordo, el riesgo y el flete internacional son del comprador. Es una regla solo para transporte marítimo o fluvial; para contenedores la ICC recomienda FCA.",
     ejemplo: "Al comprar FOB Shanghai, tú como importador en Colombia contratas y pagas el flete marítimo hasta Cartagena.",
-    relacionado: ["CIF", "CFR", "EXW"],
+    relacionado: ["CIF", "CFR", "EXW", "FCA"],
     moduloBonCloud: "incoterms.html"
   },
   {
@@ -31,8 +31,8 @@ const glosario = [
     nombreCompleto: "Ex Works (En Fábrica)",
     categoria: "Incoterms",
     definicion: "El vendedor pone la mercancía a disposición del comprador en sus propias instalaciones. El comprador asume todos los costos y riesgos desde la fábrica de origen.",
-    ejemplo: "Comprar EXW en Stuttgart implica gestionar la recogida en fábrica, aduana de salida en Alemania y transporte internacional.",
-    relacionado: ["FOB", "DDP", "Incoterms"],
+    ejemplo: "Comprar EXW en Stuttgart implica cargar la mercancía en la fábrica, hacer el despacho de exportación en Alemania y contratar el transporte internacional.",
+    relacionado: ["FOB", "FCA", "DDP"],
     moduloBonCloud: "incoterms.html"
   },
   {
@@ -40,7 +40,7 @@ const glosario = [
     nombreCompleto: "Delivered Duty Paid (Entregado Derechos Pagados)",
     categoria: "Incoterms",
     definicion: "El vendedor asume la máxima responsabilidad: transporte, seguro, desaduanamiento de importación y pago de tributos aduaneros en el destino.",
-    ejemplo: "Con DDP Bogotá, el proveedor internacional paga el arancel e IVA en la DIAN y entrega en tu bodega.",
+    ejemplo: "Con DDP Bogotá, el vendedor extranjero debe encargarse de la importación en Colombia y pagar el arancel y el IVA. En la práctica es difícil, porque necesita un declarante habilitado en Colombia.",
     relacionado: ["EXW", "CIF", "Nacionalización"],
     moduloBonCloud: "incoterms.html"
   },
@@ -52,6 +52,24 @@ const glosario = [
     ejemplo: "Si compras CFR Cartagena, el vendedor paga el barco, pero debes contratar una póliza de seguro de transporte independientemente.",
     relacionado: ["CIF", "FOB"],
     moduloBonCloud: "incoterms.html"
+  },
+  {
+    termino: "FCA",
+    nombreCompleto: "Free Carrier (Franco Transportista)",
+    categoria: "Incoterms",
+    definicion: "El vendedor entrega la mercancía, despachada para exportación, al transportador que designa el comprador en el lugar acordado. Sirve para cualquier modo de transporte y es la regla que la ICC recomienda para carga en contenedor.",
+    ejemplo: "Con FCA terminal de contenedores de Shanghái, el vendedor entrega el contenedor en la terminal y desde ahí el riesgo y el flete son del comprador.",
+    relacionado: ["FOB", "EXW", "CIF"],
+    moduloBonCloud: "incoterms.html"
+  },
+  {
+    termino: "Valor en Aduana",
+    nombreCompleto: "Base de los tributos aduaneros",
+    categoria: "Tributos Aduaneros",
+    definicion: "Valor que se determina con las normas de valoración de la OMC y la Comunidad Andina (Decisión 571). Parte del precio realmente pagado y en Colombia incluye el flete y el seguro hasta el puerto de importación, por eso en la práctica es un valor CIF.",
+    ejemplo: "FOB USD 60.000 + flete USD 3.500 + seguro USD 300 = valor en aduana de USD 63.800.",
+    relacionado: ["CIF", "Base Arancelaria", "Formulario 560", "TRM"],
+    moduloBonCloud: "importacion.html"
   },
   {
     termino: "DTA",
@@ -66,7 +84,7 @@ const glosario = [
     termino: "Formulario 500",
     nombreCompleto: "Declaración de Importación DIAN",
     categoria: "Formularios DIAN",
-    definicion: "Formulario oficial en el que el declarante liquidará los tributos aduaneros (arancel, IVA) y formalizará el régimen de importación de mercancías.",
+    definicion: "Declaración de importación: en ella el declarante identifica la mercancía, declara su valor en aduana y liquida los tributos aduaneros (arancel, IVA y otros si aplican).",
     ejemplo: "Antes de retirar la mercancía de la sociedad portuaria se presenta y paga el Formulario 500 ante la DIAN.",
     relacionado: ["Base Arancelaria", "Levante de Mercancía", "Formulario 560"],
     moduloBonCloud: "formularios/form-500-importacion.html"
@@ -75,7 +93,7 @@ const glosario = [
     termino: "Formulario 600",
     nombreCompleto: "Declaración de Exportación (DEX)",
     categoria: "Formularios DIAN",
-    definicion: "Documento aduanero emitido por la DIAN para amparar la salida definitiva o temporal de mercancías del territorio aduanero nacional.",
+    definicion: "Declaración que presenta el exportador o su agencia de aduanas en los servicios informáticos de la DIAN para amparar la salida definitiva o temporal de mercancías. Va precedida de la solicitud de autorización de embarque.",
     ejemplo: "El exportador de café en Cartagena requiere presentar el Formulario 600 DEX para legalizar el despacho al exterior.",
     relacionado: ["Subpartida Arancelaria", "Vistos Buenos"],
     moduloBonCloud: "formularios/form-600-exportacion.html"
@@ -84,7 +102,7 @@ const glosario = [
     termino: "Formulario 560",
     nombreCompleto: "Declaración Andina del Valor (DAV)",
     categoria: "Formularios DIAN",
-    definicion: "Documento obligatorio que soporta la determinación del valor en aduana de las mercancías importadas conforme a las normas de la CAN y la OMC.",
+    definicion: "Documento que soporta la determinación del valor en aduana conforme a las normas de la CAN y la OMC. Es obligatoria cuando el valor FOB de la importación es igual o superior a USD 5.000.",
     ejemplo: "Si el valor FOB de la importación es igual o superior a USD 5.000, se presenta la DAV detallando precio, fletes, seguros, comisiones, descuentos y la posible vinculación entre comprador y vendedor.",
     relacionado: ["Formulario 500", "Base Arancelaria", "CIF"],
     moduloBonCloud: "formularios/form-560-dav.html"
@@ -102,8 +120,8 @@ const glosario = [
     termino: "DV",
     nombreCompleto: "Dígito de Verificación",
     categoria: "Identificación Tributaria",
-    definicion: "Dígito calculado mediante un algoritmo matemático a partir del NIT, que valida la autenticidad e integridad del número tributario.",
-    ejemplo: "Para el NIT 900123456 el sistema asigna el DV 7, resultando en 900123456-7.",
+    definicion: "Dígito que se calcula a partir del NIT con un algoritmo de módulo 11 (pesos 3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67 y 71). Sirve para detectar errores de digitación.",
+    ejemplo: "Para el NIT 900123456 el dígito de verificación es 8, así que se escribe 900123456-8.",
     relacionado: ["NIT", "Formulario 001"],
     moduloBonCloud: "formularios/form-001-rut.html"
   },
@@ -111,8 +129,8 @@ const glosario = [
     termino: "NIT",
     nombreCompleto: "Número de Identificación Tributaria",
     categoria: "Identificación Tributaria",
-    definicion: "Número asignado por la DIAN que permite la individualización inequívoca de los contribuyentes y usuarios aduaneros en Colombia.",
-    ejemplo: "Las agencias de aduanas y empresas importadoras registran su NIT en todos los trámites del VUCE y la DIAN.",
+    definicion: "Número que asigna la DIAN al inscribirse en el RUT para identificar a contribuyentes y usuarios aduaneros.",
+    ejemplo: "Importadores, exportadores y agencias de aduanas usan su NIT con el DV en todas las declaraciones y en los trámites de la VUCE.",
     relacionado: ["DV", "Formulario 001"],
     moduloBonCloud: "formularios/form-001-rut.html"
   },
@@ -120,8 +138,8 @@ const glosario = [
     termino: "Subpartida Arancelaria",
     nombreCompleto: "Código de Nomenclatura del Sistema Armonizado",
     categoria: "Arancel y Clasificación",
-    definicion: "Código numérico de 10 dígitos (en el arancel colombiano NANDINA) que identifica una mercancía específica para determinar sus tributos y requisitos.",
-    ejemplo: "La subpartida 0901.11.00.00 corresponde al café verde sin tostar ni descafeinar.",
+    definicion: "Código de 10 dígitos del Arancel de Aduanas colombiano: 6 del Sistema Armonizado, 2 de la NANDINA (Comunidad Andina) y 2 nacionales. De él dependen los tributos y los requisitos de la mercancía.",
+    ejemplo: "Las bombas de engranajes del caso se clasifican en 8413.60.90.00; el café verde sin tostar ni descafeinar (excepto para siembra), en 0901.11.90.00.",
     relacionado: ["Base Arancelaria", "Vistos Buenos", "TLC"],
     moduloBonCloud: "subpartidas.html"
   },
@@ -129,8 +147,8 @@ const glosario = [
     termino: "Base Arancelaria",
     nombreCompleto: "Base Gravable Aduanera",
     categoria: "Tributos Aduaneros",
-    definicion: "Valor total en pesos colombianos (COP) sobre el cual se aplican los porcentajes de arancel e IVA. Se determina convirtiendo el valor CIF en USD a COP mediante la TRM.",
-    ejemplo: "Un valor CIF de USD $10,000 a TRM $4,200 genera una base arancelaria de $42,000,000 COP.",
+    definicion: "Valor en aduana convertido a pesos con la TRM: es la base del arancel. La base del IVA es esta misma cifra más el arancel.",
+    ejemplo: "Un valor en aduana de USD 10.000 con TRM de $4.200 da una base de $42.000.000 COP.",
     relacionado: ["CIF", "TRM", "Arancel (Ad-Valorem)", "IVA de Importación"],
     moduloBonCloud: "importacion.html"
   },
@@ -138,8 +156,8 @@ const glosario = [
     termino: "Arancel (Ad-Valorem)",
     nombreCompleto: "Impuesto a la Importación de Mercancías",
     categoria: "Tributos Aduaneros",
-    definicion: "Gravamen aduanero expresado en porcentaje que se cobra sobre la base gravable CIF para autorizar el ingreso de productos al mercado nacional.",
-    ejemplo: "Si la subpartida de calzado paga el 35% de arancel, sobre una base CIF de $10.000.000 COP se liquidarán $3.500.000 COP de arancel.",
+    definicion: "Gravamen aduanero expresado en porcentaje que se cobra sobre el valor en aduana (en la práctica, CIF) convertido a pesos. La tarifa depende de la subpartida y puede reducirse con un acuerdo comercial.",
+    ejemplo: "Si la subpartida paga el 15% de arancel, sobre un valor en aduana de $10.000.000 COP se liquidan $1.500.000 COP de arancel. En el caso de las bombas (5%), sobre $261.580.000 el arancel es $13.079.000.",
     relacionado: ["Base Arancelaria", "IVA de Importación", "TLC"],
     moduloBonCloud: "importacion.html"
   },
@@ -147,8 +165,8 @@ const glosario = [
     termino: "IVA de Importación",
     nombreCompleto: "Impuesto al Valor Agregado en Aduana",
     categoria: "Tributos Aduaneros",
-    definicion: "Impuesto indirecto nacional (generalmente del 19%) calculado sobre la suma de la base arancelaria en COP más el valor liquidado del arancel.",
-    ejemplo: "Base CIF $42,000,000 COP + Arancel $4,200,000 COP = $46,200,000 COP. El IVA del 19% será de $8,778,000 COP.",
+    definicion: "Impuesto sobre las ventas que se paga al importar (tarifa general del 19%). Su base es el valor en aduana en pesos más el arancel y los demás tributos de la importación (art. 459 del Estatuto Tributario).",
+    ejemplo: "Valor en aduana $42.000.000 + arancel $4.200.000 = base de $46.200.000. El IVA del 19% es $8.778.000.",
     relacionado: ["Base Arancelaria", "Arancel (Ad-Valorem)", "Formulario 500"],
     moduloBonCloud: "importacion.html"
   },
@@ -165,8 +183,8 @@ const glosario = [
     termino: "Vistos Buenos",
     nombreCompleto: "Permisos y Licencias de Requisito Previo",
     categoria: "Control Aduanero",
-    definicion: "Autorizaciones emitidas por entidades estatales sanitarias, ambientales o de seguridad para permitir la importación o exportación de ciertos bienes.",
-    ejemplo: "Los productos agropecuarios exigen visto bueno del ICA, mientras que medicamentos y cosméticos requieren visto bueno del INVIMA.",
+    definicion: "Autorizaciones, registros o certificados de otras entidades (INVIMA, ICA, SIC, MinJusticia, entre otras) que ciertas mercancías necesitan además de la declaración ante la DIAN. Se tramitan en la VUCE.",
+    ejemplo: "Las frutas frescas necesitan el documento de requisitos fitosanitarios del ICA; los medicamentos, el registro sanitario del INVIMA. Las bombas de engranajes del caso son de libre importación.",
     relacionado: ["INVIMA", "ICA", "Subpartida Arancelaria"],
     moduloBonCloud: "vistos-buenos.html"
   },
@@ -174,8 +192,8 @@ const glosario = [
     termino: "INVIMA",
     nombreCompleto: "Instituto Nacional de Vigilancia de Medicamentos y Alimentos",
     categoria: "Entidades Regulatorias",
-    definicion: "Entidad del estado colombiano encargada de la vigilancia sanitaria y el otorgamiento de registros/vistos buenos para alimentos, medicinas y cosméticos.",
-    ejemplo: "La importación de suplementos dietarios requiere un Registro Sanitario INVIMA vigente antes de ingresar al país.",
+    definicion: "Entidad de vigilancia sanitaria de Colombia. Otorga registros y notificaciones sanitarias para alimentos, medicamentos, dispositivos médicos y cosméticos, e inspecciona estos productos en los puertos.",
+    ejemplo: "Los suplementos dietarios necesitan registro sanitario INVIMA vigente antes de importarse para la venta.",
     relacionado: ["Vistos Buenos", "ICA"],
     moduloBonCloud: "vistos-buenos.html"
   },
@@ -184,7 +202,7 @@ const glosario = [
     nombreCompleto: "Instituto Colombiano Agropecuario",
     categoria: "Entidades Regulatorias",
     definicion: "Entidad responsable de controlar la sanidad animal y vegetal en Colombia para prevenir plagas y enfermedades en el comercio exterior agropecuario.",
-    ejemplo: "La importación de frutas frescas requiere un Documento Zoosanitario/Fitosantario de Importación expedido por el ICA.",
+    ejemplo: "Para importar frutas frescas se tramita ante el ICA el documento de requisitos fitosanitarios para importación; para carne, el documento zoosanitario de importación.",
     relacionado: ["Vistos Buenos", "INVIMA"],
     moduloBonCloud: "vistos-buenos.html"
   },
@@ -192,7 +210,7 @@ const glosario = [
     termino: "BL",
     nombreCompleto: "Bill of Lading (Conocimiento de Embarque)",
     categoria: "Documentos de Transporte",
-    definicion: "Documento emitido por la naviera o transporte marítimo que acredita el contrato de flete, la recepción de la carga y el título de propiedad de las mercancías.",
+    definicion: "Documento que emite la naviera (o el agente de carga, si es un B/L hijo). Prueba el contrato de transporte y el recibo de la carga a bordo, y es un título representativo de las mercancías: quien lo tiene legítimamente puede reclamarlas.",
     ejemplo: "El consignatario debe presentar el BL original o endosado para solicitar la entrega del contenedor en el Puerto de Cartagena.",
     relacionado: ["AWB", "CIF", "Formulario 500"],
     moduloBonCloud: "simulador.html"
@@ -202,7 +220,7 @@ const glosario = [
     nombreCompleto: "Air Waybill (Guía Aérea)",
     categoria: "Documentos de Transporte",
     definicion: "Documento equivalente al BL utilizado exclusivamente en transporte aéreo de carga, que actúa como recibo y contrato de transporte no negociable.",
-    ejemplo: "En despachos urgentes por avión vía El Dorado o Rafael Núñez se utiliza una guía aérea AWB máster y fianza de aerolínea.",
+    ejemplo: "En un envío aéreo que llega a El Dorado o al Rafael Núñez, la aerolínea emite la guía máster y el agente de carga, si consolida, emite las guías hijas.",
     relacionado: ["BL", "CIF"],
     moduloBonCloud: "simulador.html"
   },
@@ -211,7 +229,7 @@ const glosario = [
     nombreCompleto: "Desaduanamiento y Libre Disposición",
     categoria: "Operativa Aduanera",
     definicion: "Proceso legal y administrativo mediante el cual se presentan declaraciones, pagan tributos y obtienen autorizaciones para disponer libremente de la mercancía.",
-    ejemplo: "Tras pagar la declaración 500 e inspeccionar la carga, se completa la nacionalización permitiendo el traslado nacional.",
+    ejemplo: "Tras presentar la declaración, pagar los tributos y obtener el levante (automático o después de inspección), la mercancía queda en libre disposición.",
     relacionado: ["Levante de Mercancía", "Formulario 500", "Base Arancelaria"],
     moduloBonCloud: "importacion.html"
   },
@@ -228,7 +246,7 @@ const glosario = [
     termino: "Inspección Física (Aduanera)",
     nombreCompleto: "Aforo y Verificación Física de Mercancías",
     categoria: "Control Aduanero",
-    definicion: "Diligencia mediante la cual el inspector de aduanas examina físicamente la mercancía para verificar peso, cantidad, descripción y subpartida.",
+    definicion: "Diligencia en la que un funcionario de la DIAN examina la mercancía para comprobar que coincide con lo declarado: naturaleza, cantidad, peso, estado y subpartida.",
     ejemplo: "Si la DIAN ordena inspección física en el puerto de Cartagena, se programa la revisión del contenedor; también puede hacerse de forma no intrusiva, con escáner.",
     relacionado: ["Levante de Mercancía", "Formulario 500"],
     moduloBonCloud: "formularios/form-500-importacion.html"
@@ -238,7 +256,7 @@ const glosario = [
     nombreCompleto: "Área Delimitada con Régimen Tributario Especial",
     categoria: "Regímenes Especiales",
     definicion: "Extensión de territorio nacional con beneficios tributarios, aduaneros y de comercio exterior donde las mercancías no se consideran en el territorio aduanero nacional.",
-    ejemplo: "Mercancía ingresada a la Zona Franca Parque Central de Cartagena no paga arancel ni IVA hasta que no ingrese al resto del país.",
+    ejemplo: "Mercancía que ingresa del exterior a una zona franca de Cartagena no paga arancel ni IVA mientras permanezca allí; los paga cuando sale al resto del país con una declaración de importación.",
     relacionado: ["DTA", "Nacionalización"],
     moduloBonCloud: "simulador.html"
   },
@@ -247,7 +265,7 @@ const glosario = [
     nombreCompleto: "Tratado de Libre Comercio",
     categoria: "Acuerdos Comerciales",
     definicion: "Acuerdo vinculante entre dos o más países para conceder preferencias arancelarias recíprocas y reducir barreras al comercio de bienes y servicios.",
-    ejemplo: "Con el TLC Colombia - Estados Unidos, muchas partidas de maquinaria ingresan con 0% de arancel mediante certificado de origen.",
+    ejemplo: "Con el TLC Colombia–Estados Unidos, muchas subpartidas de maquinaria entran con 0% de arancel si se demuestra el origen. Con China no hay acuerdo, por eso las bombas del caso pagan el arancel general.",
     relacionado: ["Subpartida Arancelaria", "Arancel (Ad-Valorem)"],
     moduloBonCloud: "subpartidas.html"
   }

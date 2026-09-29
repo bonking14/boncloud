@@ -7,11 +7,9 @@
     <link rel="stylesheet" href="../css/styles.css?v=1.1">
     <link rel="stylesheet" href="../css/theme.css?v=1.1">
     <link rel="stylesheet" href="../css/formularios.css?v=1.1">
-    <!-- html2pdf, jsPDF y autoTable para exportar a PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- jsPDF y autoTable para el informe en PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
 
@@ -31,53 +29,30 @@
     </nav>
     <div class="sidebar-footer">
         <span id="nombre-usuario" style="padding: 0 14px;"></span>
-        <a href="#" id="btnLogout" class="nav-item">
-            <i class="ph ph-sign-out"></i> Cerrar sesión
-        </a>
+        <button id="btnLogout">Cerrar sesión</button>
     </div>
 </div>
 
 <div class="main-content">
     <div class="dashboard-header" style="margin-bottom: 24px;">
         <h1>Simulador Logístico</h1>
-        <p>Analiza operaciones de importación, tiempos y riesgos.</p>
+        <p>Estima el valor en aduana, los tributos, los tiempos y los riesgos de una importación por el Puerto de Cartagena.</p>
+        <p style="font-size:0.8rem;opacity:.75;margin-top:4px">Usa reglas y valores de referencia (fletes, gastos portuarios, tiempos de tránsito). Sirve para aprender y comparar escenarios; no reemplaza una cotización ni la liquidación oficial.</p>
     </div>
 
     <!-- Contenedor principal donde se renderizará el HTML del simulador -->
     <div id="simulador-container"></div>
 </div>
 
-<!-- Scripts base y lógica del tema -->
+<!-- Scripts base, catálogo de subpartidas y lógica del simulador -->
 <script src="../js/dashboard.js"></script>
 <script src="../js/theme.js"></script>
+<script src="../js/subpartidas.js"></script>
 <script src="../js/simulador.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Renderizar HTML del simulador en el contenedor
-        document.getElementById('simulador-container').innerHTML = getSimuladorHTML();
-        // Inicializar lógica (navegación, calculos, fetch, pdf)
-        setupSimuladorLogic();
-
-        // Recuperar usuario para la barra lateral
-        const token = localStorage.getItem('token');
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        if(!token || !usuario) {
-            window.location.href = '../index.html';
-        } else {
-            const spanNombre = document.getElementById('nombre-usuario');
-            if(spanNombre) spanNombre.textContent = usuario.nombre;
-        }
-
-        const btnLogout = document.getElementById('btnLogout');
-        if(btnLogout){
-            btnLogout.addEventListener('click', () => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('usuario');
-                window.location.href = '../index.html';
-            });
-        }
-    });
+    document.getElementById('simulador-container').innerHTML = getSimuladorHTML();
+    setupSimuladorLogic();
 </script>
+<script src="../js/font-size.js"></script>
 </body>
 </html>

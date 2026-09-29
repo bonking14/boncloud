@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="../css/styles.css?v=1.1">
     <link rel="stylesheet" href="../css/theme.css?v=1.1">
     <link rel="stylesheet" href="../css/formularios.css?v=1.1">
-    <!-- html2pdf, jsPDF y autoTable para exportar a PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
 
@@ -38,7 +34,8 @@
     <div class="dashboard-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
         <div>
             <h1>Formularios DIAN</h1>
-            <p>Rellena, calcula y exporta formularios oficiales de aduana.</p>
+            <p>Practica el diligenciamiento de los formularios aduaneros: se calculan solos y puedes imprimirlos o guardarlos en PDF.</p>
+            <p style="font-size:0.8rem;opacity:.75;margin-top:4px">Son simuladores educativos: no tienen validez ante la DIAN y la distribución de casillas es aproximada. Las declaraciones reales se presentan con firma digital en los servicios informáticos de la DIAN.</p>
         </div>
     
     </div>
@@ -59,7 +56,7 @@
             <button id="btn-volver" class="btn-card">Volver al Catálogo</button>
             <div class="editor-actions">
                 <button id="btn-limpiar" class="btn-card">Reiniciar Formulario</button>
-                <button id="btn-descargar" class="btn-card btn-calcular">Descargar PDF Oficial</button>
+                <button id="btn-descargar" class="btn-card btn-calcular">Imprimir o guardar PDF</button>
             </div>
         </div>
         
@@ -71,32 +68,9 @@
 
 </div>
 
+<script src="../js/dashboard.js"></script>
 <script src="../js/theme.js"></script>
-<script src="../js/simulador.js"></script>
 <script src="../js/formularios.js"></script>
-
-<script>
-    // Recuperar usuario para la barra lateral
-    document.addEventListener('DOMContentLoaded', () => {
-        const token = localStorage.getItem('token');
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-
-        if(!token || !usuario) {
-            window.location.href = '../index.html';
-        } else {
-            const spanNombre = document.getElementById('nombre-usuario');
-            if(spanNombre) spanNombre.textContent = usuario.nombre;
-        }
-
-        const btnLogout = document.getElementById('btnLogout');
-        if(btnLogout){
-            btnLogout.addEventListener('click', () => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('usuario');
-                window.location.href = '../index.html';
-            });
-        }
-    });
-</script>
+<script src="../js/font-size.js"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@
 .form-card h3 {
     margin-top: 0;
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 1rem;
     margin-bottom: 8px;
 }
 
@@ -31,7 +31,7 @@
     display: inline-block;
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 0.6875rem;
     background: var(--bg-active);
     color: var(--text-accent);
     font-weight: 600;
@@ -49,7 +49,7 @@
     border-radius: 8px;
     background: var(--bg-input);
     color: var(--text-secondary);
-    font-size: 15px;
+    font-size: 0.9375rem;
 }
 
 #buscador-forms:focus {
@@ -101,7 +101,7 @@
     justify-content: center;
     padding: 10px;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .dian-title-sec {
@@ -113,8 +113,8 @@
     justify-content: center;
 }
 
-.dian-title-sec h2 { margin: 0; font-size: 18px; }
-.dian-title-sec p { margin: 0; font-size: 12px; }
+.dian-title-sec h2 { margin: 0; font-size: 1.125rem; }
+.dian-title-sec p { margin: 0; font-size: 0.75rem; }
 
 .dian-num-sec {
     width: 20%;
@@ -126,7 +126,7 @@
     justify-content: center;
 }
 
-.dian-num-sec span { font-size: 24px; font-weight: bold; }
+.dian-num-sec span { font-size: 1.5rem; font-weight: bold; }
 
 .seccion-dian {
     border: 1px solid #000;
@@ -137,7 +137,7 @@
     background: #e0e0e0;
     border-bottom: 1px solid #000;
     padding: 4px;
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: bold;
 }
 
@@ -161,14 +161,14 @@
 .casilla-dian.no-border-bottom { border-bottom: none; }
 
 .numero-casilla {
-    font-size: 9px;
+    font-size: 0.5625rem;
     font-weight: bold;
     position: absolute;
     top: 2px; left: 2px;
 }
 
 .titulo-casilla {
-    font-size: 8px;
+    font-size: 0.5rem;
     text-align: center;
     margin-top: 2px;
     margin-bottom: 2px;
@@ -180,7 +180,7 @@
     border: none;
     outline: none;
     width: 100%;
-    font-size: 11px;
+    font-size: 0.6875rem;
     background: transparent;
     padding: 2px;
     box-sizing: border-box;
@@ -215,7 +215,7 @@
 
 /* --- Estilos Simulador Logístico IA --- */
 .simulador-container {
-    max-width: 800px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 24px;
 }
@@ -256,7 +256,7 @@
     justify-content: center;
     background: var(--bg-card);
     font-weight: bold;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--text-muted);
     transition: all 0.3s;
 }
@@ -268,7 +268,7 @@
 }
 
 .wizard-step small {
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: var(--text-muted);
 }
 
@@ -298,7 +298,7 @@
     align-items: center;
     margin-bottom: 12px;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .toggle input[type="checkbox"] {
@@ -402,7 +402,7 @@
     display: inline-block;
     padding: 4px 10px;
     border-radius: 12px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
@@ -417,7 +417,7 @@
     color: #fff;
     padding: 12px;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     border: none;
     font-weight: 600;
@@ -430,14 +430,14 @@
 
 /* Estilos auxiliares conservados */
 .sim-group { margin-bottom: 16px; }
-.sim-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
-.sim-group input, .sim-group select { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; color: var(--text-secondary); font-size: 13px; transition: border-color 0.2s; box-sizing: border-box; }
+.sim-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
+.sim-group input, .sim-group select { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; color: var(--text-secondary); font-size: 0.8125rem; transition: border-color 0.2s; box-sizing: border-box; }
 .sim-group input:focus, .sim-group select:focus { outline: none; border-color: var(--text-accent); box-shadow: 0 0 0 2px rgba(74,127,212,0.1); }
-.sim-group .sim-error { color: #f87171; font-size: 11px; margin-top: 3px; display: none; }
+.sim-group .sim-error { color: #f87171; font-size: 0.6875rem; margin-top: 3px; display: none; }
 .sim-group.has-error input, .sim-group.has-error select { border-color: #f87171; }
 .sim-group.has-error .sim-error { display: block; }
 .sim-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.sim-btn { padding: 10px 22px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+.sim-btn { padding: 10px 22px; border-radius: 7px; font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
 .sim-btn-secondary { background: var(--bg-hover); color: var(--text-muted); border-color: var(--border); }
 .sim-btn-secondary:hover { background: var(--bg-active); color: var(--text-secondary); }
 .sim-btn-primary { background: var(--bg-active); color: var(--text-accent); border-color: var(--border-accent); }
@@ -448,20 +448,20 @@
 .sim-loader.active { display: block; }
 .sim-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--text-accent); border-radius: 50%; animation: simSpin 1s linear infinite; margin: 0 auto 16px; }
 @keyframes simSpin { to { transform: rotate(360deg); } }
-.sim-cost-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.sim-cost-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
 .sim-cost-table td { padding: 7px 4px; border-bottom: 1px solid var(--bg-table-row); color: var(--text-muted); }
 .sim-cost-table td:last-child { text-align: right; color: var(--text-secondary); font-weight: 500; font-family: monospace; }
-.sim-cost-table tr:last-child td { border-bottom: none; font-weight: 700; color: var(--text-accent); font-size: 14px; padding-top: 10px; border-top: 1px solid var(--border); }
+.sim-cost-table tr:last-child td { border-bottom: none; font-weight: 700; color: var(--text-accent); font-size: 0.875rem; padding-top: 10px; border-top: 1px solid var(--border); }
 .sim-tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--text-accent); margin: 10px auto 8px; position: relative; z-index: 1; }
-.sim-tl-name { font-size: 11px; color: var(--text-secondary); font-weight: 600; margin-bottom: 2px; }
-.sim-tl-days { font-size: 10px; color: var(--text-accent); font-weight: 700; }
-.sim-tl-desc { font-size: 9px; color: var(--text-muted); margin-top: 3px; line-height: 1.3; }
-.sim-risk-desc { font-size: 11px; color: var(--text-muted); margin: 2px 0 10px 10px; line-height: 1.4; }
+.sim-tl-name { font-size: 0.6875rem; color: var(--text-secondary); font-weight: 600; margin-bottom: 2px; }
+.sim-tl-days { font-size: 0.625rem; color: var(--text-accent); font-weight: 700; }
+.sim-tl-desc { font-size: 0.5625rem; color: var(--text-muted); margin-top: 3px; line-height: 1.3; }
+.sim-risk-desc { font-size: 0.6875rem; color: var(--text-muted); margin: 2px 0 10px 10px; line-height: 1.4; }
 .sim-doc-list { list-style: none; padding: 0; margin: 0; }
-.sim-doc-list li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--bg-table-row); font-size: 12px; color: var(--text-secondary); }
+.sim-doc-list li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--bg-table-row); font-size: 0.75rem; color: var(--text-secondary); }
 .sim-doc-list li:last-child { border-bottom: none; }
-.sim-doc-check { width: 16px; height: 16px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+.sim-doc-check { width: 16px; height: 16px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.625rem; flex-shrink: 0; }
 .sim-doc-check.si { background: #14532d; color: #86efac; }
 .sim-doc-check.no { background: var(--bg-hover); color: var(--text-muted); }
 .sim-doc-optional { text-decoration: line-through; color: var(--text-muted) !important; }
-.sim-doc-entidad { margin-left: auto; font-size: 10px; color: var(--text-hint); white-space: nowrap; }
+.sim-doc-entidad { margin-left: auto; font-size: 0.625rem; color: var(--text-hint); white-space: nowrap; }

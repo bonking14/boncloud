@@ -33,13 +33,13 @@
 <div class="main-content">
     <div class="dashboard-header">
         <h1>Bienvenido, <span id="saludo"></span> 👋</h1>
-        <p>Plataforma de Inteligencia Portuaria — Puerto de Cartagena</p>
+        <p>Plataforma de aprendizaje en comercio exterior — Puerto de Cartagena</p>
     </div>
 
     <section class="ruta-card" aria-labelledby="ruta-card-titulo">
         <div class="ruta-card-texto">
             <h3 id="ruta-card-titulo">Ruta de Aprendizaje</h3>
-            <p id="ruta-card-siguiente">Sigue un embarque real de Shanghái a Cartagena en 8 lecciones.</p>
+            <p id="ruta-card-siguiente">Sigue un embarque de práctica de Shanghái a Cartagena en 8 lecciones.</p>
         </div>
         <div class="ruta-card-progreso">
             <div class="ruta-card-barra" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0" aria-label="Lecciones aprobadas">
@@ -58,7 +58,7 @@
         </div>
         <div class="card">
             <h3>🚢 Exportación</h3>
-            <p>Estima costos de exportación definitiva, temporal y menaje.</p>
+            <p>Valor FOB, documentos y tratamiento tributario de exportación definitiva, temporal y de menaje.</p>
             <button class="btn-card" onclick="window.location.href='exportacion.html'">Calcular</button>
         </div>
         <div class="card">
@@ -73,12 +73,12 @@
         </div>
         <div class="card">
             <h3>🔢 Subpartidas</h3>
-            <p>Busca códigos arancelarios, aranceles y requisitos.</p>
+            <p>Busca subpartidas, aranceles de referencia y requisitos.</p>
             <button class="btn-card" onclick="window.location.href='subpartidas.html'">Buscar</button>
         </div>
         <div class="card">
             <h3>📋 Formularios DIAN</h3>
-            <p>Diligenciamiento interactivo de formularios oficiales.</p>
+            <p>Práctica interactiva de los formularios aduaneros de la DIAN.</p>
             <button class="btn-card" onclick="window.location.href='formularios.html'">Diligenciar</button>
         </div>
         <div class="card">
@@ -87,7 +87,7 @@
             <button class="btn-card" onclick="window.location.href='glosario.html'">Consultar</button>
         </div>
         <div class="card">
-            <h3>🤖 Simulador Logístico</h3>
+            <h3>🧭 Simulador Logístico</h3>
             <p>Simulación de costos, tiempos y riesgos de una importación.</p>
             <button class="btn-card" onclick="window.location.href='simulador.html'">Simular</button>
         </div>
@@ -130,5 +130,6 @@
     requestAnimationFrame(() => requestAnimationFrame(() => { relleno.style.width = pct + '%'; }));
   })();
 </script>
+<script src="../js/font-size.js"></script>
 </body>
 </html>

@@ -104,18 +104,18 @@
       const el = document.createElement('div');
       el.style.cssText = 'padding:40px;font-family:Arial,sans-serif;text-align:center;border:10px solid #1e3a6b;background:#ffffff;color:#0f172a;';
       el.innerHTML = `
-        <div style="font-size:32px;font-weight:bold;color:#1e3a6b;margin-bottom:8px;">BonCloud</div>
-        <div style="font-size:14px;color:#64748b;margin-bottom:30px;">Plataforma de aprendizaje en comercio exterior — Puerto de Cartagena</div>
-        <div style="font-size:34px;font-weight:bold;color:#1d4ed8;margin-bottom:20px;">Constancia de práctica</div>
-        <div style="font-size:16px;color:#334155;margin-bottom:12px;">BonCloud deja constancia de que</div>
-        <div id="constancia-nombre" style="font-size:28px;font-weight:bold;color:#0f172a;border-bottom:2px solid #3b82f6;display:inline-block;padding-bottom:6px;margin-bottom:24px;"></div>
-        <p style="font-size:15px;color:#475569;max-width:620px;margin:0 auto 24px;line-height:1.6;">
+        <div style="font-size: 2rem;font-weight:bold;color:#1e3a6b;margin-bottom:8px;">BonCloud</div>
+        <div style="font-size: 0.875rem;color:#64748b;margin-bottom:30px;">Plataforma de aprendizaje en comercio exterior — Puerto de Cartagena</div>
+        <div style="font-size: 2.125rem;font-weight:bold;color:#1d4ed8;margin-bottom:20px;">Constancia de práctica</div>
+        <div style="font-size: 1rem;color:#334155;margin-bottom:12px;">BonCloud deja constancia de que</div>
+        <div id="constancia-nombre" style="font-size: 1.75rem;font-weight:bold;color:#0f172a;border-bottom:2px solid #3b82f6;display:inline-block;padding-bottom:6px;margin-bottom:24px;"></div>
+        <p style="font-size: 0.9375rem;color:#475569;max-width:620px;margin:0 auto 24px;line-height:1.6;">
           completó las 8 lecciones de la Ruta de Aprendizaje de Comercio Internacional sobre el proceso de importación por el Puerto de Cartagena.
         </p>
-        <p style="font-size:11px;color:#64748b;max-width:620px;margin:0 auto 30px;line-height:1.5;">
+        <p style="font-size: 0.6875rem;color:#64748b;max-width:620px;margin:0 auto 30px;line-height:1.5;">
           Documento educativo generado automáticamente por BonCloud. No es una certificación oficial de la DIAN, del SENA ni de ninguna otra entidad.
         </p>
-        <div style="font-size:12px;color:#64748b;">Cartagena, Colombia — ${fecha}</div>
+        <div style="font-size: 0.75rem;color:#64748b;">Cartagena, Colombia — ${fecha}</div>
       `;
       el.querySelector('#constancia-nombre').textContent = nombre;
 
@@ -133,5 +133,6 @@
       if (e.key === 'Escape' && typeof cerrarModalGlosario === 'function') cerrarModalGlosario();
     });
   </script>
+<script src="../js/font-size.js"></script>
 </body>
 </html>

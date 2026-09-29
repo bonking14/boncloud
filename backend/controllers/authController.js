@@ -4,12 +4,24 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // REGISTRO
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const register = async (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password } = req.body || {};
+
+  if (typeof nombre !== 'string' || !nombre.trim() || nombre.length > 100) {
+    return res.status(400).json({ error: 'Escribe tu nombre (máximo 100 caracteres).' });
+  }
+  if (typeof email !== 'string' || !EMAIL_REGEX.test(email) || email.length > 254) {
+    return res.status(400).json({ error: 'Escribe un correo electrónico válido.' });
+  }
+  if (typeof password !== 'string' || password.length > 72) {
+    return res.status(400).json({ error: 'La contraseña no es válida (máximo 72 caracteres).' });
+  }
 
   try {
     // Verificar si el correo ya existe
-    const existe = await pool.query('SELECT id FROM usuarios WHERE email = $1', [email]);
+    const existe = await pool.query('SELECT id FROM usuarios WHERE LOWER(email) = $1', [email.trim().toLowerCase()]);
     if (existe.rows.length > 0) {
       return res.status(400).json({ error: 'Este correo ya está registrado.' });
     }
@@ -28,7 +40,7 @@ const register = async (req, res) => {
     // Guardar usuario
     const result = await pool.query(
       'INSERT INTO usuarios (nombre, email, password) VALUES ($1, $2, $3) RETURNING id, nombre, email',
-      [nombre, email, hash]
+      [nombre.trim(), email.trim().toLowerCase(), hash]
     );
 
     res.status(201).json({
@@ -44,11 +56,15 @@ const register = async (req, res) => {
 
 // LOGIN
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
+
+  if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {
+    return res.status(400).json({ error: 'Escribe tu correo y tu contraseña.' });
+  }
 
   try {
     // Buscar usuario
-    const result = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);
+    const result = await pool.query('SELECT * FROM usuarios WHERE LOWER(email) = $1', [email.trim().toLowerCase()]);
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Credenciales incorrectas.' });
     }

@@ -34,7 +34,8 @@
 
     <div class="dashboard-header">
       <h1>🔢 Subpartidas Arancelarias</h1>
-      <p>Busca el código arancelario de tu producto y consulta su arancel</p>
+      <p>Busca el código arancelario de tu producto y consulta su arancel de referencia</p>
+      <p class="buscador-hint" style="margin-top:6px">Catálogo educativo con subpartidas a 10 dígitos (Sistema Armonizado 2022). El arancel y el IVA son valores de referencia: antes de una operación real confírmalos en el Arancel de Aduanas vigente de la DIAN.</p>
     </div>
 
     <!-- BUSCADOR -->
@@ -44,14 +45,14 @@
         <input
           type="text"
           id="buscador"
-          placeholder="Busca por producto o código... Ej: café, zapatos, 6403, maquinaria"
+          placeholder="Busca por producto o código... Ej: bombas, café, zapatos, 8413"
           autocomplete="off"
         >
         <button id="btnLimpiar">✕</button>
       </div>
 
       <div class="filtros-seccion">
-        <span class="filtros-label">Secciones SA:</span>
+        <span class="filtros-label">Sectores:</span>
         <div class="filtros-wrap" id="filtros-secciones"></div>
       </div>
     </div>
@@ -84,5 +85,6 @@
   <script src="../js/dashboard.js"></script>
   <script src="../js/subpartidas.js"></script>
   <script src="../js/theme.js"></script>
+<script src="../js/font-size.js"></script>
 </body>
 </html>

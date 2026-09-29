@@ -621,7 +621,7 @@ const CURSO_LECCIONES = [
     practica: {
       texto: "Simula tiempos, costos y riesgos de la operación",
       moduloUrl: "simulador.html",
-      parametros: { puerto: "Cartagena", operacion: "Importacion" }
+      parametros: { escenario: "caso_bombas" }
     },
     quiz: [
       {

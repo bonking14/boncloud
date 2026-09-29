@@ -59,30 +59,38 @@ function calcularOrdinaria(v) {
         totalPagar: Math.round(totalPagar) };
 }
 
+// Franquicia total: la norma que la concede exonera arancel e IVA.
+// Solo se pagan los gastos de nacionalización (no el valor de la mercancía).
 function calcularFranquicia(v) {
-    const seguro = v.seguro > 0 ? v.seguro : v.fob * 0.005;
+    const seguroSupuesto = !(v.seguro > 0);
+    const seguro = seguroSupuesto ? v.fob * 0.005 : v.seguro;
     const cifUSD = v.fob + v.flete + seguro;
     const baseArancelariaCOP = cifUSD * v.trm;
-    const gastos = (v.agencia || 0) + (v.bodegaje || 0);
-    return { fob: v.fob, flete: v.flete, seguro, cifUSD,
+    const gastos = (v.agencia || 0) + (v.bodegaje || 0) + (v.transporte || 0);
+    return { fob: v.fob, flete: v.flete, seguro, seguroSupuesto, cifUSD,
         baseArancelariaCOP: Math.round(baseArancelariaCOP),
-        gastos: Math.round(gastos), totalPagar: Math.round(baseArancelariaCOP + gastos), trm: v.trm };
+        gastos: Math.round(gastos), totalPagar: Math.round(gastos), trm: v.trm };
 }
 
+// Temporal para reexportación en el mismo estado (corto plazo): los tributos
+// se suspenden y se respaldan con una garantía. Lo que se paga es la prima de
+// esa garantía (aquí un supuesto del 1,5% del valor garantizado) y los gastos.
+const PRIMA_GARANTIA = 0.015;
 function calcularTemporalCorto(v) {
-    const seguro = v.seguro > 0 ? v.seguro : v.fob * 0.005;
+    const seguroSupuesto = !(v.seguro > 0);
+    const seguro = seguroSupuesto ? v.fob * 0.005 : v.seguro;
     const cifUSD = v.fob + v.flete + seguro;
     const baseArancelariaCOP = cifUSD * v.trm;
-    const totalArancel = baseArancelariaCOP * (v.arancel / 100);
+    const totalArancel = aMiles(baseArancelariaCOP * (v.arancel / 100));
     const baseIVA = baseArancelariaCOP + totalArancel;
-    const totalIVA = baseIVA * 0.19;
+    const totalIVA = aMiles(baseIVA * 0.19);
     const tributosSuspendidos = totalArancel + totalIVA;
-    const poliza = tributosSuspendidos * 0.015;
-    const gastos = (v.agencia || 0) + (v.bodegaje || 0);
-    return { fob: v.fob, flete: v.flete, seguro, cifUSD, arancelPorcentaje: v.arancel, trm: v.trm,
+    const poliza = tributosSuspendidos * PRIMA_GARANTIA;
+    const gastos = (v.agencia || 0) + (v.bodegaje || 0) + (v.transporte || 0);
+    return { fob: v.fob, flete: v.flete, seguro, seguroSupuesto, cifUSD, arancelPorcentaje: v.arancel, trm: v.trm,
         baseArancelariaCOP: Math.round(baseArancelariaCOP), tributosSuspendidos: Math.round(tributosSuspendidos),
         poliza: Math.round(poliza), gastos: Math.round(gastos),
-        totalPagar: Math.round(baseArancelariaCOP + gastos + poliza) };
+        totalPagar: Math.round(gastos + poliza) };
 }
 
 // ========== MODALIDADES ==========
@@ -114,41 +122,41 @@ const modalidades = {
         titulo: 'Importación con Franquicia',
         badge: 'C110',
         subtitulo: 'Exención de tributos concedida por una norma o tratado',
-        info: 'Importación con franquicia: modalidad para mercancías que, por una ley o un tratado, están exentas total o parcialmente de tributos. Antes de usarla verifica qué norma concede la franquicia y sus condiciones.',
-        campos: ['fob', 'flete', 'seguro', 'trm', 'agencia', 'bodegaje'],
+        info: 'Importación con franquicia: modalidad para mercancías que, por una ley o un tratado, están exentas total o parcialmente de tributos. Este cálculo supone una franquicia total (arancel e IVA en cero). Antes de usarla verifica qué norma la concede, su alcance y sus condiciones.',
+        campos: ['fob', 'flete', 'seguro', 'trm', 'agencia', 'bodegaje', 'transporte'],
         calcular: (v) => {
             const r = calcularFranquicia(v);
             return [
                 { label: 'Valor FOB', valor: formatUSD(r.fob) },
                 { label: '+ Flete', valor: formatUSD(r.flete) },
-                { label: '+ Seguro', valor: formatUSD(r.seguro) },
-                { label: '= Valor CIF', valor: formatUSD(r.cifUSD), clase: 'destacado' },
-                { label: 'Base Arancelaria COP', valor: formatCOP(r.baseArancelariaCOP) },
-                { label: 'Arancel', valor: '$ 0 — EXENTO', clase: 'exento' },
-                { label: 'IVA', valor: '$ 0 — EXENTO', clase: 'exento' },
+                { label: r.seguroSupuesto ? '+ Seguro (supuesto: 0,5% del FOB)' : '+ Seguro', valor: formatUSD(r.seguro) },
+                { label: '= Valor en aduana (CIF) USD', valor: formatUSD(r.cifUSD), clase: 'destacado' },
+                { label: 'Valor en aduana en pesos', valor: formatCOP(r.baseArancelariaCOP) },
+                { label: 'Arancel', valor: '$ 0 — exonerado por la franquicia', clase: 'exento' },
+                { label: 'IVA', valor: '$ 0 — exonerado por la franquicia', clase: 'exento' },
                 { label: '+ Gastos nacionalización', valor: formatCOP(r.gastos) },
-                { label: 'TOTAL A PAGAR', valor: formatCOP(r.totalPagar), clase: 'total' }
+                { label: 'TOTAL A PAGAR (gastos)', valor: formatCOP(r.totalPagar), clase: 'total' }
             ];
         }
     },
     'temporal-corto': {
         titulo: 'Importación Temporal Corto Plazo',
         badge: 'C150',
-        subtitulo: 'Hasta 6 meses — tributos suspendidos + póliza 1.5%',
-        info: 'Temporal Corto Plazo — Para ferias, exposiciones y eventos. Los tributos se suspenden y se paga una póliza de garantía del 1.5%.',
-        campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje'],
+        subtitulo: 'Reexportación en el mismo estado — tributos suspendidos con garantía',
+        info: 'Importación temporal de corto plazo: para ferias, exposiciones, eventos o equipos que vuelven a salir sin transformarse. Los tributos no se pagan sino que se suspenden y se respaldan con una garantía ante la DIAN. El costo de la póliza lo fija la aseguradora: aquí se usa un supuesto del 1,5% de los tributos garantizados. Si la mercancía no se reexporta a tiempo, se deben pagar los tributos.',
+        campos: ['fob', 'flete', 'seguro', 'arancel', 'trm', 'agencia', 'bodegaje', 'transporte'],
         calcular: (v) => {
             const r = calcularTemporalCorto(v);
             return [
                 { label: 'Valor FOB', valor: formatUSD(r.fob) },
                 { label: '+ Flete', valor: formatUSD(r.flete) },
-                { label: '+ Seguro', valor: formatUSD(r.seguro) },
-                { label: '= Valor CIF USD', valor: formatUSD(r.cifUSD), clase: 'destacado' },
-                { label: 'Base Arancelaria COP', valor: formatCOP(r.baseArancelariaCOP) },
-                { label: `Tributos suspendidos (Arancel ${r.arancelPorcentaje}% + IVA)`, valor: formatCOP(r.tributosSuspendidos), clase: 'suspendido' },
-                { label: 'Póliza de garantía (1.5%)', valor: formatCOP(r.poliza) },
-                { label: '+ Gastos nacionalización', valor: formatCOP(r.gastos) },
-                { label: 'TOTAL A PAGAR', valor: formatCOP(r.totalPagar), clase: 'total' }
+                { label: r.seguroSupuesto ? '+ Seguro (supuesto: 0,5% del FOB)' : '+ Seguro', valor: formatUSD(r.seguro) },
+                { label: '= Valor en aduana (CIF) USD', valor: formatUSD(r.cifUSD), clase: 'destacado' },
+                { label: 'Valor en aduana en pesos', valor: formatCOP(r.baseArancelariaCOP) },
+                { label: `Tributos suspendidos (arancel ${r.arancelPorcentaje}% + IVA 19%)`, valor: formatCOP(r.tributosSuspendidos), clase: 'suspendido' },
+                { label: 'Prima de la garantía (supuesto: 1,5%)', valor: formatCOP(r.poliza) },
+                { label: '+ Gastos', valor: formatCOP(r.gastos) },
+                { label: 'TOTAL A PAGAR (prima + gastos)', valor: formatCOP(r.totalPagar), clase: 'total' }
             ];
         }
     }

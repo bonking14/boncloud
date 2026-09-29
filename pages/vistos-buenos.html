@@ -35,6 +35,7 @@
     <div class="dashboard-header">
       <h1>✅ Vistos Buenos</h1>
       <p>Consulta los permisos y requisitos según el tipo de producto</p>
+      <p class="buscador-hint" style="margin-top:6px">La mayoría de mercancías son de libre importación (Decreto 925 de 2013). Esta guía muestra los casos más frecuentes; los requisitos exactos dependen de la subpartida y se verifican en la VUCE antes de embarcar.</p>
     </div>
 
     <!-- BUSCADOR -->
@@ -44,7 +45,7 @@
         <input
           type="text"
           id="buscador"
-          placeholder="Busca por producto, subpartida o entidad... Ej: alimentos, 0901, INVIMA"
+          placeholder="Busca por producto, subpartida o entidad... Ej: alimentos, 8517, INVIMA"
         >
         <button id="btnLimpiar">✕</button>
       </div>
@@ -53,9 +54,12 @@
         <button class="filtro-btn active" data-entidad="todos">Todos</button>
         <button class="filtro-btn" data-entidad="INVIMA">INVIMA</button>
         <button class="filtro-btn" data-entidad="ICA">ICA</button>
+        <button class="filtro-btn" data-entidad="SIC">SIC</button>
+        <button class="filtro-btn" data-entidad="MinTIC">MinTIC</button>
+        <button class="filtro-btn" data-entidad="MinJusticia">MinJusticia</button>
+        <button class="filtro-btn" data-entidad="FNE">FNE</button>
         <button class="filtro-btn" data-entidad="MinDefensa">MinDefensa</button>
         <button class="filtro-btn" data-entidad="ANLA">ANLA</button>
-        <button class="filtro-btn" data-entidad="SIC">SIC</button>
         <button class="filtro-btn" data-entidad="MinMinas">MinMinas</button>
         <button class="filtro-btn" data-entidad="Aerocivil">Aerocivil</button>
       </div>
@@ -76,5 +80,6 @@
   <script src="../js/dashboard.js"></script>
   <script src="../js/vistos-buenos.js"></script>
   <script src="../js/theme.js"></script>
+<script src="../js/font-size.js"></script>
 </body>
 </html>
